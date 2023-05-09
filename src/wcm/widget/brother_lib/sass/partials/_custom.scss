@@ -1,0 +1,23 @@
+body {
+}
+
+/*.fluig-style-guide [hidden], .fluig-style-guide template {
+    display: block !important;
+}*/
+
+.vertical-text {
+  width: 1px;
+  word-wrap: break-word;
+  font-family: monospace;
+  /* this is just for good looks */
+  white-space: pre-wrap;
+  /* this is for displaying whitespaces including Firefox */
+}
+
+input.loading {
+  background-color: #ffffff !important;
+  background-image: url("/style-guide/images/loading-spinner-grey.gif") !important;
+  background-size: 25px 25px !important;
+  background-position: right center !important;
+  background-repeat: no-repeat !important;
+}

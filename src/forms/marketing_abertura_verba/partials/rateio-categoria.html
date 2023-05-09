@@ -1,0 +1,34 @@
+<table class="table" tablename="rateioCategoria" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.rateioCategoria.length > 0">
+  <caption>Rateio por Categoria</caption>
+  <thead>
+    <tr>
+      <th>
+
+      </th>
+    </tr>
+  </thead>
+  <tbody ng-non-bindable>
+    <tr ng-repeat="rateio in vm.Formulario.rateioCategoria" class="col-sm-3">
+      <td>
+        <div class="form-group">
+          <label class="control-label">{{rateio.categoria.descricao}}</label>
+          <input class="form-control input-lg" name="rateio_perc_i" fluig-percentage-mask fluig-negative-number="true"
+            ng-model="rateio.perc" ng-readonly="!vm.regras.enableSolicitacao || vm.bloqRateio" ng-change="vm.calculaTotalRateio()">
+        </div>
+
+        <textarea hidden name="rateio_categoria" ng-value="rateio.categoria | json:0"
+          ng-bind="rateio.categoria | json:0"></textarea>
+        <input type="hidden" name="rateio_categoriaDescricao" ng-value="rateio.categoria.descricao">
+        <input type="hidden" name="rateio_categoriaCodigo" ng-value="rateio.categoria.codigo">
+        <input type="hidden" name="rateio_perc_f" ng-value="rateio.perc | percentage:'2'">
+        <input type="hidden" name="rateio_perc" ng-value="rateio.perc">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<input type="hidden" name="totalRateio" ng-value="vm.Formulario.totalRateio">
+<h3 ng-class="{'text-danger': vm.Formulario.totalRateio != 1}">
+  Total: {{vm.Formulario.totalRateio | percentage:'2'}}
+</h3>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.com.brother</groupId>
+  <artifactId>brother-component</artifactId>
+  <version>1.0.2</version>
+  <packaging>pom</packaging>
+
+  <name>Brother Component</name>
+  <description>Brother Public Component</description>
+
+  <!-- 
+    Necessário configurar o nexus.fluig.com como repositório central de dependências 
+  -->
+  <repositories>
+    <repository>
+      <id>nexus</id>
+      <name>fluig Nexus Repository</name>
+      <url>http://nexus.fluig.com/content/groups/public</url>
+    </repository>
+  </repositories>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <fluig.version>1.6.5</fluig.version>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
+  </properties>
+
+  <modules>
+    <module>brother-component-api</module>
+    <module>brother-component-config</module>
+    <module>brother-component-pack</module>
+    <module>brother-component-service</module>
+  </modules>
+
+  <!--Dependency
+  Management: controla a versão das dependencias utilizadas pelo projeto -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>javax</groupId>
+        <artifactId>javaee-api</artifactId>
+        <version>8.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.5.2</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>fluig-api-tools</artifactId>
+        <version>1.1.0</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>oauth.signpost</groupId>
+        <artifactId>signpost-core</artifactId>
+        <version>1.2.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.8</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>fluig-sdk-keyring</artifactId>
+        <version>${fluig.version}</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>foundation-security-authentication-saml</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>wcm-sdk-service</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>wcm-common</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>fluig-sdk-common</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>fluig-sdk-api</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>wcm-core</artifactId>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>com.fluig</groupId>
+        <artifactId>ecm-ejb-api</artifactId>
+        <type>jar</type>
+      </dependency>
+      <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxrs</artifactId>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-multipart-provider</artifactId>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.spec.javax.ws.rs</groupId>
+        <artifactId>jboss-jaxrs-api_2.1_spec</artifactId>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-client</artifactId>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archive>
+            <manifestEntries>
+              <Dependencies>org.slf4j, com.fluig.api, com.fluig.api.common</Dependencies>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+    <finalName>${project.artifactId}</finalName>
+  </build>
+</project>
