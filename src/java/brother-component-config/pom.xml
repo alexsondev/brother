@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>br.com.brother</groupId>
+    <artifactId>brother-component</artifactId>
+    <version>1.0.2</version>
+  </parent>
+  <artifactId>brother-component-config</artifactId>
+  <packaging>war</packaging>
+
+  <name>Brother Component - config</name>
+  <description>Módulo com as configurações do componente</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>br.com.brother</groupId>
+      <artifactId>brother-component-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- Fluig Dependencies -->
+    <dependency>
+      <groupId>com.fluig</groupId>
+      <artifactId>fluig-sdk-api</artifactId>
+      <version>${fluig.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fluig</groupId>
+      <artifactId>fluig-sdk-common</artifactId>
+      <version>${fluig.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fluig</groupId>
+      <artifactId>fluig-sdk-keyring</artifactId>
+      <version>${fluig.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fluig</groupId>
+      <artifactId>fluig-api-tools</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>oauth.signpost</groupId>
+      <artifactId>signpost-core</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

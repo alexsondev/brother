@@ -1,0 +1,105 @@
+<table class="table" tablename="itensSpiffIt" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.itensSpiffIt.length > 0">
+  <thead>
+    <tr>
+      <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
+      <th class="col-sm-11"></th>
+    </tr>
+  </thead>
+  <tbody ng-non-bindable>
+    <tr ng-repeat="itemSpiffIt in vm.Formulario.itensSpiffIt">
+      <td ng-if="vm.regras.enableSolicitacao">
+        <span ng-click="vm.removeChild(vm.Formulario.itensSpiffIt, itemSpiffIt)"
+          class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+      </td>
+      <td>
+        <div class="td-content">
+          <div class="row">
+            <div class="col-sm-3">
+              <label>Cód Item</label>
+              <input class="form-control input-lg" name="itemSpiffIt_itemC_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="codigo" ng-model="itemSpiffIt.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-change="vm.changeitemSpiffIt(itemSpiffIt, $index)">
+            </div>
+            <div class="col-sm-6">
+              <label>Descrição</label>
+              <input class="form-control input-lg" name="itemSpiffIt_itemD_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="descricao" ng-model="itemSpiffIt.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-change="vm.changeitemSpiffIt(itemSpiffIt, $index)">
+            </div>
+
+            <textarea hidden name="itemSpiffIt_item" ng-value="itemSpiffIt.item | json:0"
+              ng-bind="itemSpiffIt.item | json:0"></textarea>
+            <input type="hidden" name="itemSpiffIt_itemDescricao" ng-value="itemSpiffIt.item.descricao">
+            <input type="hidden" name="itemSpiffIt_itemCodigo" ng-value="itemSpiffIt.item.codigo">
+
+            <div class="col-sm-3">
+              <label>Categoria</label>
+              <input class="form-control input-lg" name="itemSpiffIt_categoria" ng-model="itemSpiffIt.item.categoria"
+                disabled>
+            </div>
+          </div>
+
+          <div class="row animation" ng-show="itemSpiffIt.item.codigo">
+            <div class="col-sm-3">
+              <label>Spiff Unitário</label>
+              <input class="form-control input-lg" name="itemSpiffIt_spiffUnit_i" fluig-money-mask="2"
+                fluig-negative-number ng-model="itemSpiffIt.spiffUnit" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="itemSpiffIt.vlTotal = itemSpiffIt.spiffUnit * itemSpiffIt.qtde;vm.calculaTotais()">
+              <input type="hidden" name="itemSpiffIt_spiffUnit_f" ng-value="itemSpiffIt.spiffUnit | currency">
+              <input type="hidden" name="itemSpiffIt_spiffUnit" ng-value="itemSpiffIt.spiffUnit">
+            </div>
+
+            <div class="col-sm-3">
+              <label>Qtde</label>
+              <input class="form-control input-lg" name="itemSpiffIt_qtde_i" fluig-number-mask="2"
+                ng-model="itemSpiffIt.qtde" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="itemSpiffIt.vlTotal = itemSpiffIt.spiffUnit * itemSpiffIt.qtde;vm.calculaTotais()">
+              <input type="hidden" name="itemSpiffIt_qtde_f" ng-value="itemSpiffIt.qtde | number:'2'">
+              <input type="hidden" name="itemSpiffIt_qtde" ng-value="itemSpiffIt.qtde">
+            </div>
+            <div class="col-sm-3">
+              <label>Valor Total</label>
+              <input class="form-control input-lg" name="itemSpiffIt_vlTotal_i" fluig-money-mask="2"
+                fluig-negative-number ng-model="itemSpiffIt.vlTotal" disabled>
+              <input type="hidden" name="itemSpiffIt_vlTotal_f" ng-value="itemSpiffIt.vlTotal | currency">
+              <input type="hidden" name="itemSpiffIt_vlTotal" ng-value="itemSpiffIt.vlTotal">
+            </div>
+
+            <div class="col-sm-3">
+              <label>Centro de Custo</label>
+              <input class="form-control input-lg" name="itemSpiffIt_ccusto" ng-value="itemSpiffIt.item.ccusto"
+                disabled>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <h4>{{itemSpiffIt.usuario.colleagueName}} incluiu em {{itemSpiffIt.data | date}}</h4> -->
+              <textarea hidden name="itemSpiffIt_usuario" ng-value="itemSpiffIt.usuario | json:0"
+                ng-bind="itemSpiffIt.usuario | json:0"></textarea>
+              <input type="hidden" name="itemSpiffIt_usuarioCodigo" ng-value="itemSpiffIt.usuario.colleagueId">
+              <input type="hidden" name="itemSpiffIt_usuarioNome" ng-value="itemSpiffIt.usuario.colleagueName">
+              <input type="hidden" name="itemSpiffIt_data_f" ng-value="itemSpiffIt.data | date:'fullDate'">
+              <input type="hidden" name="itemSpiffIt_data" ng-value="itemSpiffIt.data">
+            </div>
+          </div>
+
+          <input type="hidden" name="itemSpiffIt_qtdEvidencia_f" ng-value="itemSpiffIt.qtdEvidencia | number:'2'">
+          <input type="hidden" name="itemSpiffIt_valEvidencia_f" ng-value="itemSpiffIt.valEvidencia | currency">
+          <input type="hidden" name="itemSpiffIt_totEvidencia_f" ng-value="itemSpiffIt.totEvidencia | currency">
+
+          <input type="hidden" name="itemSpiffIt_qtdEvidencia" ng-value="itemSpiffIt.qtdEvidencia">
+          <input type="hidden" name="itemSpiffIt_valEvidencia" ng-value="itemSpiffIt.valEvidencia">
+          <input type="hidden" name="itemSpiffIt_totEvidencia" ng-value="itemSpiffIt.totEvidencia">
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
+  ng-click="vm.incluiItem(vm.Formulario.itensSpiffIt)">Incluir
+  Item</a>

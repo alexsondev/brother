@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component code="Brother_Component">
+	<title>Brother Component</title>
+	<description>Brother Component</description>
+	<version>1.0.2</version>
+	<category>Custom</category>
+	<icon>icon.png</icon>
+	<developerCode>TOUCH</developerCode>
+	<developerName>Touch Consulting</developerName>
+	<developerURL>http://www.totvs.com</developerURL>
+	<activationClass>activator/brother</activationClass>
+</component>

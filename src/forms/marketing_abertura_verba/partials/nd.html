@@ -1,0 +1,136 @@
+<div class="row" ng-show="vm.regras.enableND">
+  <div class="col-sm-12">
+    <div class="alert alert-warning" role="alert">
+      Atenção! O envio de ND deve ser preferencialmente realizado pelo <a
+        href="/portal/BROTHER/acao-marketing-cliente#!/{{vm.Formulario.guid}}">Portal do Cliente</a>. Caso não seja
+      possível o envio pelo Portal, informe os dados neste formulário, selecione o campo Envio de ND Concluído e
+      clique em <strong class="text-danger">Salvar</strong>. O fluxo será movimentado automaticamente em até 5 minutos.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="form-group">
+      <label class="control-label">Status</label>
+      <h4>{{vm.Formulario.statusValidacaoND | uppercase}}</h4>
+      <input type="hidden" name="statusValidacaoND" ng-value="vm.Formulario.statusValidacaoND">
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group">
+      <label class="control-label">Data</label>
+      <h4>{{vm.Formulario.dataValidacaoND | date:'fullDate' | uppercase}}</h4>
+      <input type="hidden" name="dataValidacaoND_f"
+        ng-value="vm.Formulario.dataValidacaoND | date:'fullDate' | uppercase">
+      <input type="hidden" name="dataValidacaoND" ng-value="vm.Formulario.dataValidacaoND">
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="form-group">
+      <label class="control-label">Responsável</label>
+      <h4>{{vm.Formulario.userValidacaoND.colleagueName| uppercase}}</h4>
+      <textarea hidden name="userValidacaoND" ng-value="vm.Formulario.userValidacaoND | json:0"
+        ng-bind="vm.Formulario.userValidacaoND | json:0"></textarea>
+      <input type="hidden" name="userValidacaoNDNome" ng-value="vm.Formulario.userValidacaoND.colleagueName">
+      <input type="hidden" name="userValidacaoNDCodigo" ng-value="vm.Formulario.userValidacaoND.colleagueId">
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="obsEnvioND" class="control-label">Observações do Cliente</label>
+      <textarea ng-show="vm.regras.enableND" fluig-error="form.obsEnvioND.$error" name="obsEnvioND" elastic
+        class="form-control input-lg" placeholder="Observações do cliente no envio da ND"
+        ng-model="vm.Formulario.obsEnvioND" ng-value="vm.Formulario.obsEnvioND"></textarea>
+      <p ng-show="!vm.regras.enableND" style="white-space: pre-line;">{{vm.Formulario.obsEnvioND || 'Sem observações'}}
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="row" ng-show="vm.regras.enableND">
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="envioNDConcluido" class="control-label">Envio de ND Concluído</label>
+      <input type="checkbox" name="envioNDConcluido_i" ng-model="vm.Formulario.envioNDConcluido" fluig-switch
+        data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+      <input type="hidden" name="envioNDConcluido" ng-value="vm.Formulario.envioNDConcluido">
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-3" ng-if="vm.regras.enableND">
+    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles(vm.Formulario.arquivosND, null, $files)"
+      ngf-drop="vm.selectFiles(vm.Formulario.arquivosND, null, $files)" ng-model="files" ngf-multiple="true"
+      ngf-drag-over-class="'dragover'">
+      <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
+    </div>
+  </div>
+
+  <div ng-class="{'col-sm-9': vm.regras.enableND, 'col-sm-12': !vm.regras.enableND}">
+    <div class="fs-txt-center" ng-show="vm.Formulario.arquivosND.length == 0">
+      <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
+    </div>
+    <table class="table" tablename="arquivosND" noaddbutton="true" nodeletebutton="true"
+      ng-show="vm.Formulario.arquivosND.length > 0">
+      <caption>Notas de Débito</caption>
+      <thead>
+        <tr>
+          <th class="col-sm-1" ng-show="vm.regras.enableND"></th>
+          <th class="col-sm-2">Descrição</th>
+          <th class="col-sm-1">Número da ND</th>
+          <th class="col-sm-2">Arquivo</th>
+          <th class="col-sm-1">Aceito</th>
+        </tr>
+      </thead>
+      <tbody ng-non-bindable>
+        <tr ng-repeat="arquivoND in vm.Formulario.arquivosND" ng-if="!arquivoND.removed">
+
+          <td ng-show="vm.regras.enableND">
+            <span ng-click="vm.removeChild(vm.Formulario.arquivosND, arquivoND)"
+              class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+
+            <input type="hidden" name="arquivoND_nome" ng-value="arquivoND.nome">
+            <input type="hidden" name="arquivoND_tipo" ng-value="arquivoND.tipo">
+            <input type="hidden" name="arquivoND_documentid" ng-value="arquivoND.documentid">
+            <input type="hidden" name="arquivoND_version" ng-value="arquivoND.version">
+            <input type="hidden" name="arquivoND_url" ng-value="arquivoND.url">
+            <input type="hidden" name="arquivoND_removed" ng-value="arquivoND.removed">
+
+          </td>
+          <td>
+            <input type="text" ng-readonly="!vm.regras.enableND" class="form-control" name="arquivoND_descricao"
+              ng-model="arquivoND.descricao" ng-value="arquivoND.descricao">
+          </td>
+          <td>
+            <input type="text" ng-readonly="!vm.regras.enableND" class="form-control" name="arquivoND_numero"
+              ng-model="arquivoND.numero" ng-value="arquivoND.numero">
+          </td>
+          <td>
+            <a target="_blank" href="{{arquivoND.url}}"> {{arquivoND.nome}}</a>
+          </td>
+          <td>
+            <input ng-disabled="!vm.regras.enableValidacaoND" type="checkbox" name="arquivoND_aceito_i"
+              ng-model="arquivoND.aceito" fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+              ng-change="vm.checkEtapaNotificacao()">
+            <input type="hidden" name="arquivoND_aceito" ng-value="arquivoND.aceito">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<input type="hidden" name="ndRecusada" ng-value="vm.Formulario.ndRecusada">
+<div ng-show="vm.Formulario.ndRecusada" class="row">
+  <div class="col-sm-12">
+    <h3 for="motivoRecusaND" class="text-muted control-label">Motivo da Recusa</h3>
+    <textarea elastic ng-readonly="!vm.regras.enableValidacaoND" class="form-control"
+      fluig-error="form.motivoRecusaND.$error" ng-required="vm.Formulario.ndRecusada"
+      ng-model="vm.Formulario.motivoRecusaND" name="motivoRecusaND" ng-value="vm.Formulario.motivoRecusaND"></textarea>
+  </div>
+</div>

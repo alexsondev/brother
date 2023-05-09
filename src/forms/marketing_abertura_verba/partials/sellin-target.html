@@ -1,0 +1,92 @@
+<table class="table" tablename="itensSellinTg" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.itensSellinTg.length > 0">
+  <thead>
+    <tr>
+      <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
+      <th class="col-sm-11"></th>
+    </tr>
+  </thead>
+  <tbody ng-non-bindable>
+    <tr ng-repeat="itemSellinTg in vm.Formulario.itensSellinTg">
+      <td ng-if="vm.regras.enableSolicitacao">
+        <span ng-click="vm.removeChild(vm.Formulario.itensSellinTg, itemSellinTg)"
+          class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+      </td>
+      <td>
+        <div class="td-content">
+          <div class="row">
+            <div class="col-sm-5">
+              <label>Target Principal</label>
+              <input class="form-control input-lg" name="itemSellinTg_descricao" ng-model="itemSellinTg.descricao"
+                ng-value="itemSellinTg.descricao" ng-readonly="!vm.regras.enableSolicitacao">
+            </div>
+            <div class="col-sm-3">
+              <label>Target R$</label>
+              <input class="form-control input-lg" name="itemSellinTg_target_i" fluig-money-mask="5" fluig-negative-number
+                ng-model="itemSellinTg.target" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSellinTg)">
+              <input type="hidden" name="itemSellinTg_target_f" ng-value="itemSellinTg.target | currency">
+              <input type="hidden" name="itemSellinTg_target" ng-value="itemSellinTg.target">
+            </div>
+            <div class="col-sm-2">
+              <label>Target Qtde</label>
+              <input class="form-control input-lg" name="itemSellinTg_qtde_i" fluig-number-mask="2"
+                ng-model="itemSellinTg.qtde" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSellinTg)">
+              <input type="hidden" name="itemSellinTg_qtde_f" ng-value="itemSellinTg.qtde | number:'2'">
+              <input type="hidden" name="itemSellinTg_qtde" ng-value="itemSellinTg.qtde">
+            </div>
+            <div class="col-sm-2">
+              <label>Target %</label>
+              <input class="form-control input-lg" name="itemSellinTg_perc_i" fluig-percentage-mask
+                fluig-negative-number="true" ng-model="itemSellinTg.perc" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSellinTg)">
+              <input type="hidden" name="itemSellinTg_perc_f" ng-value="itemSellinTg.perc | percentage:'2'">
+              <input type="hidden" name="itemSellinTg_perc" ng-value="itemSellinTg.perc">
+            </div>
+            <div class="col-sm-3">
+              <label>Valor / Target</label>
+              <input class="form-control input-lg" name="itemSellinTg_vlTarget_i" fluig-money-mask="5" fluig-negative-number
+                ng-model="itemSellinTg.vlTarget" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSellinTg)">
+              <input type="hidden" name="itemSellinTg_vlTarget_f" ng-value="itemSellinTg.vlTarget | currency">
+              <input type="hidden" name="itemSellinTg_vlTarget" ng-value="itemSellinTg.vlTarget">
+            </div>
+            <div class="col-sm-3">
+              <label>Valor Total</label>
+              <input class="form-control input-lg" name="itemSellinTg_vlTotal_i" fluig-money-mask="2" fluig-negative-number
+                ng-model="itemSellinTg.vlTotal" disabled>
+              <input type="hidden" name="itemSellinTg_vlTotal_f" ng-value="itemSellinTg.vlTotal | currency">
+              <input type="hidden" name="itemSellinTg_vlTotal" ng-value="itemSellinTg.vlTotal">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <h4>{{itemSellinTg.usuario.colleagueName}} incluiu em {{itemSellinTg.data | date}}</h4> -->
+              <textarea hidden name="itemSellinTg_usuario" ng-value="itemSellinTg.usuario | json:0"
+                ng-bind="itemSellinTg.usuario | json:0"></textarea>
+              <input type="hidden" name="itemSellinTg_usuarioCodigo" ng-value="itemSellinTg.usuario.colleagueId">
+              <input type="hidden" name="itemSellinTg_usuarioNome" ng-value="itemSellinTg.usuario.colleagueName">
+              <input type="hidden" name="itemSellinTg_data" ng-value="itemSellinTg.data">
+              <input type="hidden" name="itemSellinTg_data_f" ng-value="itemSellinTg.data | date:'fullDate'">
+            </div>
+          </div>
+
+          <input type="hidden" name="itemSellinTg_qtdEvidencia_f" ng-value="itemSellinTg.qtdEvidencia | number:'2'">
+          <input type="hidden" name="itemSellinTg_valEvidencia_f" ng-value="itemSellinTg.valEvidencia | currency">
+          <input type="hidden" name="itemSellinTg_totEvidencia_f" ng-value="itemSellinTg.totEvidencia | currency">
+
+          <input type="hidden" name="itemSellinTg_qtdEvidencia" ng-value="itemSellinTg.qtdEvidencia">
+          <input type="hidden" name="itemSellinTg_valEvidencia" ng-value="itemSellinTg.valEvidencia">
+          <input type="hidden" name="itemSellinTg_totEvidencia" ng-value="itemSellinTg.totEvidencia">
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
+  ng-click="vm.incluiItem(vm.Formulario.itensSellinTg)">Incluir
+  Target Principal</a>

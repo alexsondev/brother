@@ -1,0 +1,93 @@
+<table class="table" tablename="itensSpiffTg" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.itensSpiffTg.length > 0">
+  <thead>
+    <tr>
+      <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
+      <th class="col-sm-11"></th>
+    </tr>
+  </thead>
+  <tbody ng-non-bindable>
+    <tr ng-repeat="itemSpiffTg in vm.Formulario.itensSpiffTg">
+      <td ng-if="vm.regras.enableSolicitacao">
+        <span ng-if="vm.regras.enableSolicitacao" ng-click="vm.removeChild(vm.Formulario.itensSpiffTg, itemSpiffTg)"
+          class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+      </td>
+      <td>
+        <div class="td-content">
+
+          <div class="row">
+            <div class="col-sm-5">
+              <label>Foco</label>
+              <input class="form-control input-lg" name="itemSpiffTg_foco" ng-model="itemSpiffTg.foco"
+                ng-value="itemSpiffTg.foco" ng-readonly="!vm.regras.enableSolicitacao">
+            </div>
+            <div class="col-sm-3">
+              <label>Target R$</label>
+              <input class="form-control input-lg" name="itemSpiffTg_target_i" fluig-money-mask="5" fluig-negative-number
+                ng-model="itemSpiffTg.target" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSpiffTg)">
+              <input type="hidden" name="itemSpiffTg_target_f" ng-value="itemSpiffTg.target | currency">
+              <input type="hidden" name="itemSpiffTg_target" ng-value="itemSpiffTg.target">
+            </div>
+            <div class="col-sm-2">
+              <label>Target %</label>
+              <input class="form-control input-lg" name="itemSpiffTg_perc_i" fluig-percentage-mask
+                fluig-negative-number="true" ng-model="itemSpiffTg.perc" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSpiffTg)">
+              <input type="hidden" name="itemSpiffTg_perc_f" ng-value="itemSpiffTg.perc | percentage:'2'">
+              <input type="hidden" name="itemSpiffTg_perc" ng-value="itemSpiffTg.perc">
+            </div>
+            <div class="col-sm-2">
+              <label>Qtde</label>
+              <input class="form-control input-lg" name="itemSpiffTg_qtde_i" fluig-number-mask="2"
+                ng-model="itemSpiffTg.qtde" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSpiffTg)">
+              <input type="hidden" name="itemSpiffTg_qtde_f" ng-value="itemSpiffTg.qtde | number:'2'">
+              <input type="hidden" name="itemSpiffTg_qtde" ng-value="itemSpiffTg.qtde">
+            </div>
+            <div class="col-sm-3">
+              <label>Valor Unitário</label>
+              <input class="form-control input-lg" name="itemSpiffTg_vlUnit_i" fluig-money-mask="5" fluig-negative-number
+                ng-model="itemSpiffTg.vlUnit" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTarget(itemSpiffTg)">
+              <input type="hidden" name="itemSpiffTg_vlUnit_f" ng-value="itemSpiffTg.vlUnit | currency">
+              <input type="hidden" name="itemSpiffTg_vlUnit" ng-value="itemSpiffTg.vlUnit">
+            </div>
+            <div class="col-sm-3">
+              <label>Valor Total</label>
+              <input class="form-control input-lg" name="itemSpiffTg_vlTotal_i" fluig-money-mask="5" fluig-negative-number
+                ng-model="itemSpiffTg.vlTotal" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaTotais()">
+              <input type="hidden" name="itemSpiffTg_vlTotal_f" ng-value="itemSpiffTg.vlTotal | currency">
+              <input type="hidden" name="itemSpiffTg_vlTotal" ng-value="itemSpiffTg.vlTotal">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <h4>{{itemSpiffTg.usuario.colleagueName}} incluiu em {{itemSpiffTg.data | date}}</h4> -->
+              <textarea hidden name="itemSpiffTg_usuario" ng-value="itemSpiffTg.usuario | json:0"
+                ng-bind="itemSpiffTg.usuario | json:0"></textarea>
+              <input type="hidden" name="itemSpiffTg_usuarioCodigo" ng-value="itemSpiffTg.usuario.colleagueId">
+              <input type="hidden" name="itemSpiffTg_usuarioNome" ng-value="itemSpiffTg.usuario.colleagueName">
+              <input type="hidden" name="itemSpiffTg_data_f" ng-value="itemSpiffTg.data | date:'fullDate'">
+              <input type="hidden" name="itemSpiffTg_data" ng-value="itemSpiffTg.data">
+            </div>
+          </div>
+
+          <input type="hidden" name="itemSpiffTg_qtdEvidencia_f" ng-value="itemSpiffTg.qtdEvidencia | number:'2'">
+          <input type="hidden" name="itemSpiffTg_valEvidencia_f" ng-value="itemSpiffTg.valEvidencia | currency">
+          <input type="hidden" name="itemSpiffTg_totEvidencia_f" ng-value="itemSpiffTg.totEvidencia | currency">
+
+          <input type="hidden" name="itemSpiffTg_qtdEvidencia" ng-value="itemSpiffTg.qtdEvidencia">
+          <input type="hidden" name="itemSpiffTg_valEvidencia" ng-value="itemSpiffTg.valEvidencia">
+          <input type="hidden" name="itemSpiffTg_totEvidencia" ng-value="itemSpiffTg.totEvidencia">
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
+  ng-click="vm.incluiItem(vm.Formulario.itensSpiffTg)">Incluir
+  Item</a>
