@@ -5,7 +5,6 @@
 brother-fluig
 
 # compiled output
-deploy
 dist
 diff
 tmp
