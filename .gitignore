@@ -2,9 +2,10 @@
 
 # Fluig project
 .metadata
-brother-fluig
+src/workflow/.resources
 
 # compiled output
+deploy
 dist
 diff
 tmp
