@@ -13,8 +13,6 @@
 # DEVELOP_BRANCH - The branch defined as Develop
 #
 
-echo post-flow-feature-finish start
-
 NAME=$1
 ORIGIN=$2
 BRANCH=$3
@@ -34,12 +32,16 @@ java=false
 
 for FILE in `exec git diff-tree -r master..develop  --name-only --diff-filter=ACM src` ; do
     prepareDeploy $FILE
+    if [ $? -ne 0 ]; then
+      exit 1
+  fi
+
 done
 
 buildDeploy
-
-
-echo post-flow-feature-finish end
+if [ $? -ne 0 ]; then
+    exit 1
+fi
 
 # To terminate the git-flow action, return a non-zero exit code.
 exit 0

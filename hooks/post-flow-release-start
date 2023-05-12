@@ -13,8 +13,6 @@
 # MASTER_BRANCH - The branch defined as Master
 # DEVELOP_BRANCH - The branch defined as Develop
 
-echo post-flow-release-start start
-
 VERSION=$1
 ORIGIN=$2
 BRANCH=$3
@@ -29,7 +27,5 @@ SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIP
 if [ $? -ne 0 ]; then
     exit 1
 fi
-
-echo post-flow-release-start end
 
 exit 0

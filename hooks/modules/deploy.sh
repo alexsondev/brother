@@ -40,36 +40,39 @@ prepareDeploy() {
     # eval 'echo '$name' já existe'
   # else  
     # echo $FILE| cut -d'/' -f 3
-    echo $artifact $name incluido
+    # echo $artifact $name incluido
     eval $artifact'[$length]="$name"'
   fi
+
+  exit 0
 }
 
 buildDeploy() {
   for i in "${datasets[@]}"; do
-  gulp datasets --dataset=${i}
-done
+    gulp datasets --dataset=${i}
+  done
 
-for i in "${forms[@]}"; do
-  gulp forms --form=${i}
-done
+  for i in "${forms[@]}"; do
+    gulp forms --form=${i}
+  done
 
-for i in "${widget[@]}"; do
-  gulp widget --widget=${i}
-done
+  for i in "${widget[@]}"; do
+    gulp widget --widget=${i}
+  done
 
-for i in "${workflow[@]}"; do
-  gulp workflow --workflow=${i}
-done
-  
-javaLen=${#java[@]}
+  for i in "${workflow[@]}"; do
+    gulp workflow --workflow=${i}
+  done
+    
+  javaLen=${#java[@]}
 
-echo $javaLen
+  # echo $javaLen
 
-if (($javaLen > 0));
-then
-  mvn clean install -f src/java/pom.xml
-  cp src/java/brother-component-pack/target/brother-component.ear deploy
-fi
+  if (($javaLen > 0));
+  then
+    mvn clean install -f src/java/pom.xml
+    cp src/java/brother-component-pack/target/brother-component.ear deploy
+  fi
 
+  exit 0
 }

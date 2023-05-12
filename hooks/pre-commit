@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-echo pre-commit start
-
 SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIPT_PATH"); done
 . "$(dirname $SCRIPT_PATH)/modules/functions.sh"
 
@@ -18,7 +16,5 @@ fi
 if [ $? -ne 0 ]; then
     HOOK_STATUS=1
 fi
-
-echo pre-commit end
 
 exit $HOOK_STATUS
