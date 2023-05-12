@@ -19,6 +19,22 @@ if [ $? -ne 0 ]; then
     HOOK_STATUS=1
 fi
 
+branch=$(git symbolic-ref --short HEAD)
+. "$HOOKS_DIR/modules/deploy.sh"
+
+for FILE in `exec git diff-tree -r master..$branch --name-only --diff-filter=ACM src` ; do
+    prepareDeploy $FILE
+    if [ $? -ne 0 ]; then
+      exit 1
+  fi
+
+done
+
+buildDeploy
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
 echo pre-commit end
 
 exit $HOOK_STATUS
