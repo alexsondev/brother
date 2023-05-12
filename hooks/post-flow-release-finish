@@ -12,6 +12,9 @@
 # MASTER_BRANCH - The branch defined as Master
 # DEVELOP_BRANCH - The branch defined as Develop
 #
+
+echo post-flow-release-finish start
+
 NAME=$1
 ORIGIN=$2
 BRANCH=$3
@@ -22,7 +25,6 @@ HOOK_ERROR=0
 java=false
 
 # Implement your script here.
-echo INÍCIO post-flow-release-finish
 
 branch=$(git symbolic-ref --short HEAD)
 echo $branch
@@ -39,7 +41,7 @@ done
 
 buildDeploy
 
-echo FIM post-flow-release-finish
+echo post-flow-release-finish end
 
 # To terminate the git-flow action, return a non-zero exit code.
 exit 0

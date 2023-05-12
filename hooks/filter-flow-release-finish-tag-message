@@ -16,6 +16,7 @@
 MESSAGE="$1"
 VERSION="$2"
 
+echo filter-flow-release-finish-tag-message start
 # Implement your script here.
 
 SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIPT_PATH"); done
@@ -26,5 +27,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+echo filter-flow-release-finish-tag-message end
 echo "${MESSAGE}"
 exit 0

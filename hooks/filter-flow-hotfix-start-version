@@ -15,6 +15,8 @@
 
 VERSION=$1
 
+echo filter-flow-hotfix-start-version start
+
 # Implement your script here.
 
 SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIPT_PATH"); done
@@ -26,4 +28,5 @@ if [ $? -ne 0 ]; then
 fi
 
 echo $VERSION
+echo filter-flow-hotfix-start-version end
 exit 0
