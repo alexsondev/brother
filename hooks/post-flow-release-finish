@@ -13,24 +13,13 @@
 # DEVELOP_BRANCH - The branch defined as Develop
 #
 
-NAME=$1
-ORIGIN=$2
-BRANCH=$3
+echo post-flow-release-finish start
 
-# files=`exec git diff-tree -r master..develop --name-only --diff-filter=dr src`
-
-HOOK_ERROR=0
-java=false
-
-# Implement your script here.
+SCRIPT_PATH="$0"; while [ -h "$SCRIPT_PATH" ]; do SCRIPT_PATH=$(readlink "$SCRIPT_PATH"); done
+. "$(dirname $SCRIPT_PATH)/modules/functions.sh"
 
 branch=$(git symbolic-ref --short HEAD)
-
-# for FILE in `exec git diff-tree -r master..$branch --name-only --diff-filter=ACM` ; do
-#     rsync -R "$FILE" diff || { echo "Failed to publish $FILE"; exit 1; }
-# done
-
-. .git/hooks/modules/deploy.sh
+. "$HOOKS_DIR/modules/deploy.sh"
 
 for FILE in `exec git diff-tree -r master..$branch --name-only --diff-filter=ACM src` ; do
     prepareDeploy $FILE
