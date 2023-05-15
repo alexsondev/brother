@@ -138,10 +138,10 @@ public class MarketingFlowComponent {
         field.setAccessible(true);
 
         String value = "";
-          try {
-            value = field.get(solicitacao).toString();
-          } catch (Exception e) {
-          }
+        try {
+          value = field.get(solicitacao).toString();
+        } catch (Exception e) {
+        }
 
         ECMFormDataVO formDataVO = new ECMFormDataVO(field.getName(), value.toString());
 
@@ -159,291 +159,315 @@ public class MarketingFlowComponent {
         }
       }
 
-
       int i = 0;
-      for (MarketingEvidenciaVO arquivo : solicitacao.getEvidencias()) {
 
-        i++;
+      if (solicitacao.getEvidencias() != null) {
+        for (MarketingEvidenciaVO arquivo : solicitacao.getEvidencias()) {
 
-        fields = arquivo.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+          i++;
 
-          String value = "";
-          try {
-            value = field.get(arquivo).toString();
-          } catch (Exception e) {
-            log.info("ERRO field: " + field.getName());
-          }
+          fields = arquivo.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "arquivoEv_" + field.getName() + "___" + String.valueOf(i), value);
+            String value = "";
+            try {
+              value = field.get(arquivo).toString();
+            } catch (Exception e) {
+              log.info("ERRO field: " + field.getName());
+            }
 
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "arquivoEv_" + field.getName() + "___" + String.valueOf(i), value);
 
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
-          }
-        }
-      }
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
 
-      i = 0;
-
-      for (MarketingNdVO arquivoND : solicitacao.getNd()) {
-        i++;
-
-        fields = arquivoND.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
-
-          String value = "";
-          try {
-            value = field.get(arquivoND).toString();
-          } catch (Exception e) {
-          }
-
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "arquivoND_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
-
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
         }
       }
 
-      i = 0;
+      if (solicitacao.getNd() != null) {
+        i = 0;
 
-      for (MarketingItemSelloutVO itemSellout : solicitacao.getItensSellout()) {
-        i++;
+        for (MarketingNdVO arquivoND : solicitacao.getNd()) {
+          i++;
 
-        fields = itemSellout.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+          fields = arquivoND.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          String value = "";
-          try {
-            value = field.get(itemSellout).toString();
-          } catch (Exception e) {
-          }
+            String value = "";
+            try {
+              value = field.get(arquivoND).toString();
+            } catch (Exception e) {
+            }
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSellout_" + field.getName() + "___" + String.valueOf(i), value);
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "arquivoND_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
 
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
-
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
-          }
-        }
-      }
-
-      i = 0;
-
-      for (MarketingItemSellinItVO itemSellinIt : solicitacao.getItensSellinIt()) {
-        i++;
-
-        fields = itemSellinIt.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
-
-          String value = "";
-          try {
-            value = field.get(itemSellinIt).toString();
-          } catch (Exception e) {
-          }
-
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSellinIt_" + field.getName() + "___" + String.valueOf(i), value);
-
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
-
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
         }
       }
 
-      i = 0;
+      if (solicitacao.getItensSellout() != null) {
+        i = 0;
 
-      for (MarketingItemSellinTgVO itemSellinTg : solicitacao.getItensSellinTg()) {
-        i++;
+        for (MarketingItemSelloutVO itemSellout : solicitacao.getItensSellout()) {
+          i++;
 
-        fields = itemSellinTg.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+          fields = itemSellout.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          String value = "";
-          try {
-            value = field.get(itemSellinTg).toString();
-          } catch (Exception e) {
-          }
+            String value = "";
+            try {
+              value = field.get(itemSellout).toString();
+            } catch (Exception e) {
+            }
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSellinTg_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSellout_" + field.getName() + "___" + String.valueOf(i), value);
 
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
-          }
-        }
-      }
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
 
-      i = 0;
-
-      for (MarketingItemSellinTgAcVO itemSellinTgAc : solicitacao.getItensSellinTgAc()) {
-        i++;
-
-        fields = itemSellinTgAc.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
-
-          String value = "";
-          try {
-            value = field.get(itemSellinTgAc).toString();
-          } catch (Exception e) {
-          }
-
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSellinTgAc_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
-
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
         }
       }
 
-      i = 0;
+      if (solicitacao.getItensSellinIt() != null) {
+        i = 0;
 
-      for (MarketingItemSpiffItVO itemSpiffIt : solicitacao.getItensSpiffIt()) {
-        i++;
+        for (MarketingItemSellinItVO itemSellinIt : solicitacao.getItensSellinIt()) {
+          i++;
 
-        fields = itemSpiffIt.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+          fields = itemSellinIt.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          String value = "";
-          try {
-            value = field.get(itemSpiffIt).toString();
-          } catch (Exception e) {
+            String value = "";
+            try {
+              value = field.get(itemSellinIt).toString();
+            } catch (Exception e) {
+            }
+
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSellinIt_" + field.getName() + "___" + String.valueOf(i), value);
+
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
+        }
+      }
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSpiffIt_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
+      if (solicitacao.getItensSellinTg() != null) {
 
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+
+        i = 0;
+
+        for (MarketingItemSellinTgVO itemSellinTg : solicitacao.getItensSellinTg()) {
+          i++;
+
+          fields = itemSellinTg.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
+
+            String value = "";
+            try {
+              value = field.get(itemSellinTg).toString();
+            } catch (Exception e) {
+            }
+
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSellinTg_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
+          }
+        }
+      }
+
+      if (solicitacao.getItensSellinTgAc() != null) {
+        i = 0;
+
+        for (MarketingItemSellinTgAcVO itemSellinTgAc : solicitacao.getItensSellinTgAc()) {
+          i++;
+
+          fields = itemSellinTgAc.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
+
+            String value = "";
+            try {
+              value = field.get(itemSellinTgAc).toString();
+            } catch (Exception e) {
+            }
+
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSellinTgAc_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
+          }
+        }
+      }
+
+      if (solicitacao.getItensSpiffIt() != null) {
+
+        i = 0;
+
+        for (MarketingItemSpiffItVO itemSpiffIt : solicitacao.getItensSpiffIt()) {
+          i++;
+
+          fields = itemSpiffIt.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
+
+            String value = "";
+            try {
+              value = field.get(itemSpiffIt).toString();
+            } catch (Exception e) {
+            }
+
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSpiffIt_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
+
+          }
+        }
+      }
+
+      if (solicitacao.getItensSpiffTg() != null) {
+        i = 0;
+
+        for (MarketingItemSpiffTgVO itemSpiffTg : solicitacao.getItensSpiffTg()) {
+          i++;
+
+          fields = itemSpiffTg.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
+
+            String value = "";
+            try {
+              value = field.get(itemSpiffTg).toString();
+            } catch (Exception e) {
+            }
+
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemSpiffTg_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
 
         }
       }
 
-      i = 0;
+      if (solicitacao.getItensVpcEvt() != null) {
 
-      for (MarketingItemSpiffTgVO itemSpiffTg : solicitacao.getItensSpiffTg()) {
-        i++;
+        i = 0;
 
-        fields = itemSpiffTg.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+        for (MarketingItemVpcEvtVO itemVpcEvt : solicitacao.getItensVpcEvt()) {
+          i++;
 
-          String value = "";
-          try {
-            value = field.get(itemSpiffTg).toString();
-          } catch (Exception e) {
-          }
+          fields = itemVpcEvt.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemSpiffTg_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
+            String value = "";
+            try {
+              value = field.get(itemVpcEvt).toString();
+            } catch (Exception e) {
 
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
-          }
-        }
+            }
 
-      }
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemVpcEvt_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
 
-      i = 0;
-
-      for (MarketingItemVpcEvtVO itemVpcEvt : solicitacao.getItensVpcEvt()) {
-        i++;
-
-        fields = itemVpcEvt.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
-
-          String value = "";
-          try {
-            value = field.get(itemVpcEvt).toString();
-          } catch (Exception e) {
-            
-          }
-
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemVpcEvt_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
-
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
         }
-
       }
 
-      i = 0;
+      if (solicitacao.getItensVpcOutros() != null) {
 
-      for (MarketingItemVpcOutrosVO itemVpcOutros : solicitacao.getItensVpcOutros()) {
-        i++;
+        i = 0;
 
-        fields = itemVpcOutros.getClass().getDeclaredFields();
-        for (Field field : fields) {
-          field.setAccessible(true);
+        for (MarketingItemVpcOutrosVO itemVpcOutros : solicitacao.getItensVpcOutros()) {
+          i++;
 
-          String value = "";
-          try {
-            value = field.get(itemVpcOutros).toString();
-          } catch (Exception e) {
-          }
+          fields = itemVpcOutros.getClass().getDeclaredFields();
+          for (Field field : fields) {
+            field.setAccessible(true);
 
-          ECMFormDataVO formDataVO = new ECMFormDataVO(
-              "itemVpcOutros_" + field.getName() + "___" + String.valueOf(i), value);
-          item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName())).findFirst()
-              .orElse(null);
+            String value = "";
+            try {
+              value = field.get(itemVpcOutros).toString();
+            } catch (Exception e) {
+            }
 
-          if (item != null) {
-            item.setValue(formDataVO.getValue());
-          } else {
-            formData.add(formDataVO);
+            ECMFormDataVO formDataVO = new ECMFormDataVO(
+                "itemVpcOutros_" + field.getName() + "___" + String.valueOf(i), value);
+            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+                .findFirst().orElse(null);
+
+            if (item != null) {
+              item.setValue(formDataVO.getValue());
+            } else {
+              formData.add(formDataVO);
+            }
           }
         }
       }
