@@ -1,10 +1,14 @@
 // Atualizar Status
 function intermediateconditional132() {
-  var pendenteTotvs = hAPI.getCardValue("pendenteTotvs");
+	 // var pendenteTotvs = hAPI.getCardValue("pendenteTotvs");
 
-  if (pendenteTotvs == "S") {
-    return false;
-  }
+//  log.info("@@@@@@@@@@@@ marketing_abertura_verba atualizaStatus() solicitacao pendente: " + solicitacao);
+
+//  if (pendenteTotvs == "S") {
+//    return false;
+//  }
+
+	
 
   var solicitacao = hAPI.getCardValue("solicitacao");
   var ultimo = false;
@@ -14,6 +18,7 @@ function intermediateconditional132() {
   var csSolicitacao = DatasetFactory.createConstraint("solicitacao", solicitacao, solicitacao, ConstraintType.MUST);
 
   var dsAtualizaStatus = DatasetFactory.getDataset("totvs_retorna_status_marketing", null, [csSolicitacao], null);
+
 
   if (dsAtualizaStatus) {
     for (var i = 0; i < dsAtualizaStatus.rowsCount; i++) {

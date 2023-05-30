@@ -11,13 +11,20 @@ function checkValor30k() {
 	var valorTotalVerba = Number(hAPI.getCardValue("valorTotalVerba"));
 	var diferencaResultado = valorLiberado - valorTotalVerba;
 
+	log.info('+++ MKT Abertura Verba checkValor30k valorLiberado: ' + valorLiberado);
+	log.info('+++ MKT Abertura Verba checkValor30k valorTotalVerba: ' + valorTotalVerba);
+	log.info('+++ MKT Abertura Verba checkValor30k diferencaResultado: ' + diferencaResultado);
+
 	if (diferencaResultado >= limiteResultado) {
+		log.info('+++ MKT Abertura Verba checkValor30k retorna maior');
 		return "maior";
 	} else {
 		if (diferencaResultado > 0 && diferencaResultado < limiteResultado) {
+			log.info('+++ MKT Abertura Verba checkValor30k retorna ate');
 			return "ate";
 		}
 	}
 
+	log.info('+++ MKT Abertura Verba checkValor30k retorna ""');
 	return "";
 }
