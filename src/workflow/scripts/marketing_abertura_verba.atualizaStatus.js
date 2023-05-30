@@ -3,6 +3,7 @@ function atualizaStatus() {
     ttParam: [],
     ttRateioCategoria: [],
     ttSellout: [],
+    ttprice: [],
     ttSellinItem: [],
     ttSellinTarget: [],
     ttSellinTargetAc: [],
@@ -21,10 +22,12 @@ function atualizaStatus() {
     { name: 'responsavel' }, { name: 'statusAprovGerMarketing' }, { name: 'dataAprovGerMarketing', type: 'date' },
     { name: 'userAprovGerMarketingNome' }, { name: 'userAprovGerMarketingCodigo' }, { name: 'obsAprovGerMarketing' },
     { name: 'statusAprovPresidenciaVp' }, { name: 'dataAprovPresidenciaVp', type: 'date' }, { name: 'userAprovPresidenciaVpNome' },
-    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' }
+    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' },  { name: 'guid' }
   ]
 
   var objSolicitacao = {};
+
+  log.info("@@@@@@@@ marketing_abertura_verba.atualizaStatus" );
 
   solicitacaoCampos.forEach(function (c) {
     objSolicitacao[c.name] = String(hAPI.getCardValue(c.name) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(hAPI.getCardValue(c.name)), true), true) : String(hAPI.getCardValue(c.name)));
@@ -48,6 +51,15 @@ function atualizaStatus() {
         { name: 'rebateTotal', type: 'decimal' }
       ]
     },
+    {
+      tablename: 'itensprice', tt: 'ttprice', fieldPref: 'itemprice',
+      campos: [
+        { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
+        { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
+        { name: 'gpSugerido', type: 'perc' }, { name: 'rebateUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
+        { name: 'rebateTotal', type: 'decimal' }
+      ]
+    },   
     {
       tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
       campos: [
