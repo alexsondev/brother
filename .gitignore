@@ -6,6 +6,7 @@ src/workflow/.resources
 
 # compiled output
 deploy
+homolog
 dist
 diff
 tmp

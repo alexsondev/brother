@@ -257,6 +257,36 @@
   </table>
 </div>
 
+
+<!-- inicio anexos -->
+<div class="fs-display-none">
+  <table class="table" tablename="anexos" noaddbutton="true" nodeletebutton="true">
+    <thead>
+      <tr>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody ng-non-bindable>
+      <tr ng-repeat="arquivo in vm.Formulario.anexos">
+
+        <td>
+
+          <input type="hidden" name="arquivo_nome" ng-value="arquivo.nome">
+          <input type="hidden" name="arquivo_tipo" ng-value="arquivo.tipo">
+          <input type="hidden" name="arquivo_documentid" ng-value="arquivo.documentid">
+          <input type="hidden" name="arquivo_version" ng-value="arquivo.version">
+          <input type="hidden" name="arquivo_url" ng-value="arquivo.url">
+          <input type="hidden" name="arquivo_removed" ng-value="arquivo.removed">
+          <input type="hidden" name="arquivo_descricao" ng-value="arquivo.descricao">
+          <input type="hidden" name="arquivo_aceito" ng-value="arquivo.aceito">
+          <input type="hidden" name="arquivo_motivoRecusa" ng-value="arquivo.motivoRecusa">
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <div class="row" ng-show="vm.regras.enableEvidencias">
   <div class="col-sm-12">
     <div class="form-group">
