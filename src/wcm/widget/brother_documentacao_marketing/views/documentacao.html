@@ -376,7 +376,7 @@
                         <span ng-if="arquivoEv.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
                       </div>
                       <div class="col-sm-11">
-                        <div class="row" ng-if="!arquivoEv.uploaded">
+                        <div class="row" ng-if="!arquivoEv.url">
                           <div class="col-sm-12">
                             <div class="progress">
                               <div class="progress-bar progress-bar-striped active" role="progressbar"
@@ -689,7 +689,7 @@
                                       {{arquivo.descricao}}</h4>
                                   </div>
                                 </div>
-                                <div class="row" ng-if="!arquivo.uploaded">
+                                <div class="row" ng-if="!arquivo.url">
                                   <div class="col-sm-12">
                                     <div class="progress">
                                       <div class="progress-bar progress-bar-striped active" role="progressbar"
