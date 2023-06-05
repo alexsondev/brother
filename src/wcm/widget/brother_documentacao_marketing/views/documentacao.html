@@ -1,509 +1,500 @@
 <div id="message-page"></div>
 
 <form name="form" role="form" id="form">
-    <div class="row">
-        <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
 
-            <div class="page-header fs-sm-space">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <img width="200px" src="/brother_lib/images/logo.png">
-                    </div>
-                    <div ng-class="{'col-sm-4': vm.Params.edit, 'col-sm-8': !vm.Params.edit}">
-                        <h1 ng-class="{'text-center': vm.Params.edit, 'text-right': !vm.Params.edit}">Ação de Marketing
-                        </h1>
-                    </div>
-                    <div class="col-sm-4" ng-if="vm.Params.edit" style="position: fixed; right: 25px; top: 25px;">
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-success btn-lg" ng-click="vm.enviar()"
-                                ng-disabled="vm.completeTask">
-                                <span>{{vm.completeTask ? 'Aguarde...' : 'Enviar'}}</span>
-                            </button>
-                        </div>
-                    </div>
+      <div class="page-header fs-sm-space">
+        <div class="row">
+          <div class="col-sm-4">
+            <img width="200px" src="/brother_lib/images/logo.png">
+          </div>
+          <div ng-class="{'col-sm-4': vm.Params.edit, 'col-sm-8': !vm.Params.edit}">
+            <h1 ng-class="{'text-center': vm.Params.edit, 'text-right': !vm.Params.edit}">Ação de Marketing
+            </h1>
+          </div>
+          <div class="col-sm-4" ng-if="vm.Params.edit" style="position: fixed; right: 25px; top: 25px;">
+            <div class="pull-right">
+              <button type="button" class="btn btn-success btn-lg" ng-click="vm.enviar()" ng-disabled="vm.completeTask">
+                <span>{{vm.completeTask ? 'Aguarde...' : 'Enviar'}}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="vm.Formulario.status == 'CANCELADA'" class="alert alert-warning" role="alert">
+        <p>Solicitação cancelada! </p>
+        <p>{{vm.Formulario.motivoCancelamento}}</p>
+      </div>
+
+      <div class="panel-group" id="accordion">
+
+        <div class="panel panel-default" id="panelSolicitacao">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="collapse-icon fs-cursor-pointer"
+                ng-class="{'up': !vm.regras.enableEnvioEvidencias && !vm.regras.enableND && !vm.regras.enablePagamento}"
+                data-toggle="collapse" data-target="#collapseSolicitacao">
+                Dados.
+              </a>
+            </h4>
+          </div>
+          <div id="collapseSolicitacao" class="panel-collapse collapse"
+            ng-class="{'in': !vm.regras.enableEnvioEvidencias && !vm.regras.enableND && !vm.regras.enablePagamento}">
+            <div class="panel-body">
+
+              <div class="alert alert-info" role="alert" ng-if="vm.Textos.portalDadosTexto"
+                style="white-space: pre-line;">
+                {{vm.Textos.portalDadosTexto}}
+              </div>
+
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3 class="text-muted">Nº de Controle/Registro</h3>
+                  <h4>{{vm.Formulario.solicitacao}}</h4>
                 </div>
-            </div>
-
-            <div ng-if="vm.Formulario.status == 'CANCELADA'" class="alert alert-warning" role="alert">
-                <p>Solicitação cancelada! </p>
-                <p>{{vm.Formulario.motivoCancelamento}}</p>
-            </div>
-
-            <div class="panel-group" id="accordion">
-
-                <div class="panel panel-default" id="panelSolicitacao">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="collapse-icon fs-cursor-pointer"
-                                ng-class="{'up': !vm.regras.enableEnvioEvidencias && !vm.regras.enableND && !vm.regras.enablePagamento}"
-                                data-toggle="collapse" data-target="#collapseSolicitacao">
-                                Dados.
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseSolicitacao" class="panel-collapse collapse"
-                        ng-class="{'in': !vm.regras.enableEnvioEvidencias && !vm.regras.enableND && !vm.regras.enablePagamento}">
-                        <div class="panel-body">
-
-                            <div class="alert alert-info" role="alert" ng-if="vm.Textos.portalDadosTexto"
-                                style="white-space: pre-line;">
-                                {{vm.Textos.portalDadosTexto}}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h3 class="text-muted">Nº de Controle/Registro</h3>
-                                    <h4>{{vm.Formulario.solicitacao}}</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h3 class="text-muted">Status</h3>
-                                    <h4>{{vm.Formulario.status}}</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h3 class="text-muted">Descrição da Ação</h3>
-                                    <h4 style="white-space: pre-line;">{{vm.Formulario.descricaoDetalhada}}</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h3 class="text-muted">Início da Ação</h3>
-                                    <h4>{{vm.Formulario.inicioAcao | date:'fullDate'}}</h4>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h3 class="text-muted">Término da Ação</h3>
-                                    <h4>{{vm.Formulario.terminoAcao | date:'fullDate'}}</h4>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSellout.length > 0">
-                                    <h3 class="text-muted">Itens de Sellout</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th ng-if="vm.Formulario.tipoSellout == 'target'">Target</th>
-                                                <th ng-if="vm.Formulario.tipoSellout == 'target'">Finalidade</th>
-                                                <th ng-if="vm.Formulario.tipoSellout != 'target'">Item</th>
-                                                <th ng-if="vm.Formulario.tipoSellout != 'target'">Categoria</th>
-                                                <th>Rebate Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Rebate Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSellout">
-                                                <td ng-if="vm.Formulario.tipoSellout == 'target'">{{item.target}}</td>
-                                                <td ng-if="vm.Formulario.tipoSellout == 'target'">{{item.finalidade}}
-                                                </td>
-                                                <td ng-if="vm.Formulario.tipoSellout != 'target'">{{item.item.codigo}} -
-                                                    {{item.item.descricao}}</td>
-                                                <td ng-if="vm.Formulario.tipoSellout != 'target'">
-                                                    {{item.item.categoria}}</td>
-                                                <td>{{item.rebateUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.rebateTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinIt.length > 0">
-                                    <h3 class="text-muted">Itens de Sellin</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Item</th>
-                                                <th>Categoria</th>
-                                                <th>Rebate Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Rebate Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSellinIt">
-                                                <td>{{item.item.codigo}} - {{item.item.descricao}}</td>
-                                                <td>{{item.item.categoria}}</td>
-                                                <td>{{item.rebateUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.rebateTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinTg.length > 0">
-                                    <h3 class="text-muted">Itens de Sellin (Target)</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Descrição</th>
-                                                <th>Valor Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSellinTg">
-                                                <td>{{item.descricao}}</td>
-                                                <td>{{item.valorUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinTgAc.length > 0">
-                                    <h3 class="text-muted">Itens de Sellin (Aceleradores)</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Descrição</th>
-                                                <th>Valor Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSellinTgAc">
-                                                <td>{{item.descricao}}</td>
-                                                <td>{{item.valorUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSpiffIt.length > 0">
-                                    <h3 class="text-muted">Itens de Spiff</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Item</th>
-                                                <th>Categoria</th>
-                                                <th>Valor Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSpiffIt">
-                                                <td>{{item.item.codigo}} - {{item.item.descricao}}</td>
-                                                <td>{{item.item.categoria}}</td>
-                                                <td>{{item.valorUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensSpiffTg.length > 0">
-                                    <h3 class="text-muted">Itens de Spiff (Target)</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Foco</th>
-                                                <th>Valor Unitário</th>
-                                                <th>Quantidade</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensSpiffTg">
-                                                <td>{{item.foco}}</td>
-                                                <td>{{item.valorUnit | currency}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensVpcEvt.length > 0">
-                                    <h3 class="text-muted">VPC - Eventos</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Nome do Evento</th>
-                                                <th>Finalidade</th>
-                                                <th>Início</th>
-                                                <th>Término</th>
-                                                <th>Percentual</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensVpcEvt">
-                                                <td>{{item.nomeEvento}}</td>
-                                                <td>{{item.finalidade}}</td>
-                                                <td>{{item.inicio | date:'fullDate'}}</td>
-                                                <td>{{item.termino | date:'fullDate'}}</td>
-                                                <td>{{item.perc | percentage:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-sm-12" ng-if="vm.Formulario.itensVpcOutros.length > 0">
-                                    <h3 class="text-muted">VPC - Outros</h3>
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Tipo</th>
-                                                <th>Finalidade</th>
-                                                <th>Quantidade</th>
-                                                <th>Percentual</th>
-                                                <th>Valor Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="item in vm.Formulario.itensVpcOutros">
-                                                <td>{{item.tipo}}</td>
-                                                <td>{{item.finalidade}}</td>
-                                                <td>{{item.qtde | number:2}}</td>
-                                                <td>{{item.perc | percentage:2}}</td>
-                                                <td>{{item.valorTotal | currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <h3 class="text-muted">Total da Verba</h3>
-                                    <h2>{{vm.Formulario.valorTotalVerba | currency}}</h2>
-                                </div>
-                                <div class="col-sm-6" ng-if="vm.Formulario.tipoQuantidade" >
-                                    <h3 class="text-muted">Quantidade</h3>
-                                    <h2 style="text-transform: uppercase;">{{vm.Formulario.tipoQuantidade}}</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-sm-6">
+                  <h3 class="text-muted">Status</h3>
+                  <h4>{{vm.Formulario.status}}</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <h3 class="text-muted">Descrição da Ação</h3>
+                  <h4 style="white-space: pre-line;">{{vm.Formulario.descricaoDetalhada}}</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3 class="text-muted">Início da Ação</h3>
+                  <h4>{{vm.Formulario.inicioAcao | date:'fullDate'}}</h4>
+                </div>
+                <div class="col-sm-6">
+                  <h3 class="text-muted">Término da Ação</h3>
+                  <h4>{{vm.Formulario.terminoAcao | date:'fullDate'}}</h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSellout.length > 0">
+                  <h3 class="text-muted">Itens de Sellout</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th ng-if="vm.Formulario.tipoSellout == 'target'">Target</th>
+                        <th ng-if="vm.Formulario.tipoSellout == 'target'">Finalidade</th>
+                        <th ng-if="vm.Formulario.tipoSellout != 'target'">Item</th>
+                        <th ng-if="vm.Formulario.tipoSellout != 'target'">Categoria</th>
+                        <th>Rebate Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Rebate Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSellout">
+                        <td ng-if="vm.Formulario.tipoSellout == 'target'">{{item.target}}</td>
+                        <td ng-if="vm.Formulario.tipoSellout == 'target'">{{item.finalidade}}
+                        </td>
+                        <td ng-if="vm.Formulario.tipoSellout != 'target'">{{item.item.codigo}} -
+                          {{item.item.descricao}}</td>
+                        <td ng-if="vm.Formulario.tipoSellout != 'target'">
+                          {{item.item.categoria}}</td>
+                        <td>{{item.rebateUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.rebateTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
 
-                <div ng-show="vm.regras.showEnvioEvidencias" class="panel" id="panelEvidencias"
-                    ng-class="vm.regras.enableEnvioEvidencias ? 'panel-primary' : 'panel-default'">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="collapse-icon fs-cursor-pointer"
-                                ng-class="{'up': vm.regras.enableEnvioEvidencias}" data-toggle="collapse"
-                                data-target="#collapseEvidencias">
-                                1. Envio de Evidências
-                            </a>
-                        </h4>
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinIt.length > 0">
+                  <h3 class="text-muted">Itens de Sellin</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Categoria</th>
+                        <th>Rebate Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Rebate Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSellinIt">
+                        <td>{{item.item.codigo}} - {{item.item.descricao}}</td>
+                        <td>{{item.item.categoria}}</td>
+                        <td>{{item.rebateUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.rebateTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinTg.length > 0">
+                  <h3 class="text-muted">Itens de Sellin (Target)</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Descrição</th>
+                        <th>Valor Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSellinTg">
+                        <td>{{item.descricao}}</td>
+                        <td>{{item.valorUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSellinTgAc.length > 0">
+                  <h3 class="text-muted">Itens de Sellin (Aceleradores)</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Descrição</th>
+                        <th>Valor Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSellinTgAc">
+                        <td>{{item.descricao}}</td>
+                        <td>{{item.valorUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSpiffIt.length > 0">
+                  <h3 class="text-muted">Itens de Spiff</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Categoria</th>
+                        <th>Valor Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSpiffIt">
+                        <td>{{item.item.codigo}} - {{item.item.descricao}}</td>
+                        <td>{{item.item.categoria}}</td>
+                        <td>{{item.valorUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensSpiffTg.length > 0">
+                  <h3 class="text-muted">Itens de Spiff (Target)</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Foco</th>
+                        <th>Valor Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensSpiffTg">
+                        <td>{{item.foco}}</td>
+                        <td>{{item.valorUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensVpcEvt.length > 0">
+                  <h3 class="text-muted">VPC - Eventos</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Nome do Evento</th>
+                        <th>Finalidade</th>
+                        <th>Início</th>
+                        <th>Término</th>
+                        <th>Percentual</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensVpcEvt">
+                        <td>{{item.nomeEvento}}</td>
+                        <td>{{item.finalidade}}</td>
+                        <td>{{item.inicio | date:'fullDate'}}</td>
+                        <td>{{item.termino | date:'fullDate'}}</td>
+                        <td>{{item.perc | percentage:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="col-sm-12" ng-if="vm.Formulario.itensVpcOutros.length > 0">
+                  <h3 class="text-muted">VPC - Outros</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Tipo</th>
+                        <th>Finalidade</th>
+                        <th>Quantidade</th>
+                        <th>Percentual</th>
+                        <th>Valor Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensVpcOutros">
+                        <td>{{item.tipo}}</td>
+                        <td>{{item.finalidade}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.perc | percentage:2}}</td>
+                        <td>{{item.valorTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <h3 class="text-muted">Total da Verba</h3>
+                  <h2>{{vm.Formulario.valorTotalVerba | currency}}</h2>
+                </div>
+                <div class="col-sm-6" ng-if="vm.Formulario.tipoQuantidade">
+                  <h3 class="text-muted">Quantidade</h3>
+                  <h2 style="text-transform: uppercase;">{{vm.Formulario.tipoQuantidade}}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div ng-show="vm.regras.showEnvioEvidencias" class="panel" id="panelEvidencias"
+          ng-class="vm.regras.enableEnvioEvidencias ? 'panel-primary' : 'panel-default'">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="collapse-icon fs-cursor-pointer" ng-class="{'up': vm.regras.enableEnvioEvidencias}"
+                data-toggle="collapse" data-target="#collapseEvidencias">
+                1. Envio de Evidências
+              </a>
+            </h4>
+          </div>
+          <div id="collapseEvidencias" class="panel-collapse collapse"
+            ng-class="{'in': vm.regras.enableEnvioEvidencias}">
+            <div class="panel-body">
+              <div class="alert alert-info" role="alert"
+                ng-if="vm.Textos.portalEvidenciasTexto && vm.regras.enableEnvioEvidencias"
+                style="white-space: pre-line;">
+                {{vm.Textos.portalEvidenciasTexto}}
+              </div>
+
+              <div class="row">
+
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <h3 class="text-muted " for="valorResultado_i" class="control-label">
+                      Valor Total a Receber</h3>
+                    <h2 ng-show="!vm.regras.enableEnvioEvidencias || vm.ItensEvidencia.length > 0" class="fs-no-margin">
+                      {{vm.Formulario.valorResultado | currency}}</h2>
+
+                    <div ng-show="vm.regras.enableEnvioEvidencias && vm.ItensEvidencia.length == 0">
+                      <input type="text" class="form-control input-lg" name="valorResultado_i"
+                        ng-model="vm.Formulario.valorResultado" fluig-money-mask fluig-negative-number>
                     </div>
-                    <div id="collapseEvidencias" class="panel-collapse collapse"
-                        ng-class="{'in': vm.regras.enableEnvioEvidencias}">
-                        <div class="panel-body">
-                            <div class="alert alert-info" role="alert"
-                                ng-if="vm.Textos.portalEvidenciasTexto && vm.regras.enableEnvioEvidencias"
-                                style="white-space: pre-line;">
-                                {{vm.Textos.portalEvidenciasTexto}}
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" ng-if="vm.Formulario.evRecusada">
+                <div class="col-sm-12">
+                  <div class="alert alert-warning" role="alert">
+                    <p>Evidências recusadas</p>
+                    <p style="white-space: pre-wrap">{{vm.Formulario.motivoRecusaEv}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <h3 class="text-muted" for="obsEnvioEvidencias" class="control-label">
+                      Observações</h3>
+                    <textarea ng-show="vm.regras.enableEnvioEvidencias" fluig-error="form.obsEnvioEvidencias.$error"
+                      name="obsEnvioEvidencias" elastic class="form-control input-lg"
+                      placeholder="Observações sobre o envio das evidências" ng-model="vm.Formulario.obsEnvioEvidencias"
+                      ng-change="vm.alterado = true" ng-blur="vm.salvar()"
+                      ng-value="vm.Formulario.obsEnvioEvidencias"></textarea>
+                    <h4 ng-show="!vm.regras.enableEnvioEvidencias" style="white-space: pre-line;">
+                      {{vm.Formulario.obsEnvioEvidencias || 'Sem observações'}}</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <h3 class="text-muted" class="control-label">Arquivos de Evidências</h3>
+                </div>
+                <div class="col-sm-3" ng-if="vm.regras.enableEnvioEvidencias">
+                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles('evidencias', $files, {})"
+                    ngf-drop="vm.selectFiles('evidencias', $files, {})" ng-model="files" ngf-multiple="true"
+                    ngf-drag-over-class="'dragover'">
+                    <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
+                  </div>
+                </div>
+
+                <div
+                  ng-class="{'col-sm-9': vm.regras.enableEnvioEvidencias, 'col-sm-12': !vm.regras.enableEnvioEvidencias}">
+                  <div ng-show="vm.Formulario.evidencias.length == 0">
+                    <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
+                  </div>
+                  <div class="table" ng-show="vm.Formulario.evidencias.length > 0">
+                    <!-- <!- <caption>Arquivos de Evidência</caption> -> -->
+                    <div ng-repeat="arquivoEv in vm.Formulario.evidencias" ng-show="!arquivoEv.removed" class="row">
+
+                      <div class="col-sm-1">
+                        <span ng-click="vm.removeArquivo(arquivoEv)"
+                          ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
+                          class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
+
+                        <span ng-if="arquivoEv.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
+                      </div>
+                      <div class="col-sm-11">
+                        <div class="row" ng-if="!arquivoEv.uploaded">
+                          <div class="col-sm-12">
+                            <div class="progress">
+                              <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                aria-valuenow="{{arquivoEv.progressPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: arquivoEv.progressPercentage +'%'}">
+                                <span class="sr-only">{{arquivoEv.progressPercentage}}% Complete</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <label>Descrição do Arquivo</label>
+                            <input type="text" ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
+                              class="form-control input-lg" ng-model="arquivoEv.descricao"
+                              ng-value="arquivoEv.descricao" ng-change="vm.alterado = true" ng-blur="vm.salvar()"
+                              placeholder="Descrição do arquivo">
+                            <h4 class="fs-no-margin" ng-if="!vm.regras.enableEnvioEvidencias || arquivoEv.aceito">
+                              {{arquivoEv.descricao}}</h4>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <a target="_blank" href="{{arquivoEv.url}}">
+                              <h4>
+                                <i class="flaticon flaticon-link icon-md"></i>{{arquivoEv.nome
+                                || 'Sem descrição'}}
+                              </h4>
+                            </a>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <div style="padding-top: 10px">
+                              <div ng-if="!arquivoEv.aceito && arquivoEv.motivoRecusa" class="alert alert-warning"
+                                role="alert">
+                                <p>Arquivo Recusado. Motivo:
+                                  {{arquivoEv.motivoRecusa}}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" ng-show="vm.ItensEvidencia.length > 0">
+                <div class="col-sm-12">
+                  <h3 class="text-muted" class="control-label">
+                    Valores por item</h3>
+                  <!-- <h2 class="fs-no-margin text-muted text-center"></h2> -->
+                </div>
+                <div class="col-sm-12" style="margin-bottom: 15px;">
+
+                  <div class="panel panel-default">
+                    <div class="panel-body">
+                      <div class="row" ng-repeat="item in vm.ItensEvidencia track by $index">
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="itemEv_qtdVendida" class="text-right">Item</label>
+                            <h4 class="fs-no-margin" class="text-right">{{item.descricao}}
+                            </h4>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-2">
+                          <div class="form-group">
+                            <label for="itemEv_qtdVendida">Quantidade</label>
+                            <div ng-if="vm.regras.enableEnvioEvidencias">
+
+                              <input type="text" class="form-control input-lg" name="itemEv_qtdVendida"
+                                ng-model="vm.Formulario[item.tablename][item.index].qtdEvidencia"
+                                ng-change="vm.calculaTotalItemEvidencia(item)" ng-blur="vm.salvar()" fluig-number-mask>
                             </div>
 
-                            <div class="row">
-
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <h3 class="text-muted " for="valorResultado_i" class="control-label">
-                                            Valor Total a Receber</h3>
-                                        <h2 ng-show="!vm.regras.enableEnvioEvidencias || vm.ItensEvidencia.length > 0"
-                                            class="fs-no-margin">
-                                            {{vm.Formulario.valorResultado | currency}}</h2>
-
-                                        <div ng-show="vm.regras.enableEnvioEvidencias && vm.ItensEvidencia.length == 0">
-                                            <input type="text" class="form-control input-lg" name="valorResultado_i"
-                                                ng-model="vm.Formulario.valorResultado" fluig-money-mask
-                                                fluig-negative-number>
-                                        </div>
-
-                                    </div>
-                                </div>
+                            <h2 ng-if="!vm.regras.enableEnvioEvidencias" class="fs-no-margin">
+                              {{vm.Formulario[item.tablename][item.index].qtdEvidencia |
+                              number:'2'}}
+                            </h2>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="itemEv_valEvidencia">Valor</label>
+                            <div ng-if="vm.regras.enableEnvioEvidencias">
+                              <input type="text" class="form-control input-lg" ng-disabled="true"
+                                name="itemEv_valEvidencia"
+                                ng-model="vm.Formulario[item.tablename][item.index].valEvidencia" ng-blur="vm.salvar()"
+                                ng-change="vm.calculaTotalItemEvidencia(item)" fluig-money-mask>
                             </div>
 
-                            <div class="row" ng-if="vm.Formulario.evRecusada">
-                                <div class="col-sm-12">
-                                    <div class="alert alert-warning" role="alert">
-                                        <p>Evidências recusadas</p>
-                                        <p style="white-space: pre-wrap">{{vm.Formulario.motivoRecusaEv}}</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <h2 ng-if="!vm.regras.enableEnvioEvidencias" class="fs-no-margin">
+                              {{vm.Formulario[item.tablename][item.index].valEvidencia |
+                              currency}}
+                            </h2>
+                          </div>
+                        </div>
+                        <div class="col-sm-3">
+                          <div class="form-group">
+                            <label for="">Total</label>
+                            <h2 class="fs-no-margin">
+                              {{vm.Formulario[item.tablename][item.index].totEvidencia |
+                              currency}}
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <h3 class="text-muted" for="obsEnvioEvidencias" class="control-label">
-                                            Observações</h3>
-                                        <textarea ng-show="vm.regras.enableEnvioEvidencias"
-                                            fluig-error="form.obsEnvioEvidencias.$error" name="obsEnvioEvidencias"
-                                            elastic class="form-control input-lg"
-                                            placeholder="Observações sobre o envio das evidências"
-                                            ng-model="vm.Formulario.obsEnvioEvidencias" ng-change="vm.alterado = true"
-                                            ng-blur="vm.salvar()"
-                                            ng-value="vm.Formulario.obsEnvioEvidencias"></textarea>
-                                        <h4 ng-show="!vm.regras.enableEnvioEvidencias" style="white-space: pre-line;">
-                                            {{vm.Formulario.obsEnvioEvidencias || 'Sem observações'}}</h4>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                  </div>
+                </div>
 
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <h3 class="text-muted" class="control-label">Arquivos de Evidências</h3>
-                                </div>
-                                <div class="col-sm-3" ng-if="vm.regras.enableEnvioEvidencias">
-                                    <div class="drop-box fs-cursor-pointer"
-                                        ngf-select="vm.selectFiles('evidencias', $files, {})"
-                                        ngf-drop="vm.selectFiles('evidencias', $files, {})" ng-model="files"
-                                        ngf-multiple="true" ngf-drag-over-class="'dragover'">
-                                        <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
-                                    </div>
-                                </div>
-
-                                <div
-                                    ng-class="{'col-sm-9': vm.regras.enableEnvioEvidencias, 'col-sm-12': !vm.regras.enableEnvioEvidencias}">
-                                    <div ng-show="vm.Formulario.evidencias.length == 0">
-                                        <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
-                                    </div>
-                                    <div class="table" ng-show="vm.Formulario.evidencias.length > 0">
-                                        <!-- <!- <caption>Arquivos de Evidência</caption> -> -->
-                                        <div ng-repeat="arquivoEv in vm.Formulario.evidencias"
-                                            ng-show="!arquivoEv.removed" class="row">
-
-                                            <div class="col-sm-1">
-                                                <span ng-click="vm.removeArquivo(arquivoEv)"
-                                                    ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
-                                                    class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
-
-                                                <span ng-if="arquivoEv.aceito"
-                                                    class="flaticon flaticon-done icon-lg text-success"></span>
-                                            </div>
-                                            <div class="col-sm-11">
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <label>Descrição do Arquivo</label>
-                                                        <input type="text"
-                                                            ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
-                                                            class="form-control input-lg" ng-model="arquivoEv.descricao"
-                                                            ng-value="arquivoEv.descricao"
-                                                            ng-change="vm.alterado = true" ng-blur="vm.salvar()"
-                                                            placeholder="Descrição do arquivo">
-                                                        <h4 class="fs-no-margin"
-                                                            ng-if="!vm.regras.enableEnvioEvidencias || arquivoEv.aceito">
-                                                            {{arquivoEv.descricao}}</h4>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <a target="_blank" href="{{arquivoEv.url}}">
-                                                            <h4>
-                                                                <i
-                                                                    class="flaticon flaticon-link icon-md"></i>{{arquivoEv.nome
-                                                                || 'Sem descrição'}}
-                                                            </h4>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-12">
-                                                        <div style="padding-top: 10px">
-                                                            <div ng-if="!arquivoEv.aceito && arquivoEv.motivoRecusa"
-                                                                class="alert alert-warning" role="alert">
-                                                                <p>Arquivo Recusado. Motivo:
-                                                                    {{arquivoEv.motivoRecusa}}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" ng-show="vm.ItensEvidencia.length > 0">
-                                <div class="col-sm-12">
-                                    <h3 class="text-muted" class="control-label">
-                                        Valores por item</h3>
-                                    <!-- <h2 class="fs-no-margin text-muted text-center"></h2> -->
-                                </div>
-                                <div class="col-sm-12" style="margin-bottom: 15px;">
-
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div class="row" ng-repeat="item in vm.ItensEvidencia track by $index">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="itemEv_qtdVendida" class="text-right">Item</label>
-                                                        <h4 class="fs-no-margin" class="text-right">{{item.descricao}}
-                                                        </h4>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <label for="itemEv_qtdVendida">Quantidade</label>
-                                                        <div ng-if="vm.regras.enableEnvioEvidencias">
-
-                                                            <input type="text" class="form-control input-lg"
-                                                                name="itemEv_qtdVendida"
-                                                                ng-model="vm.Formulario[item.tablename][item.index].qtdEvidencia"
-                                                                ng-change="vm.calculaTotalItemEvidencia(item)"
-                                                                ng-blur="vm.salvar()" fluig-number-mask>
-                                                        </div>
-
-                                                        <h2 ng-if="!vm.regras.enableEnvioEvidencias"
-                                                            class="fs-no-margin">
-                                                            {{vm.Formulario[item.tablename][item.index].qtdEvidencia |
-                                                            number:'2'}}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label for="itemEv_valEvidencia">Valor</label>
-                                                        <div ng-if="vm.regras.enableEnvioEvidencias">
-                                                            <input type="text" class="form-control input-lg"
-                                                                ng-disabled="true" name="itemEv_valEvidencia"
-                                                                ng-model="vm.Formulario[item.tablename][item.index].valEvidencia"
-                                                                ng-blur="vm.salvar()"
-                                                                ng-change="vm.calculaTotalItemEvidencia(item)"
-                                                                fluig-money-mask>
-                                                        </div>
-
-                                                        <h2 ng-if="!vm.regras.enableEnvioEvidencias"
-                                                            class="fs-no-margin">
-                                                            {{vm.Formulario[item.tablename][item.index].valEvidencia |
-                                                            currency}}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="form-group">
-                                                        <label for="">Total</label>
-                                                        <h2 class="fs-no-margin">
-                                                            {{vm.Formulario[item.tablename][item.index].totEvidencia |
-                                                            currency}}
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <!-- <div class="row">
+              </div>
+              <!-- <div class="row">
                                 <div class="col-sm-3" ng-if="vm.regras.enableEnvioEvidencias">
                                     <div class="drop-box fs-cursor-pointer"
                                         ngf-select="vm.selectFiles('evidencias', $files)"
@@ -590,240 +581,234 @@
                                     </div>
                                 </div>
                             </div> -->
-                        </div>
-                    </div>
-                </div>
-
-
-                <div ng-show="vm.regras.showND" class="panel" id="panelND"
-                    ng-class="vm.regras.enableND ? 'panel-primary' : 'panel-default'">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="collapse-icon fs-cursor-pointer" ng-class="{'up': vm.regras.enableND}"
-                                data-toggle="collapse" data-target="#collapseND">
-                                2. Envio de ND
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseND" class="panel-collapse collapse" ng-class="{'in': vm.regras.enableND}">
-                        <div class="panel-body">
-                            <div class="alert alert-info" role="alert"
-                                ng-if="vm.Textos.portalNDTexto && vm.regras.enableND" style="white-space: pre-line;">
-                                {{vm.Textos.portalNDTexto}}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <h3 class="text-muted" class="control-label">Valor Liberado</h3>
-                                        <h2 class="fs-no-margin">{{vm.Formulario.valorLiberado | currency}}</h2>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" ng-if="vm.Formulario.ndRecusada">
-                                <div class="col-sm-12">
-                                    <div class="alert alert-warning" role="alert">
-                                        <p>ND Recusada</p>
-                                        <p style="white-space: pre-wrap">{{vm.Formulario.motivoRecusaND}}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <h3 class="text-muted" for="obsEnvioND" class="control-label">Observações</h3>
-                                        <textarea ng-show="vm.regras.enableND" fluig-error="form.obsEnvioND.$error"
-                                            name="obsEnvioND" elastic class="form-control input-lg"
-                                            placeholder="Observações sobre o envio da ND"
-                                            ng-model="vm.Formulario.obsEnvioND" ng-change="vm.alterado = true"
-                                            ng-blur="vm.salvar()" ng-value="vm.Formulario.obsEnvioND"></textarea>
-                                        <h4 ng-show="!vm.regras.enableND" style="white-space: pre-line;">
-                                            {{vm.Formulario.obsEnvioND || 'Sem observações'}}</h4>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-3" ng-if="vm.regras.enableND">
-                                    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles('nd', $files)"
-                                        ngf-drop="vm.selectFiles('nd', $files)" ng-model="files" ngf-multiple="true"
-                                        ngf-drag-over-class="'dragover'">
-                                        <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
-                                    </div>
-                                </div>
-
-                                <div ng-class="{'col-sm-9': vm.regras.enableND, 'col-sm-12': !vm.regras.enableND}">
-                                    <div class="fs-txt-center" ng-show="vm.Formulario.nd.length == 0">
-                                        <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
-                                    </div>
-                                    <div ng-show="vm.Formulario.nd.length > 0">
-                                        <h3 class="text-muted">Notas de Débito</h3>
-
-                                        <table class="table table-striped">
-                                            <!-- <caption>Arquivos de Evidência</caption> -->
-                                            <thead>
-                                                <tr>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="arquivo in vm.Formulario.nd" ng-if="!arquivo.removed">
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-sm-1">
-                                                                <span ng-click="vm.removeArquivo(arquivo)"
-                                                                    ng-if="vm.regras.enableND && !arquivo.aceito"
-                                                                    class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
-
-                                                                <span ng-if="arquivo.aceito"
-                                                                    class="flaticon flaticon-done icon-lg text-success"></span>
-                                                            </div>
-                                                            <div class="col-sm-11">
-                                                                <div class="row">
-                                                                    <div class="col-sm-3">
-                                                                        <label>Número</label>
-                                                                        <input type="text" ng-if="vm.regras.enableND"
-                                                                            class="form-control input-lg"
-                                                                            ng-model="arquivo.numero"
-                                                                            ng-value="arquivo.numero"
-                                                                            ng-change="vm.alterado = true"
-                                                                            ng-blur="vm.salvar()"
-                                                                            placeholder="Número da ND">
-                                                                        <h4 class="fs-no-margin"
-                                                                            ng-if="!vm.regras.enableND">
-                                                                            {{arquivo.numero}}</h4>
-                                                                    </div>
-
-                                                                    <div class="col-sm-9">
-                                                                        <label>Descrição do arquivo</label>
-                                                                        <input type="text" ng-if="vm.regras.enableND"
-                                                                            class="form-control input-lg"
-                                                                            ng-model="arquivo.descricao"
-                                                                            ng-value="arquivo.descricao"
-                                                                            ng-change="vm.alterado = true"
-                                                                            ng-blur="vm.salvar()"
-                                                                            placeholder="Descrição do arquivo">
-                                                                        <h4 class="fs-no-margin"
-                                                                            ng-if="!vm.regras.enableND">
-                                                                            {{arquivo.descricao}}</h4>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <a target="_blank" href="{{arquivo.url}}">
-                                                                            <h4>
-                                                                                <i
-                                                                                    class="flaticon flaticon-link icon-md"></i>{{arquivo.nome
-                                                                                || 'Sem descrição'}}
-                                                                            </h4>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-sm-12">
-                                                                        <div style="padding-top: 10px">
-                                                                            <div ng-if="!arquivo.aceito && arquivo.motivoRecusa"
-                                                                                class="alert alert-warning"
-                                                                                role="alert">
-                                                                                <p>Arquivo Recusado
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div ng-show="vm.regras.showPagamento" class="panel" id="panelPagamento"
-                    ng-class="vm.regras.enablePagamento ? 'panel-primary' : 'panel-default'">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="collapse-icon fs-cursor-pointer" ng-class="{'up': vm.regras.enablePagamento}"
-                                data-toggle="collapse" data-target="#collapsePagamento">
-                                3. Pagamento
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapsePagamento" class="panel-collapse collapse"
-                        ng-class="{'in': vm.regras.enablePagamento}">
-                        <div class="panel-body">
-                            <div class="alert alert-info" role="alert" ng-if="vm.Textos.portalPagamentoTexto"
-                                style="white-space: pre-line;">
-                                {{vm.Textos.portalPagamentoTexto}}
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="fs-txt-center" ng-show="vm.Formulario.duplicatas.length == 0">
-                                        <h1 class="fs-lg-space">Não disponível</h1>
-                                    </div>
-                                    <div ng-show="vm.Formulario.duplicatas.length > 0">
-                                        <h3 class="text-muted">Duplicatas</h3>
-                                        <table class="table table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Título</th>
-                                                    <th>ND</th>
-                                                    <th>Vencimento</th>
-                                                    <th>Saldo Original</th>
-                                                    <th>Antecipação</th>
-                                                    <th>Valor Final</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="titulo in vm.Formulario.duplicatas"
-                                                    ng-if="titulo.valorAntecipa > 0">
-                                                    <td>
-                                                        {{titulo.titulo}}
-                                                    </td>
-                                                    <td>
-                                                        {{titulo.nd}}
-                                                    </td>
-                                                    <td>
-                                                        {{titulo.dataVencto | date}}
-                                                    </td>
-                                                    <td>
-                                                        {{titulo.valorSaldo | currency}}
-                                                    </td>
-                                                    <td>
-                                                        {{titulo.valorAntecipa | currency}}
-                                                    </td>
-                                                    <td>
-                                                        {{titulo.saldoAposAbatimento | currency}}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
 
-        <div class="col-sm-12" ng-show="vm.show">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <pre>{{vm.Formulario | json}}</pre>
+
+        <div ng-show="vm.regras.showND" class="panel" id="panelND"
+          ng-class="vm.regras.enableND ? 'panel-primary' : 'panel-default'">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="collapse-icon fs-cursor-pointer" ng-class="{'up': vm.regras.enableND}" data-toggle="collapse"
+                data-target="#collapseND">
+                2. Envio de ND
+              </a>
+            </h4>
+          </div>
+          <div id="collapseND" class="panel-collapse collapse" ng-class="{'in': vm.regras.enableND}">
+            <div class="panel-body">
+              <div class="alert alert-info" role="alert" ng-if="vm.Textos.portalNDTexto && vm.regras.enableND"
+                style="white-space: pre-line;">
+                {{vm.Textos.portalNDTexto}}
+              </div>
+
+              <div class="row">
+                <div class="col-sm-4">
+                  <div class="form-group">
+                    <h3 class="text-muted" class="control-label">Valor Liberado</h3>
+                    <h2 class="fs-no-margin">{{vm.Formulario.valorLiberado | currency}}</h2>
+                  </div>
                 </div>
+              </div>
+
+              <div class="row" ng-if="vm.Formulario.ndRecusada">
+                <div class="col-sm-12">
+                  <div class="alert alert-warning" role="alert">
+                    <p>ND Recusada</p>
+                    <p style="white-space: pre-wrap">{{vm.Formulario.motivoRecusaND}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <h3 class="text-muted" for="obsEnvioND" class="control-label">Observações</h3>
+                    <textarea ng-show="vm.regras.enableND" fluig-error="form.obsEnvioND.$error" name="obsEnvioND"
+                      elastic class="form-control input-lg" placeholder="Observações sobre o envio da ND"
+                      ng-model="vm.Formulario.obsEnvioND" ng-change="vm.alterado = true" ng-blur="vm.salvar()"
+                      ng-value="vm.Formulario.obsEnvioND"></textarea>
+                    <h4 ng-show="!vm.regras.enableND" style="white-space: pre-line;">
+                      {{vm.Formulario.obsEnvioND || 'Sem observações'}}</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-3" ng-if="vm.regras.enableND">
+                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles('nd', $files)"
+                    ngf-drop="vm.selectFiles('nd', $files)" ng-model="files" ngf-multiple="true"
+                    ngf-drag-over-class="'dragover'">
+                    <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
+                  </div>
+                </div>
+
+                <div ng-class="{'col-sm-9': vm.regras.enableND, 'col-sm-12': !vm.regras.enableND}">
+                  <div class="fs-txt-center" ng-show="vm.Formulario.nd.length == 0">
+                    <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
+                  </div>
+                  <div ng-show="vm.Formulario.nd.length > 0">
+                    <h3 class="text-muted">Notas de Débito</h3>
+
+                    <table class="table table-striped">
+                      <!-- <caption>Arquivos de Evidência</caption> -->
+                      <thead>
+                        <tr>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="arquivo in vm.Formulario.nd" ng-if="!arquivo.removed">
+                          <td>
+                            <div class="row">
+                              <div class="col-sm-1">
+                                <span ng-click="vm.removeArquivo(arquivo)" ng-if="vm.regras.enableND && !arquivo.aceito"
+                                  class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
+
+                                <span ng-if="arquivo.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
+                              </div>
+                              <div class="col-sm-11">
+                                <div class="row">
+                                  <div class="col-sm-3">
+                                    <label>Número</label>
+                                    <input type="text" ng-if="vm.regras.enableND" class="form-control input-lg"
+                                      ng-model="arquivo.numero" ng-value="arquivo.numero" ng-change="vm.alterado = true"
+                                      ng-blur="vm.salvar()" placeholder="Número da ND">
+                                    <h4 class="fs-no-margin" ng-if="!vm.regras.enableND">
+                                      {{arquivo.numero}}</h4>
+                                  </div>
+
+                                  <div class="col-sm-9">
+                                    <label>Descrição do arquivo</label>
+                                    <input type="text" ng-if="vm.regras.enableND" class="form-control input-lg"
+                                      ng-model="arquivo.descricao" ng-value="arquivo.descricao"
+                                      ng-change="vm.alterado = true" ng-blur="vm.salvar()"
+                                      placeholder="Descrição do arquivo">
+                                    <h4 class="fs-no-margin" ng-if="!vm.regras.enableND">
+                                      {{arquivo.descricao}}</h4>
+                                  </div>
+                                </div>
+                                <div class="row" ng-if="!arquivo.uploaded">
+                                  <div class="col-sm-12">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                        aria-valuenow="{{arquivo.progressPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: arquivo.progressPercentage +'%'}">
+                                        <span class="sr-only">{{arquivo.progressPercentage}}% Complete</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <a target="_blank" href="{{arquivo.url}}">
+                                      <h4>
+                                        <i class="flaticon flaticon-link icon-md"></i>{{arquivo.nome
+                                        || 'Sem descrição'}}
+                                      </h4>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <div style="padding-top: 10px">
+                                      <div ng-if="!arquivo.aceito && arquivo.motivoRecusa" class="alert alert-warning"
+                                        role="alert">
+                                        <p>Arquivo Recusado
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div ng-show="vm.regras.showPagamento" class="panel" id="panelPagamento"
+          ng-class="vm.regras.enablePagamento ? 'panel-primary' : 'panel-default'">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              <a class="collapse-icon fs-cursor-pointer" ng-class="{'up': vm.regras.enablePagamento}"
+                data-toggle="collapse" data-target="#collapsePagamento">
+                3. Pagamento
+              </a>
+            </h4>
+          </div>
+          <div id="collapsePagamento" class="panel-collapse collapse" ng-class="{'in': vm.regras.enablePagamento}">
+            <div class="panel-body">
+              <div class="alert alert-info" role="alert" ng-if="vm.Textos.portalPagamentoTexto"
+                style="white-space: pre-line;">
+                {{vm.Textos.portalPagamentoTexto}}
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="fs-txt-center" ng-show="vm.Formulario.duplicatas.length == 0">
+                    <h1 class="fs-lg-space">Não disponível</h1>
+                  </div>
+                  <div ng-show="vm.Formulario.duplicatas.length > 0">
+                    <h3 class="text-muted">Duplicatas</h3>
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Título</th>
+                          <th>ND</th>
+                          <th>Vencimento</th>
+                          <th>Saldo Original</th>
+                          <th>Antecipação</th>
+                          <th>Valor Final</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="titulo in vm.Formulario.duplicatas" ng-if="titulo.valorAntecipa > 0">
+                          <td>
+                            {{titulo.titulo}}
+                          </td>
+                          <td>
+                            {{titulo.nd}}
+                          </td>
+                          <td>
+                            {{titulo.dataVencto | date}}
+                          </td>
+                          <td>
+                            {{titulo.valorSaldo | currency}}
+                          </td>
+                          <td>
+                            {{titulo.valorAntecipa | currency}}
+                          </td>
+                          <td>
+                            {{titulo.saldoAposAbatimento | currency}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <div class="col-sm-12" ng-show="vm.show">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <pre>{{vm.Formulario | json}}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </form>
 
