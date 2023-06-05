@@ -29,7 +29,7 @@ prepareDeploy() {
   if test "$artifact" = "workflow"; then
     name=$(echo $name| cut -d'.' -f 1)
   fi
-
+  
   arr=${!artifact}
 
   # length=${#artifact[@]}
@@ -44,10 +44,11 @@ prepareDeploy() {
     eval $artifact'[$length]="$name"'
   fi
 
-  exit 0
+  # exit 0
 }
 
 buildDeploy() {
+  
   for i in "${datasets[@]}"; do
     gulp datasets --dataset=${i}
   done
