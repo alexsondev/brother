@@ -51,6 +51,16 @@ function beforeTaskSave(colleagueId, nextSequenceId, userList) {
     if (Params.atividades.gerarAbatimentos.indexOf(Number(nextSequenceId)) >= 0) {
       notificaAprovacaoPagamento();
     }
+
+    if (Params.atividades.validarMarketing.indexOf(Number(nextSequenceId)) >= 0) {
+      if (hAPI.getCardValue("dataAprovPresidenciaVp") != ""
+        && hAPI.getCardValue("dataAprovPresidenciaVp") != "null"
+        && hAPI.getCardValue("dataAprovPresidenciaVp") != null) {
+        hAPI.setCardValue("pendenteTotvs", "S");
+        atualizaStatus();
+      }
+    }
+
   }
   else{  
      //devolve para solicitante
