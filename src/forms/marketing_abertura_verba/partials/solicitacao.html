@@ -28,6 +28,18 @@
 </div>
 <!--fim-->
 
+<!-- Nome arquivo carga-->
+<div class="row" hidden>
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="nomeArquivoCarga" class="control-label">Nome Arquivo Carga</label>
+      <input type="text" name="nomeArquivoCarga" id="nomeArquivoCarga" class="form-control input-lg">
+
+    </div>
+  </div>
+</div>
+<!--fim-->
+
 <div class="row">
   <div class="col-md-12">
     <div class="form-group">
@@ -134,7 +146,6 @@
           SRP
         </label>
         -->
-
         <label class="radio-inline">
           <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
             ng-model="vm.Formulario.tipoprice" value="net" ng-change="vm.changeTipoAcao()"

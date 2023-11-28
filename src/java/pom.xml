@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
 
   <name>Brother Component</name>
-  <description>Brother Public Component</description>
+  <description>Brother Public Component 1</description>
 
   <!-- 
     Necessário configurar o nexus.fluig.com como repositório central de dependências 

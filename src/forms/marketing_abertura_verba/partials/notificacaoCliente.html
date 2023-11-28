@@ -6,7 +6,8 @@
         name="obsNotificacaoCliente" elastic class="form-control input-lg"
         placeholder="Utilize este campo para incluir informações adicionais no e-mail que será enviado ao cliente"
         ng-model="vm.Formulario.obsNotificacaoCliente" ng-value="vm.Formulario.obsNotificacaoCliente"></textarea>
-      <p ng-show="!vm.regras.enableNotificacaoCliente">{{vm.Formulario.obsNotificacaoCliente || 'Sem observações'}}</p>
+      <p ng-show="!vm.regras.enableNotificacaoCliente">
+        {{vm.Formulario.obsNotificacaoCliente || 'Sem observações'}}</p>
     </div>
   </div>
   <div class="col-sm-12">
@@ -23,7 +24,8 @@
       <tbody ng-non-bindable>
         <tr ng-repeat="email in vm.Formulario.emailsCliente">
           <td ng-show="vm.regras.enableNotificacaoCliente">
-            <span ng-click="vm.removeChild(vm.Formulario.emailsCliente, email)"
+            <span ng-if="vm.regras.enableValidacaoMarketing"
+              ng-click="vm.removeChild(vm.Formulario.emailsCliente, email)"
               class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
             <div class="dropdown fs-float-right"
               ng-show="vm.Params.edit && vm.NotificationTypes.length > 0 && vm.regras.showReenvia">
@@ -50,6 +52,16 @@
                   ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_iniAcao" ng-value="email.iniAcao">
               </div>
+              <!-- fim ação -->
+              <div class="col-sm-4 col-md-2">
+                <label for="">Fim da Ação</label>
+                <input type="checkbox" name="email_fimAcao_i" ng-model="email.fimAcao" id="fimacao" fluig-switch
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
+                <input type="hidden" name="email_fimAcao" ng-value="email.fimAcao">
+              </div>
+              <!-- fim ação -->
+
               <div class="col-sm-4 col-md-2">
                 <!-- fim ação -->
 
@@ -96,6 +108,7 @@
               </div>
             </div>
 
+
           </td>
         </tr>
       </tbody>
@@ -121,10 +134,40 @@
       <div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0">
         <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
 
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
-              ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
-        </ul>
+    <!--<div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0 && vm.regras.showFim">-->
+    <div class="dropdown fs-float-right" id="div_reenvia" ng-show="vm.regras.showReenvia">
+
+      <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
+
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
+            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
+      </ul>
+    </div>
+
+    <!--#############################################################################-->
+
+
+    <!--
+                      <div class="col-sm-3 dropdown fs-float-right" ng-show="vm.regra.showResumo">
+                        
+                        <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" role="menuitem" tabindex="-1" 
+                        ng-repeat="type in vm.NotificationTypes"
+                        ng-click="vm.reenviaNotificacao(null, type)">Reenviar Para Todos (novo)</a>
+  
+                        
+                          
+                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                          <li role="presentation"><a role="menuitem" tabindex="-1" 
+                            ng-repeat="type in vm.NotificationTypes"
+                            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
+                        </ul> 
+                      </div>-->
+    <!--FIM MUDANÇAS-->
+    <div ng-show="vm.regras.enableNotificacaoCliente">
+      <div ng-show="vm.regras.enableValidacaoMarketing">
+        <a class="btn btn-default btn-lg" ng-disabled="!vm.regras.enableValidacaoMarketing"
+          ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
       </div>
 
     </div> -->
