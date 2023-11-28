@@ -214,6 +214,66 @@
 
   </div>
 
+  <!--==============================Inicio Price========================-->
+  <div class="col-sm-12">
+    <table class="table table-stripped" ng-show="vm.Formulario.itensprice.length > 0">
+      <caption>price</caption>
+      <thead>
+        <th ng-if="vm.Formulario.tipoprice != 'target'">Item</th>
+        <th ng-if="vm.Formulario.tipoprice != 'target'">Categoria</th>
+        <th ng-if="vm.Formulario.tipoprice == 'target'">Target</th>
+        <th ng-if="vm.Formulario.tipoprice == 'target'">Finalidad e</th>
+        <th ng-if="vm.Formulario.tipoprice == 'srp'">SRP I/S</th>
+        <th ng-if="vm.Formulario.tipoprice != 'target'">Net I/S</th>
+        <th>Rebate Unit</th>
+        <th>Qtde</th>
+        <th>Rebate Total</th>
+        <th ng-if="vm.Formulario.tipoprice != 'target'">Dolar</th>
+        <th ng-if="vm.Formulario.tipoprice != 'target'">C. Custo</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="itemprice in vm.Formulario.itensprice track by $index">
+          <td ng-if="vm.Formulario.tipoprice != 'target'">
+            {{itemprice.item.displaykey}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice == 'target'">
+            {{itemprice.target}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice != 'target'">
+            {{itemprice.item.categoria}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice == 'target'">
+            {{itemprice.finalidade}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice == 'srp'">
+            <p>{{itemprice.srpInicial | currency}}</p>
+            <p>{{itemprice.srpSugerido | currency}}</p>
+          </td>
+          <td ng-if="vm.Formulario.tipoprice != 'target'">
+            <p>{{itemprice.netInicial | currency}}</p>
+            <p>{{itemprice.netSugerido | currency}}</p>
+          </td>
+          <td>
+            {{itemprice.rebateUnit | currency}}
+          </td>
+          <td>
+            {{itemprice.qtde | number:'2'}}
+          </td>
+          <td>
+            {{itemprice.rebateTotal | currency}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice != 'target'">
+            {{itemprice.dolar | currency:'U$'}}
+          </td>
+          <td ng-if="vm.Formulario.tipoprice != 'target'">
+            {{itemprice.item.ccusto}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--==============================Fim Price========================-->
+
   <div class="col-sm-12">
     <table class="table table-stripped" ng-show="vm.Formulario.itensSellinIt.length > 0">
       <caption>Sell-In - Item</caption>

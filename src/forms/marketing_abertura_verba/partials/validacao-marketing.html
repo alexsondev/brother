@@ -29,7 +29,7 @@
   <div class="col-sm-12">
     <div class="form-group">
       <label for="obsValidacaoMarketing" class="control-label">Observações</label>
-      <textarea ng-show="vm.regras.enableValidacaoMarketing" fluig-error="form.obsValidacaoMarketing.$error"
+      <textarea ng-show="vm.regras.enableValidacaoMarketing" ng-required="true" fluig-error="form.obsValidacaoMarketing.$error"
         name="obsValidacaoMarketing" elastic class="form-control input-lg"
         placeholder="Caso devolva a solicitação, utilize este campo para informar o motivo"
         ng-model="vm.Formulario.obsValidacaoMarketing" ng-value="vm.Formulario.obsValidacaoMarketing"></textarea>

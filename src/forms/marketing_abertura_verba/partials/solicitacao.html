@@ -14,15 +14,19 @@
     </div>
   </div>
 
-  <!-- <div class="col-sm-12">
-    <div class="form-group">
-      <label for="executivo_i_s" class="control-label">Executivo de Contas</label>
-      <input ng-required="true" fluig-error="form.executivo_i_s.$error" class="form-control input-lg" fluig-autocomplete
-        dataset="totvs_busca_executivo" display-key="displaykey" ng-model="vm.Formulario.executivo" name="executivo_i_s"
-        ng-disabled="!vm.regras.enableSolicitacao">
-    </div>
-  </div> -->
+
 </div>
+<!-- Nome arquivo carga-->
+<div class="row" hidden>
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="nomeArquivoCarga" class="control-label">Nome Arquivo Carga</label>
+      <input type="text" name="nomeArquivoCarga" id="nomeArquivoCarga" class="form-control input-lg">
+
+    </div>
+  </div>
+</div>
+<!--fim-->
 
 <div class="row">
   <div class="col-md-12">
@@ -95,12 +99,12 @@
     <div class="form-group">
       <label for="tipoSellout_i" class="control-label">Tipo</label>
       <div>
-        <label class="radio-inline">
+        <!-- <label class="radio-inline">
           <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoSellout_i"
             ng-model="vm.Formulario.tipoSellout" value="srp" ng-change="vm.changeTipoAcao()"
             ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellout'" fluig-error="form.tipoSellout_i.$error">
           SRP
-        </label>
+        </label> -->
         <label class="radio-inline">
           <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoSellout_i"
             ng-model="vm.Formulario.tipoSellout" value="net" ng-change="vm.changeTipoAcao()"
@@ -118,6 +122,35 @@
     </div>
   </div>
 
+  <div class="col-sm-4 animation" ng-show="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'">
+    <div class="form-group">
+      <label for="tipoprice_i" class="control-label">Tipo</label>
+      <div>
+        <!-- 
+        <label class="radio-inline">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
+            ng-model="vm.Formulario.tipoprice" value="srp" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoprice_i.$error">
+          SRP
+        </label>
+        -->
+
+        <label class="radio-inline">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
+            ng-model="vm.Formulario.tipoprice" value="net" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'net'" fluig-error="form.tipoprice_i.$error">
+          NET
+        </label>
+        <label class="radio-inline">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
+            ng-model="vm.Formulario.tipoprice" value="target" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoprice_i.$error">
+          Target
+        </label>
+      </div>
+      <input type="hidden" name="tipoprice" ng-value="vm.Formulario.tipoprice">
+    </div>
+  </div>
   <div class="col-sm-4 animation" ng-show="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellin'">
     <div class="form-group">
       <label for="tipoSellin_i" class="control-label">Tipo</label>
