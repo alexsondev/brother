@@ -56,7 +56,7 @@ function jsonLocal() {
       { codigo: '3', descricao: 'L&M' },
       { codigo: '4', descricao: 'P&H' },
       { codigo: '5', descricao: 'CRAFT' },
-      { codigo: '6', descricao: 'GT' },
+      { codigo: 'GT', descricao: 'MACHINERY' },
     ]
   };
 }
