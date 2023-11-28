@@ -18,6 +18,7 @@ src/java/*/target/**/*
 /node_modules
 
 # IDE - VSCode
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
