@@ -42,7 +42,7 @@
       <label class="control-label">Valor Total da Verba</label>
       <h1 class="fs-no-margin">{{vm.Formulario.valorTotalVerba | currency}}</h1>
       <input type="hidden" name="valorTotalVerba_f" ng-value="vm.Formulario.valorTotalVerba | currency">
-      <input type="hidden" name="valorTotalVerba" ng-value="vm.Formulario.valorTotalVerba">
+      <input type="hidden" name="valorTotalVerba" ng-value="vm.Formulario.valorTotalVerba.toFixed(2)">
     </div>
   </div>
   <div class="col-sm-4">
@@ -123,11 +123,16 @@
 
 
   <div class="col-sm-3" ng-if="vm.regras.enableEvidencias">
-    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles(vm.Formulario.arquivosEvidencias, null, $files)"
-      ngf-drop="vm.selectFiles(vm.Formulario.arquivosEvidencias, null, $files)" ng-model="files" ngf-multiple="true"
+    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles1('arquivosEvidencias', $files, {})"
+      ngf-drop="vm.selectFiles1('arquivosEvidencias', $files, {})" ng-model="files" ngf-multiple="true"
       ngf-drag-over-class="'dragover'">
       <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
     </div>
+    <!-- <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles(vm.Formulario.arquivosEvidencias, null, $files)"
+      ngf-drop="vm.selectFiles(vm.Formulario.arquivosEvidencias, null, $files)" ng-model="files" ngf-multiple="true"
+      ngf-drag-over-class="'dragover'">
+      <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
+    </div> -->
   </div>
 
   <div ng-class="{'col-sm-9': vm.regras.enableEvidencias, 'col-sm-12': !vm.regras.enableEvidencias}">
@@ -256,8 +261,6 @@
     </tbody>
   </table>
 </div>
-
-
 <!-- inicio anexos -->
 <div class="fs-display-none">
   <table class="table" tablename="anexos" noaddbutton="true" nodeletebutton="true">
@@ -286,7 +289,6 @@
     </tbody>
   </table>
 </div>
-
 <div class="row" ng-show="vm.regras.enableEvidencias">
   <div class="col-sm-12">
     <div class="form-group">

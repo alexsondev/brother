@@ -13,7 +13,20 @@
       <input type="hidden" name="clienteCodigo" ng-value="vm.Formulario.cliente.codigo">
     </div>
   </div>
+
+
 </div>
+<!-- Nome arquivo carga-->
+<div class="row" hidden>
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="nomeArquivoCarga" class="control-label">Nome Arquivo Carga</label>
+      <input type="text" name="nomeArquivoCarga" id="nomeArquivoCarga" class="form-control input-lg">
+
+    </div>
+  </div>
+</div>
+<!--fim-->
 
 <!-- Nome arquivo carga-->
 <div class="row" hidden>
@@ -125,7 +138,7 @@
     <div class="form-group">
       <label for="tipoprice_i" class="control-label">Tipo</label>
       <div>
-      <!-- 
+        <!-- 
         <label class="radio-inline">
           <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
             ng-model="vm.Formulario.tipoprice" value="srp" ng-change="vm.changeTipoAcao()"
@@ -133,7 +146,6 @@
           SRP
         </label>
         -->
-        
         <label class="radio-inline">
           <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
             ng-model="vm.Formulario.tipoprice" value="net" ng-change="vm.changeTipoAcao()"
@@ -149,8 +161,7 @@
       </div>
       <input type="hidden" name="tipoprice" ng-value="vm.Formulario.tipoprice">
     </div>
-  </div>     
-
+  </div>
   <div class="col-sm-4 animation" ng-show="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellin'">
     <div class="form-group">
       <label for="tipoSellin_i" class="control-label">Tipo</label>

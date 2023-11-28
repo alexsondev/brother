@@ -47,8 +47,8 @@
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Início da Ação</label>
-                <input type="checkbox" name="email_iniAcao_i" ng-model="email.iniAcao" id="iniacao" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                <input type="checkbox" name="email_iniAcao_i" ng-model="email.iniAcao" fluig-switch data-off-text="NÃO"
+                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3"
                   ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_iniAcao" ng-value="email.iniAcao">
               </div>
@@ -63,22 +63,33 @@
               <!-- fim ação -->
 
               <div class="col-sm-4 col-md-2">
+                <!-- fim ação -->
+
+                <label for="">Fim da Ação</label>
+                <input type="checkbox" name="email_fimAcao_i" ng-model="email.fimAcao" id="fimacao" fluig-switch
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
+                <input type="hidden" name="email_fimAcao" ng-value="email.fimAcao">
+
+              </div>
+              <div class="col-sm-4 col-md-2">
                 <label for="">Evidências</label>
                 <input type="checkbox" name="email_evidencia_i" ng-model="email.evidencia" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3"
                   ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_evidencia" ng-value="email.evidencia">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Envio ND</label>
                 <input type="checkbox" name="email_envioND_i" ng-model="email.envioND" fluig-switch data-off-text="NÃO"
-                  data-on-text="SIM" data-on-color="success" ng-disabled="!vm.regras.enableValidacaoMarketing">
+                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 4"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_envioND" ng-value="email.envioND">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Pagamento</label>
                 <input type="checkbox" name="email_pagamento_i" ng-model="email.pagamento" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 5"
                   ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_pagamento" ng-value="email.pagamento">
               </div>
@@ -102,8 +113,26 @@
         </tr>
       </tbody>
     </table>
-    <!--MOD reenvio de email-->
-    <!--#############################################################################-->
+    <div class="dropdown fs-float-right" id="div_reenvia" ng-show="vm.regras.showReenvia">
+
+      <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
+
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
+            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
+      </ul>
+    </div>
+    <div ng-show="vm.regras.enableNotificacaoCliente">
+      <div ng-show="vm.regras.enableValidacaoMarketing">
+        <a class="btn btn-default btn-lg" ng-disabled="!vm.regras.enableValidacaoMarketing"
+          ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
+      </div>
+
+    </div>
+    <!-- <div ng-show="vm.regras.enableNotificacaoCliente">
+      <a class="btn btn-default btn-lg" ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
+      <div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0">
+        <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
 
     <!--<div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0 && vm.regras.showFim">-->
     <div class="dropdown fs-float-right" id="div_reenvia" ng-show="vm.regras.showReenvia">
@@ -141,6 +170,6 @@
           ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
       </div>
 
-    </div>
+    </div> -->
   </div>
 </div>

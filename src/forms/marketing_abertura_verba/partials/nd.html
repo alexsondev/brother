@@ -64,7 +64,7 @@
 
 <div class="row">
   <div class="col-sm-3" ng-if="vm.regras.enableND">
-    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles1('arquivosND', $files, $files)"
+    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles1('arquivosND', $files, {})"
       ngf-drop="vm.selectFiles1('arquivosND', $files, {})" ng-model="files" ngf-multiple="true"
       ngf-drag-over-class="'dragover'">
       <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>

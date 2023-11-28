@@ -29,8 +29,8 @@
   <div class="col-sm-12">
     <div class="form-group">
       <label for="obsValidacaoMarketing" class="control-label">Observações</label>
-      <textarea ng-show="vm.regras.enableValidacaoMarketing" fluig-error="form.obsValidacaoMarketing.$error"
-        name="obsValidacaoMarketing" elastic class="form-control input-lg"  ng-required="true"
+      <textarea ng-show="vm.regras.enableValidacaoMarketing" ng-required="true" fluig-error="form.obsValidacaoMarketing.$error"
+        name="obsValidacaoMarketing" elastic class="form-control input-lg"
         placeholder="Caso devolva a solicitação, utilize este campo para informar o motivo"
         ng-model="vm.Formulario.obsValidacaoMarketing" ng-value="vm.Formulario.obsValidacaoMarketing"></textarea>
       <p ng-show="!vm.regras.enableValidacaoMarketing">{{vm.Formulario.obsValidacaoMarketing || 'Sem observações'}}</p>

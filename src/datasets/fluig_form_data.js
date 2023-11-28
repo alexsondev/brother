@@ -1,5 +1,5 @@
 const campos = ['name', 'value'];
-const display = null;
+const display = campos;
 const dePara = campos;
 
 function createDataset(fields, constraints, sortFields) {
@@ -24,11 +24,11 @@ function buscaDataset(fields, constraints, sortFields) {
   if (dsSolicitacao) {
 
     let dsWorkflowProcess = getDataset('workflowProcess', null, [
-      { field: 'processInstanceId', value: dsSolicitacao.solicitacao }
+      { field: 'workflowProcessPK.processInstanceId', value: dsSolicitacao.solicitacao }
     ])[0];
 
     let dsProcessTask = getDataset('processTask', null, [
-      { field: 'processInstanceId', value: dsSolicitacao.solicitacao },
+      { field: 'processTaskPK.processInstanceId', value: dsSolicitacao.solicitacao },
       { field: 'active', value: true },
     ]);
 

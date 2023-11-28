@@ -83,8 +83,6 @@
               </div>
             </div>
           </div>
-
-
           <div
             ng-show="vm.regras.showSolicitacao && vm.Formulario.tipoAcao.tipoAcaoCodigo=='price' && vm.Formulario.cliente.codigo"
             class="panel" id="panelprice" ng-class="vm.regras.enableSolicitacao ? 'panel-primary' : 'panel-default'">
@@ -98,191 +96,9 @@
             </div>
             <div id="collapseprice" class="panel-collapse collapse" ng-class="{'in': vm.regras.enableSolicitacao}">
               <div class="panel-body">
-                <table class="table" tablename="itensprice" noaddbutton="true" nodeletebutton="true"
-                  ng-show="vm.Formulario.itensprice.length > 0">
-                  <thead>
-                    <tr>
-                      <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
-                      <th class="col-sm-11"></th>
-                    </tr>
-                  </thead>
-                  <tbody ng-non-bindable>
-                    <tr ng-repeat="itemprice in vm.Formulario.itensprice track by $index">
-                      <td ng-if="vm.regras.enableSolicitacao">
-                        <span ng-click="vm.removeChild(vm.Formulario.itensprice, itemprice)"
-                          class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
-                      </td>
-                      <td>
-                        <div class="td-content">
-                          <div class="row" ng-show="vm.Formulario.tipoprice == 'target'">
-                            <div class="col-sm-4">
-                              <label>Target</label>
-                              <input class="form-control input-lg" name="itemprice_target" ng-model="itemprice.target"
-                                ng-value="itemprice.target" ng-readonly="!vm.regras.enableSolicitacao">
 
-                            </div>
-                            <div class="col-sm-8">
-                              <label>Finalidade</label>
-                              <input class="form-control input-lg" name="itemprice_finalidade"
-                                ng-model="itemprice.finalidade" ng-value="itemprice.finalidade"
-                                ng-readonly="!vm.regras.enableSolicitacao">
-                            </div>
-                          </div>
-
-                          <div class="row" ng-show="vm.Formulario.tipoprice != 'target'">
-                            <div class="col-sm-4">
-                              <label>Cód. Item</label>
-                              <input class="form-control input-lg" name="itemprice_itemC_i" fluig-autocomplete
-                                dataset="totvs_busca_item" display-key="codigo" ng-model="itemprice.item"
-                                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemprice.loading"
-                                ng-change="itemprice.alterado = true;vm.changeItemprice(itemprice, $index)">
-
-                            </div>
-                            <div class="col-sm-8">
-                              <label>Descrição</label>
-                              <input class="form-control input-lg" name="itemprice_itemD_i" fluig-autocomplete
-                                dataset="totvs_busca_item" display-key="descricao" ng-model="itemprice.item"
-                                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemprice.loading"
-                                ng-change="itemprice.alterado = true;vm.changeItemprice(itemprice, $index)">
-                            </div>
-
-                            <textarea hidden name="itemprice_item" ng-value="itemprice.item | json:0"
-                              ng-bind="itemprice.item | json:0"></textarea>
-                            <input type="hidden" name="itemprice_itemDescricao" ng-value="itemprice.item.descricao">
-                            <input type="hidden" name="itemprice_itemCodigo" ng-value="itemprice.item.codigo">
-                          </div>
-
-                          <div class="row" ng-show="vm.Formulario.tipoprice == 'srp'">
-                            <div class="col-sm-4">
-                              <label>SRP Inicial</label>
-                              <input class="form-control input-lg" name="itemprice_srpInicial_i" fluig-money-mask="5"
-                                fluig-negative-number fluig-negative-number ng-model="itemprice.srpInicial"
-                                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemprice)"
-                                ng-change="itemprice.alterado = true">
-                              <input type="hidden" name="itemprice_srpInicial_f"
-                                ng-value="itemprice.srpInicial | currency">
-                              <input type="hidden" name="itemprice_srpInicial" ng-value="itemprice.srpInicial">
-                            </div>
-
-                            <div class="col-sm-4">
-                              <label>SRP Sugerido</label>
-                              <input class="form-control input-lg" name="itemprice_srpSugerido_i" fluig-money-mask="5"
-                                fluig-negative-number fluig-negative-number ng-model="itemprice.srpSugerido"
-                                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemprice)"
-                                ng-change="itemprice.alterado = true">
-                              <input type="hidden" name="itemprice_srpSugerido_f"
-                                ng-value="itemprice.srpSugerido | currency">
-                              <input type="hidden" name="itemprice_srpSugerido" ng-value="itemprice.srpSugerido">
-                            </div>
-                          </div>
-
-                          <div class="row animation" ng-show="vm.Formulario.tipoprice != 'target'">
-                            <div class="col-sm-4">
-                              <label>Net R$ Inicial</label>
-                              <input class="form-control input-lg" name="itemprice_netInicial_i"
-                                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                                fluig-negative-number ng-model="itemprice.netInicial"
-                                ng-change="itemprice.alterado = true;vm.calculaItemErp(itemprice)"
-                                ng-disabled="vm.Formulario.tipoprice != 'net'">
-                              <input type="hidden" name="itemprice_netInicial_f"
-                                ng-value="itemprice.netInicial | currency">
-                              <input type="hidden" name="itemprice_netInicial" ng-value="itemprice.netInicial">
-                            </div>
-
-                            <div class="col-sm-4">
-                              <label>Net R$ Sugerido</label>
-                              <input class="form-control input-lg" name="itemprice_netSugerido_i"
-                                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                                fluig-negative-number ng-model="itemprice.netSugerido"
-                                ng-change="itemprice.alterado = true;vm.calculaItemErp(itemprice)"
-                                ng-disabled="vm.Formulario.tipoprice != 'net'">
-                              <input type="hidden" name="itemprice_netSugerido_f"
-                                ng-value="itemprice.netSugerido | currency">
-                              <input type="hidden" name="itemprice_netSugerido" ng-value="itemprice.netSugerido">
-                            </div>
-
-                          </div>
-
-                          <div class="row animation">
-                            <div class="col-sm-4">
-                              <label>Rebate Unit</label>
-                              <input class="form-control input-lg" name="itemprice_rebateUnit_i"
-                                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                                fluig-negative-number ng-model="itemprice.rebateUnit"
-                                ng-change="vm.calculaRebateTotal(itemprice)"
-                                ng-disabled="vm.Formulario.tipoprice != 'target'">
-                              <input type="hidden" name="itemprice_rebateUnit_f"
-                                ng-value="itemprice.rebateUnit | currency">
-                              <input type="hidden" name="itemprice_rebateUnit" ng-value="itemprice.rebateUnit">
-                            </div>
-
-                            <div class="col-sm-4">
-                              <label>Qtde</label>
-                              <input class="form-control input-lg" name="itemprice_qtde_i" fluig-number-mask="2"
-                                fluig-negative-number ng-model="itemprice.qtde"
-                                ng-readonly="!vm.regras.enableSolicitacao" ng-change="vm.calculaRebateTotal(itemprice)">
-                              <input type="hidden" name="itemprice_qtde_f" ng-value="itemprice.qtde | number:'2'">
-                              <input type="hidden" name="itemprice_qtde" ng-value="itemprice.qtde">
-                            </div>
-
-                          </div>
-                          <div class="row animation">
-                            <div class="col-sm-2 animation" ng-show="vm.Formulario.tipoprice != 'target'">
-                              <label>Categoria</label>
-                              <input class="form-control input-lg" name="itemprice_categoria"
-                                ng-value="itemprice.item.categoria" disabled>
-                            </div>
-                            <div class="col-sm-2" ng-show="vm.Formulario.tipoprice != 'target'">
-                              <label>Centro de Custo</label>
-                              <input class="form-control input-lg" name="itemprice_ccusto"
-                                ng-value="itemprice.item.ccusto" disabled>
-                            </div>
-
-                            <div class="col-sm-4">
-                              <label>Rebate Total</label>
-                              <input class="form-control input-lg" name="itemprice_rebateTotal_i" fluig-money-mask="2"
-                                fluig-negative-number ng-model="itemprice.rebateTotal" disabled>
-                              <input type="hidden" name="itemprice_rebateTotal_f"
-                                ng-value="itemprice.rebateTotal | currency">
-                              <input type="hidden" name="itemprice_rebateTotal" ng-value="itemprice.rebateTotal">
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="col-sm-12">
-                              <!-- <h4>{{itemprice.usuario.colleagueName}} incluiu em {{itemprice.data | date}}</h4> -->
-                              <textarea hidden name="itemprice_usuario" ng-value="itemprice.usuario | json:0"
-                                ng-bind="itemprice.usuario | json:0"></textarea>
-                              <input type="hidden" name="itemprice_usuarioCodigo"
-                                ng-value="itemprice.usuario.colleagueId">
-                              <input type="hidden" name="itemprice_usuarioNome"
-                                ng-value="itemprice.usuario.colleagueName">
-                              <input type="hidden" name="itemprice_data_f" ng-value="itemprice.data | date:'fullDate'">
-                              <input type="hidden" name="itemprice_data" ng-value="itemprice.data">
-
-                            </div>
-                          </div>
-
-                          <input type="hidden" name="itemprice_qtdEvidencia_f"
-                            ng-value="itemprice.qtdEvidencia | number:'2'">
-                          <input type="hidden" name="itemprice_valEvidencia_f"
-                            ng-value="itemprice.valEvidencia | currency">
-                          <input type="hidden" name="itemprice_totEvidencia_f"
-                            ng-value="itemprice.totEvidencia | currency">
-
-                          <input type="hidden" name="itemprice_qtdEvidencia" ng-value="itemprice.qtdEvidencia">
-                          <input type="hidden" name="itemprice_valEvidencia" ng-value="itemprice.valEvidencia">
-                          <input type="hidden" name="itemprice_totEvidencia" ng-value="itemprice.totEvidencia">
-
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
-                  ng-click="vm.incluiItem(vm.Formulario.itensprice)">Incluir
-                  Item</a>
+                <!-- partial:partials/price.html -->
+                <!-- partial -->
               </div>
             </div>
           </div>
@@ -449,9 +265,6 @@
             </div>
           </div>
 
-
-          <!-- ============================inicio do anexo=================================== -->
-
           <div ng-show="vm.regras.showAnexo" class="panel" id="panelSolicitacao"
             ng-class="vm.regras.showAnexo ? 'panel-primary' : 'panel-default'" name="anexo">
             <div class="panel-heading">
@@ -463,72 +276,11 @@
             </div>
             <div id="collapseAnexo" class="panel-collapse collapse" ng-class="{'in': vm.regras.showAnexo}">
               <div class="panel-body">
-
-                <div class="col-sm-3">
-                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles1('anexos', $files, {})"
-                    ngf-drop="vm.selectFiles1('anexos', $files, {})" ng-model="files" ngf-multiple="true"
-                    ngf-drag-over-class="'dragover'">
-                    <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
-                  </div>
-                </div>
-
-                <div ng-class="{'col-sm-9': vm.regras.showAnexo, 'col-sm-12': !vm.regras.showAnexo}">
-                  <div ng-show="vm.Formulario.anexos.length == 0">
-                    <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
-                  </div>
-
-                  <div class="table" ng-show="vm.regras.showAnexo">
-                    <div ng-repeat="arquivo in vm.Formulario.anexos" ng-show="!arquivo.removed" class="row">
-                      <div class="col-sm-1">
-                        <span ng-click="vm.removeArquivo(arquivo)" ng-if="vm.regras.showAnexo"
-                          class="flaticon icon-lg flaticon-trash fs-cursor-pointer"></span>
-                        <span ng-if="arquivo.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
-                      </div>
-                      <div class="col-sm-11">
-                        <!-- aqui tem -->
-                        <div class="row">
-                          <div class="col-sm-12"><label>Descrição do Arquivo</label>
-                            <input type="text" name="descriarqu" class="form-control input-lg" ng-required="true"
-                              fluig-error="form.descricaoArquivo.$error" ng-model="arquivo.descricao"
-                              ng-value="arquivo.descricao" ng-change="vm.alterado = true" ng-blur="vm.uploadFiles()"
-                              placeholder="Descrição do arquivo">
-                            <h4 class="fs-no-margin" ng-if="!vm.regras.showAnexo || arquivo.aceito">
-                              {{arquivo.descricao}}</h4>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12 div_arq">
-                            <a target="_blank" href="{{arquivo.url}}">
-                              <h4>
-                                <iclass="flaticon flaticon-link icon-md">
-                                  </iclass=>{{arquivo.nome || 'Sem descrição'}}
-                              </h4>
-                            </a>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div style="padding-top: 10px">
-                              <div ng-if="!arquivo.aceito && arquivo.motivoRecusa" class="alert alert-warning"
-                                role="alert">
-                                <p>Arquivo Recusado. Motivo: {{arquivoEv.motivoRecusa}}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
+                <!-- partial:partials/anexo.html -->
+                <!-- partial -->
               </div>
-
             </div>
           </div>
-
-          <!---================================fim do anexo==================================-->
-
 
           <div ng-show="vm.regras.showSolicitacao" class="panel" id="panelSolicitacao"
             ng-class="vm.regras.enableSolicitacao ? 'panel-primary' : 'panel-default'" id="panelRateio">
@@ -795,20 +547,20 @@
           </div>
 
           <div ng-show="vm.regras.showNotificacaoCliente" class="panel" id="panelNotificacaoCliente"
-            ng-class="vm.regras.enableNotificacaoCliente ? 'panel-primary' : 'panel-default'">
+            ng-class="vm.regras.enableNotificacaoCliente3 ? 'panel-primary' : 'panel-default'">
             <div class="panel-heading">
               <h4 class="panel-title">
                 <input type="hidden" name="notificacaoEtapa" ng-value="vm.Formulario.notificacaoEtapa">
-                <a class="collapse-icon" ng-class="{'up': vm.regras.enableNotificacaoCliente}" data-toggle="collapse"
+                <a class="collapse-icon" ng-class="{'up': vm.regras.enableNotificacaoCliente3}" data-toggle="collapse"
                   href="#collapseNotificacaoCliente">
                   Notificar Cliente
                 </a>
               </h4>
             </div>
             <div id="collapseNotificacaoCliente" class="panel-collapse collapse"
-              ng-class="{'in': vm.regras.enableNotificacaoCliente}">
+              ng-class="{'in': vm.regras.enableNotificacaoCliente3}">
               <div class="panel-body">
-                <!-- partial:partials/autorizarNotificacaoCliente.html -->
+                <!-- partial:partials/notificacaoCliente.html -->
                 <!-- partial -->
               </div>
             </div>
