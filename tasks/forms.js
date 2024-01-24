@@ -40,6 +40,12 @@ const forms = () => src([`${params.srcdir}/forms/${params.form}`])
         }))
         .pipe(dest(`./${params.builddir}/forms/${dir.relative}/events`));
 
+      src(`${params.srcdir}/forms/partials/events/**`)
+        .pipe(babel({
+          presets: ['@babel/env']
+        }))
+        .pipe(dest(`./${params.builddir}/forms/${dir.relative}/events`));
+
       src(`${dir.path}/resources/**`)
         .pipe(dest(`./${params.builddir}/forms/${dir.relative}`));
     }

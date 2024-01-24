@@ -5,6 +5,7 @@ angular
       const vm = this;
 
       vm.Errors = [];
+      console.log("🚀 ~ file: documentacao.js:8 ~ BrotherDocumentacaoMarketingController ~ Error:", Error)
       vm.loader = FLUIGC.loading('.container');
 
       vm.inicia = () => {
@@ -29,7 +30,9 @@ angular
           vm.Textos = response.data;
           // vm.showConfirmPage();
         }, (error) => {
+          console.log("🚀 ~ file: documentacao.js:32 ~ $http.get ~ error:", error)
           $log.log(error);
+          console.log("🚀 ~ file: documentacao.js:34 ~ $http.get ~ error:", error)
         });
 
         $http.get(`/brother-api/v1/marketing/search/${vm.Param.guid}`)
@@ -44,8 +47,10 @@ angular
             vm.setRegras();
             vm.getItens();
           }, (error) => {
+            console.log("🚀 ~ file: documentacao.js:49 ~ .then ~ error:", error)
             vm.done = true;
             $log.log(error);
+            console.log("🚀 ~ file: documentacao.js:52 ~ .then ~ error:", error)
           });
       };
 
@@ -160,89 +165,77 @@ angular
         vm.Params.edit = vm.regras.enableEnvioEvidencias || vm.regras.enableND || vm.regras.enablePagamento;
       };
 
-      vm.salvar = function salvar(completeTask) {
-        if (!vm.alterado) return;
-        if (vm.loading) {
-          
-          if (vm.timer) clearInterval(vm.timer);
+      vm.salvar = async (completeTask) => {
+      console.log("🚀 ~ file: documentacao.js:164 ~ vm.sal ~ completeTask:", completeTask)
 
-          vm.timer = setTimeout(() => vm.salvar(completeTask),5000)
-
-          return;
-        }
-
-        vm.alterado = false;
-
+        if (!vm.alterado || vm.loading) return;
+        
         vm.loading = true;
 
-        let notUploaded = false;
-        vm.Formulario.evidencias.forEach((arquivo) => {
-          if (!arquivo.url) {
-            notUploaded = true;
-          }
-        });
+        if (completeTask) vm.loader.show();
+        
+        vm.completeTask = completeTask || false;
 
-        if (notUploaded) {
-          return;
+        console.log("🚀 ~ file: documentacao.js:183 ~ vm.sal ~ vm.Formulario:", vm.Formulario)
+        try {
+          await $http.post('/brother-api/v1/marketing/update', vm.Formulario, { headers: { guid: vm.Param.guid, completeTask: vm.completeTask } })
+
+          if (completeTask) vm.loader.hide();
+
+          vm.setRegras();
+          if (completeTask) {
+            vm.showConfirmPage();
+          }
+
+          vm.completeTask = false;
+          vm.loading = false;
+          
+        } catch(error) {
+          console.log("🚀 ~ file: documentacao.js:190 ~ vm.sal ~ error:", error)
+          vm.loading = false;
+
+          FLUIGC.toast({
+            title: 'Oops.. ocorreram erros ao enviar seus dados.',
+            message: `Por favor, tente novamente em alguns minutos`,
+            type: 'danger',
+            timeout: 5000
+          });
+          
+          if (completeTask) {
+            vm.completeTask = false;
+            vm.loader.hide();
+          }
         }
 
-        if (completeTask) vm.loader.show();
-
-        vm.completeTask = completeTask;
-        $http.post('/brother-api/v1/marketing/update', vm.Formulario, { headers: { guid: vm.Param.guid, completeTask: completeTask } })
-          .then(() => {
-
-            if (completeTask) vm.loader.hide();
-
-            vm.setRegras();
-            if (completeTask) {
-              vm.showConfirmPage();
-            }
-
-            vm.completeTask = false;
-            vm.loading = false;
-
-          }, (error) => {
-            
-            vm.loading = false;
-
-            FLUIGC.toast({
-              title: 'Oops.. ocorreram erros ao enviar seus dados.',
-              message: `Por favor, tente novamente em alguns minutos`,
-              type: 'danger'
-            });
-            
-            if (completeTask) {
-              vm.completeTask = false;
-              vm.loader.hide();
-            }
-            
-          });
+        
       };
 
-      vm.selectFiles = function selectFiles(tablename, files, item) {
+      vm.selectFiles = async function selectFiles(tablename, files, item) {
         if (!vm.Formulario[tablename]) {
           vm.Formulario[tablename] = [];
         }
 
-        files.forEach((file) => {
+        await Promise.all( files.map(async (file) => {
           file.nome = file.name;
           // file.descricao = file.name;
           file.tipo = file.type;
           file.item = item || {};
           vm.Formulario[tablename].push(file);
-          vm.upload(file);
-        });
+          console.log("🚀 ~ file: documentacao.js:236 ~ files.forEach ~ file:", file)
+          return await vm.upload(file);
+        }))
+        await vm.salvar()
+        console.log("🚀 ~ file: documentacao.js:241 ~ selectFiles ~ vm.salvar()")
       };
 
-      vm.upload = function upload(file) {
-        Upload.upload({
+      vm.upload = async function upload(file) {
+        await Upload.upload({
           url: '/brother-api/v1/file/upload',
           data: {
             file,
             parentDocumentId: vm.Formulario.folderAttach
           }
-        }).then((resp) => {
+        }).then(async (resp) => {
           file.documentid = resp.data.documentid;
           file.numero = '';
           file.descricao = '';
@@ -257,12 +250,14 @@ angular
           $log.log(file);
 
           vm.alterado = true;
-          vm.salvar();
+          // await vm.salvar();
+
         }, (resp) => {
           FLUIGC.toast({
             title: 'Oops.. ocorreram erros ao enviar seus dados.',
             message: `Por favor, tente novamente em alguns minutos`,
-            type: 'danger'
+            type: 'danger',
+            timeout: 5000
           });
         }, (evt) => {
           file.progressPercentage = parseInt((100.0 * evt.loaded) / evt.total, 10);
@@ -282,21 +277,25 @@ angular
 
       vm.enviar = function enviar() {
         const Errors = [];
+        console.log("🚀 ~ file: documentacao.js:279 ~ enviar ~ Error:", Error)
 
         if (vm.regras.enableEnvioEvidencias) {
           vm.Formulario.evidencias.forEach((arquivo) => {
             if (!arquivo.descricao && !arquivo.removed) {
               Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
             }
+              console.log("🚀 ~ file: documentacao.js:286 ~ vm.Formulario.evidencias.forEach ~ Error:", Error)
           });
 
           vm.ItensEvidencia.forEach((item) => {
             if (vm.Formulario[item.tablename][item.index].valEvidencia === 0) {
               Errors.push(`<li>Informe o valor no item ${item.descricao}</li>`);
             }
+              console.log("🚀 ~ file: documentacao.js:293 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
             // if (vm.Formulario[item.tablename][item.index].qtdEvidencia === 0) {
             //   Errors.push(`<li>Informe a quantidade no item ${item.descricao}</li>`);
             // }
+            console.log("🚀 ~ file: documentacao.js:297 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
 
             vm.calculaTotalItemEvidencia(item);
           });
@@ -308,21 +307,27 @@ angular
               if (!arquivo.descricao) {
                 Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
               }
+                console.log("🚀 ~ file: documentacao.js:309 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!arquivo.numero) {
                 Errors.push(`<li>Informe o número da ND no arquivo ${arquivo.nome}</li>`);
               }
+                console.log("🚀 ~ file: documentacao.js:313 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!isNaN(Number(arquivo.numero)) && Number(arquivo.numero) === 0) {
                 Errors.push(`<li>Número da ND no arquivo ${arquivo.nome} deve ser diferente de 0</li>`);
               }
+                console.log("🚀 ~ file: documentacao.js:317 ~ vm.Formulario.nd.forEach ~ Error:", Error)
             }
           });
         }
 
         if (Errors.length > 0) {
+          console.log("🚀 ~ file: documentacao.js:323 ~ enviar ~ Error:", Error)
           FLUIGC.toast({
             title: 'Oops.. ocorreram erros ao enviar seus dados:',
             message: `<ul>${Errors.join('')}</ul>`,
-            type: 'danger'
+            type: 'danger',
+            timeout: 5000
+            
           });
           return;
         }

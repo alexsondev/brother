@@ -166,7 +166,7 @@ function validateForm(form) {
       // 2. Devolver para Solicitante
       if (nextStateTxt == `revisarSolicitacao`) {
         if (!obsValidacaoMarketing && !comments) {
-          // Errors.push(`Informe o motivo da reprovação 1`);
+          Errors.push(`Informe o motivo da reprovação`);
         }
       }
     }
@@ -179,7 +179,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarMarketing`) {
         if (!obsAprovGerMarketing) {
-          // Errors.push(`Informe o motivo da reprovação 2`);
+          Errors.push(`Informe o motivo da reprovação `);
         }
       }
     }
@@ -190,9 +190,9 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `revisarSolicitacao`) {
+      if (nextStateTxt == `validarMarketing`) {
         if (!obsAprovPresidenciaVp) {
-          // Errors.push(`Informe o motivo da reprovação 3`);
+          Errors.push(`Informe o motivo da reprovação `);
         }
       }
     }
@@ -205,7 +205,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarEvidencias`) {
         if (!obsAprovVerbaMaior) {
-          // Errors.push(`Informe o motivo da reprovação 4`);
+          Errors.push(`Informe o motivo da reprovação`);
         }
       }
     }
@@ -218,7 +218,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarEvidencias`) {
         if (!obsAprovVerbaMenor) {
-          // Errors.push(`Informe o motivo da reprovação 5`);
+          Errors.push(`Informe o motivo da reprovação 5`);
         }
       }
     }
@@ -240,7 +240,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableValidacaoEvidencias) {
+    if (currentStateTxt == 'validarEvidencias') {
       // 1. Enviar para Aprovação
       if (nextStateTxt == `gtwAprovarVerbaMaior`) {
 
@@ -273,7 +273,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableND) {
+    if (currentStateTxt == 'validarND') {
       if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_descricao).length > 0) {
         Errors.push(`Informe a descrição de todos os arquivos de ND`);
       }
@@ -283,7 +283,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableValidacaoND) {
+    if (currentStateTxt == 'validarND') {
       // 1. Aprovar
       if (nextStateTxt == `conferirFinanceiro`) {
         if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_aceito).length > 0) {

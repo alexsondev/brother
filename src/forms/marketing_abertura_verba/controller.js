@@ -316,12 +316,12 @@ angular
           },
 
           { regra: 'showNotificacaoCliente', def: true, etapas: vm.etapas },
-          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: vm.etapas },
+          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: ['analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'enviarEvidencias','validarEvidencias', 'autorizarNotificacaoPagamento'] },
           { //mudança ACL
             regra: 'enableNotificacaoCliente3',
             def: true,
             etapas: ['consulta', 'inicio', 'revisarSolicitacao', 'aprovarGerMarketing', 'aprovarPresidencia',
-              'analisarErros', 'autorizarNotificacaoInicio', 'aguardandoFimDaAcao', 'enviarEvidencias',
+              'analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'aguardandoFimDaAcao', 'enviarEvidencias',
               'validarEvidencias', 'aprovarVerbaMaior', 'aprovarVerbaMenor', 'enviarND', 'validarND', 'gerenciarVales',
               'conferirFinanceiro', 'aprovarPagamento', 'atualizarStatus', 'autorizarNotificacaoPagamento'
             ]
@@ -1009,26 +1009,26 @@ angular
                 // 'qtdEvidencia', 'valEvidencia', 'totEvidencia'
               ]
           },
-          {
-            tablename: "itensSellout",
-            fieldPrefix: "itemSellout",
-            fields: [
-              "target",
-              "finalidade",
-              "item",
-              "srpInicial",
-              "srpSugerido",
-              "netInicial",
-              "netSugerido",
-              "rebateUnit",
-              "qtde",
-              "rebateTotal",
-              "data",
-              "qtdEvidencia",
-              "valEvidencia",
-              "totEvidencia",
-            ],
-          },
+          // {
+          //   tablename: "itensSellout",
+          //   fieldPrefix: "itemSellout",
+          //   fields: [
+          //     "target",
+          //     "finalidade",
+          //     "item",
+          //     "srpInicial",
+          //     "srpSugerido",
+          //     "netInicial",
+          //     "netSugerido",
+          //     "rebateUnit",
+          //     "qtde",
+          //     "rebateTotal",
+          //     "data",
+          //     "qtdEvidencia",
+          //     "valEvidencia",
+          //     "totEvidencia",
+          //   ],
+          // },
           {
             tablename: "itensSellinIt",
             fieldPrefix: "itemSellinIt",
@@ -1796,21 +1796,21 @@ angular
         if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case 'sellout':
-              "net" == vm.Formulario.tipoSellout ? (vm.Formulario.itensSellout.forEach(function (o) {
-                vm.Formulario.valorTotalVerba += o.rebateTotal || 0, vm.Formulario.gpMedioSugerido += o.gpSugerido || 0, a++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / a, vm.calculaPercCategoria()) : (vm.Formulario.itensSellout.forEach(function (a) {
-                vm.Formulario.valorTotalVerba += $window.rebateTotal || 0
-              }), vm.Formulario.itensSellout.forEach(function (o) {
-                vm.Formulario.valorTotalVerba += o.rebateTotal || 0
+              "net" == vm.Formulario.tipoSellout ? (vm.Formulario.itensSellout.forEach((it) => {
+                vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensSellout.forEach(function (it) {
+                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
+              }), vm.Formulario.itensSellout.forEach(function (it) {
+                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
               }));
               break;
             case "price":
-              "net" == vm.Formulario.tipoprice ? (vm.Formulario.itensprice.forEach(function (o) {
-                vm.Formulario.valorTotalVerba += o.rebateTotal || 0, vm.Formulario.gpMedioSugerido += o.gpSugerido || 0, a++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / a, vm.calculaPercCategoria()) : (vm.Formulario.itensprice.forEach(function (a) {
-                vm.Formulario.valorTotalVerba += a.vlTotal || 0
-              }), vm.Formulario.itensprice.forEach(function (a) {
-                vm.Formulario.valorTotalVerba += a.vlTotal || 0
+              "net" == vm.Formulario.tipoprice ? (vm.Formulario.itensprice.forEach( (it) => {
+                vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensprice.forEach( (it) => {
+                vm.Formulario.valorTotalVerba += it.vlTotal || 0
+              }), vm.Formulario.itensprice.forEach(function (it) {
+                vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }));
               break;
             case 'sellin':

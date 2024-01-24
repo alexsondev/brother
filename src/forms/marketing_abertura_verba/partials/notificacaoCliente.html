@@ -62,16 +62,7 @@
               </div>
               <!-- fim ação -->
 
-              <div class="col-sm-4 col-md-2">
-                <!-- fim ação -->
 
-                <label for="">Fim da Ação</label>
-                <input type="checkbox" name="email_fimAcao_i" ng-model="email.fimAcao" id="fimacao" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
-                  ng-disabled="!vm.regras.enableValidacaoMarketing">
-                <input type="hidden" name="email_fimAcao" ng-value="email.fimAcao">
-
-              </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Evidências</label>
                 <input type="checkbox" name="email_evidencia_i" ng-model="email.evidencia" fluig-switch
@@ -129,47 +120,5 @@
       </div>
 
     </div>
-    <!-- <div ng-show="vm.regras.enableNotificacaoCliente">
-      <a class="btn btn-default btn-lg" ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
-      <div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0">
-        <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
-
-    <!--<div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0 && vm.regras.showFim">-->
-    <div class="dropdown fs-float-right" id="div_reenvia" ng-show="vm.regras.showReenvia">
-
-      <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
-
-      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
-            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
-      </ul>
-    </div>
-
-    <!--#############################################################################-->
-
-
-    <!--
-                      <div class="col-sm-3 dropdown fs-float-right" ng-show="vm.regra.showResumo">
-                        
-                        <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown" role="menuitem" tabindex="-1" 
-                        ng-repeat="type in vm.NotificationTypes"
-                        ng-click="vm.reenviaNotificacao(null, type)">Reenviar Para Todos (novo)</a>
-  
-                        
-                          
-                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                          <li role="presentation"><a role="menuitem" tabindex="-1" 
-                            ng-repeat="type in vm.NotificationTypes"
-                            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
-                        </ul> 
-                      </div>-->
-    <!--FIM MUDANÇAS-->
-    <div ng-show="vm.regras.enableNotificacaoCliente">
-      <div ng-show="vm.regras.enableValidacaoMarketing">
-        <a class="btn btn-default btn-lg" ng-disabled="!vm.regras.enableValidacaoMarketing"
-          ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
-      </div>
-
-    </div> -->
   </div>
 </div>
