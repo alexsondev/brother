@@ -56,6 +56,7 @@ function validateForm(form) {
 
   const obsConferenciaFinanceiro = value(form, `obsConferenciaFinanceiro`);
   const difValorLiberado = value(form, `difValorLiberado`);
+  const aprovarDiferenca = value(form, `aprovarDiferenca`);
   const obsAprovPagamento = value(form, `obsAprovPagamento`);
   const suspenderAcao = value(form, `suspenderAcao`);
 
@@ -308,7 +309,13 @@ function validateForm(form) {
       // 1. Aprovar
       if (nextStateTxt == `aprovarPagamento`) {
         if (difValorLiberado != 0) {
-          Errors.push(`O valor total das antecipações deve ser igual ao total liberado na ação`);
+          if (!aprovarDiferenca) {
+            Errors.push(`O valor total das antecipações deve ser igual ao total liberado na ação`);
+          } else {
+            if (!obsConferenciaFinanceiro) {
+              Errors.push(`Justifique a diferença no saldo`);
+            }
+          }
         }
       }
       // 2. Devolver para Marketing
