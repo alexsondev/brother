@@ -1,4 +1,4 @@
-const callDatasul = async (programa, metodo, json, tenantId, properties, usuario) => {
+const callDatasul =  (programa, metodo, json, tenantId, properties, usuario) => {
 
   properties = properties || {};
   usuario = usuario || 'super';
@@ -41,9 +41,9 @@ const callDatasul = async (programa, metodo, json, tenantId, properties, usuario
   let resp;
 
   if (tenantId) {
-    resp = await client.callProcedureWithTokenAndCompany(token, tenantId, programa, metodo, jsonParams);
+    resp =  client.callProcedureWithTokenAndCompany(token, tenantId, programa, metodo, jsonParams);
   } else {
-    resp = await client.callProcedureWithToken(token, programa, metodo, jsonParams);
+    resp =  client.callProcedureWithToken(token, programa, metodo, jsonParams);
   }
 
   // Converte o resultado para um objeto

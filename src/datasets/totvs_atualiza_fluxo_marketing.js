@@ -41,7 +41,7 @@ function buscaDataset(fields, constraints, sortFields) {
   ]);
 
   // busca filhos e monta params 
-  
+
   let solicitacaoCampos = [
     { name: 'solicitacao' }, { name: 'importado' }, { name: 'clienteCodigo' }, { name: 'tipoAcaoDescricao' }, { name: 'tipoAcaoCodigo' },
     { name: 'inicioAcao', type: 'date' }, { name: 'terminoAcao', type: 'date' }, { name: 'tipoQuantidade' }, { name: 'nomeAcao' },
@@ -56,10 +56,12 @@ function buscaDataset(fields, constraints, sortFields) {
 
   ]
 
-  log.info(`solicitacoes.length = ${solicitacoes.length}`);
+  // log.info(`solicitacoes.length = ${extSolicitacoes.length}`);
   let json = {};
+  let ttErro = [];
+  let ttStatus = [];
 
-  extSolicitacoes.forEach( (extSolicitacao) => {
+  extSolicitacoes.forEach((extSolicitacao, seq) => {
     // extSolicitacoes.forEach(async (extSolicitacao) => {
 
     let ttParams = {
@@ -75,7 +77,7 @@ function buscaDataset(fields, constraints, sortFields) {
       ttVpcEvt: [],
       ttVpcOutros: []
     }
-  
+
     let solicitacao = getDataset('marketing_abertura_verba', null, [
       { field: 'solicitacao', value: extSolicitacao.solicitacao },
       // { field: 'pendenteTotvs', value: 'S' },
@@ -244,14 +246,20 @@ function buscaDataset(fields, constraints, sortFields) {
     // log.info(`*** totvs_atualiza_fluxo_marketing 1 ${JSON.stringify(ttParams)}`);
 
     // const json = jsonLocal();
-    
+
     try {
       json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+      ttStatus.concat(json.ttStatus)
     } catch (error) {
+      log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
+      
       json = {}
+      ttErro.push({
+        mensagem: `THROW ${solicitacao.solicitacao} ${seq}: ${error}`
+      })
     }
 
-    // log.info('*** totvs_atualiza_fluxo_marketing 2');
+    // log.info(`*** totvs_atualiza_fluxo_marketing 2. json: ${JSON.stringify(json)}`);
 
     if (json && json.ttStatus) {
       // log.info('*** totvs_atualiza_fluxo_marketing entrou na json.ttStatus')
@@ -265,9 +273,10 @@ function buscaDataset(fields, constraints, sortFields) {
     // }
   });
 
-  
 
-  return montaDataset(json.ttErro, json.ttStatus, campos, display, dePara, true);
+  // log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
+
+  return montaDataset(ttErro, ttStatus, campos, display, dePara, true);
 }
 
 function replaceSpecialChars(str) {
