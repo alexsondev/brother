@@ -1178,7 +1178,7 @@ angular
           vm.Formulario.evRecusada =
             vm.Formulario.arquivosEvidencias.filter(
               (arquivo) => !arquivo.removed && !arquivo.aceito
-            ).length > 0;
+            ).length > 0 && !vm.Formulario.suspenderAcao;
           vm.Formulario.revisao = vm.Formulario.evRecusada;
           if (vm.Formulario.evRecusada) {
             vm.Formulario.notificacaoEtapa = "ENVIO DAS EVIDÊNCIAS";
@@ -1200,7 +1200,7 @@ angular
             vm.Formulario.ndRecusada =
               vm.Formulario.arquivosND.filter(
                 (arquivo) => !arquivo.removed && !arquivo.aceito
-              ).length > 0;
+              ).length > 0 && !vm.Formulario.suspenderAcao;
             vm.Formulario.revisao = vm.Formulario.ndRecusada;
             if (vm.Formulario.ndRecusada) {
               vm.Formulario.notificacaoEtapa = "ENVIO DA ND";
