@@ -41,34 +41,42 @@ function buscaDataset(fields, constraints, sortFields) {
   ]);
 
   // busca filhos e monta params 
-  ttParams = {
-    ttParam: [],
-    ttRateioCategoria: [],
-    ttSellout: [],
-    ttSellinItem: [],
-    ttSellinTarget: [],
-    ttSellinTargetAc: [],
-    ttSpiffItem: [],
-    ttSpiffTarget: [],
-    ttVpcEvt: [],
-    ttVpcOutros: []
-  }
 
   let solicitacaoCampos = [
     { name: 'solicitacao' }, { name: 'importado' }, { name: 'clienteCodigo' }, { name: 'tipoAcaoDescricao' }, { name: 'tipoAcaoCodigo' },
     { name: 'inicioAcao', type: 'date' }, { name: 'terminoAcao', type: 'date' }, { name: 'tipoQuantidade' }, { name: 'nomeAcao' },
-    { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
+    { name: 'tipoprice' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
     { name: 'valorTotalVerba', type: 'decimal' }, { name: 'gpMedioSugerido', type: 'perc' }, { name: 'numControle' },
     { name: 'dataAbertura', type: 'date' }, { name: 'solicitanteNome' }, { name: 'solicitanteCodigo' }, { name: 'atividade' },
     { name: 'responsavel' }, { name: 'statusAprovGerMarketing' }, { name: 'dataAprovGerMarketing', type: 'date' },
     { name: 'userAprovGerMarketingNome' }, { name: 'userAprovGerMarketingCodigo' }, { name: 'obsAprovGerMarketing' },
     { name: 'statusAprovPresidenciaVp' }, { name: 'dataAprovPresidenciaVp', type: 'date' }, { name: 'userAprovPresidenciaVpNome' },
-    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' }, { name: 'status', ttName: 'statusSolicitacao' }, { name: 'motivoCancelamento' }
+    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' }, { name: 'status', ttName: 'statusSolicitacao' }, { name: 'motivoCancelamento' },
+    { name: "guid" }, { name: "valorLiberado" }
+
   ]
 
-  // log.info(`solicitacoes.length = ${solicitacoes.length}`);
+  // log.info(`solicitacoes.length = ${extSolicitacoes.length}`);
+  let json = {};
+  let ttErro = [];
+  let ttStatus = [];
 
-  extSolicitacoes.forEach(extSolicitacao => {
+  extSolicitacoes.forEach((extSolicitacao, seq) => {
+    // extSolicitacoes.forEach(async (extSolicitacao) => {
+
+    let ttParams = {
+      ttParam: [],
+      ttRateioCategoria: [],
+      ttSellout: [],
+      ttprice: [],
+      ttSellinItem: [],
+      ttSellinTarget: [],
+      ttSellinTargetAc: [],
+      ttSpiffItem: [],
+      ttSpiffTarget: [],
+      ttVpcEvt: [],
+      ttVpcOutros: []
+    }
 
     let solicitacao = getDataset('marketing_abertura_verba', null, [
       { field: 'solicitacao', value: extSolicitacao.solicitacao },
@@ -100,6 +108,50 @@ function buscaDataset(fields, constraints, sortFields) {
           { name: 'rebateTotal', type: 'decimal' },
           { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
         ]
+      },
+      {
+        tablename: "itensprice",
+        tt: "ttprice",
+        fieldPref: "itemprice",
+        campos: [{
+          name: "itemCodigo"
+        }, {
+          name: "srpInicial",
+          type: "decimal"
+        }, {
+          name: "netInicial",
+          type: "decimal"
+        }, {
+          name: "gpInicial",
+          type: "perc"
+        }, {
+          name: "srpSugerido",
+          type: "decimal"
+        }, {
+          name: "netSugerido",
+          type: "decimal"
+        }, {
+          name: "gpSugerido",
+          type: "perc"
+        }, {
+          name: "rebateUnit",
+          type: "decimal"
+        }, {
+          name: "qtde",
+          type: "decimal"
+        }, {
+          name: "rebateTotal",
+          type: "decimal"
+        }, {
+          name: "qtdEvidencia",
+          type: "decimal"
+        }, {
+          name: "valEvidencia",
+          type: "decimal"
+        }, {
+          name: "totEvidencia",
+          type: "decimal"
+        }]
       },
       {
         tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
@@ -186,12 +238,7 @@ function buscaDataset(fields, constraints, sortFields) {
         ttParams[paramTable.tt].push(obj);
       })
     })
-    // }
-  })
 
-  let json = {};
-
-  if (ttParams.ttParam.length > 0) {
 
     var properties = {};
     properties["receive.timeout"] = "60000";
@@ -199,55 +246,37 @@ function buscaDataset(fields, constraints, sortFields) {
     // log.info(`*** totvs_atualiza_fluxo_marketing 1 ${JSON.stringify(ttParams)}`);
 
     // const json = jsonLocal();
+
     try {
       json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+      ttStatus.concat(json.ttStatus)
     } catch (error) {
-      extSolicitacoes.forEach(solicitacao => {
-        if (solicitacao.statusIntegraTotvs != error) {
-          // getDataset('fluig_atualiza_formulario', null, [
-          //   { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
-          //   { field: 'valores', value: `S|${String(error) || 'N/D'}|${String(new Date().getTime())}` },
-          //   { field: 'documentid', value: String(solicitacao.documentid) }
-          // ])
-        }
-
+      log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
+      
+      json = {}
+      ttErro.push({
+        mensagem: `THROW ${solicitacao.solicitacao} ${seq}: ${error}`
       })
     }
 
-    // log.info('*** totvs_atualiza_fluxo_marketing 2');
+    // log.info(`*** totvs_atualiza_fluxo_marketing 2. json: ${JSON.stringify(json)}`);
 
     if (json && json.ttStatus) {
       // log.info('*** totvs_atualiza_fluxo_marketing entrou na json.ttStatus')
-      json.ttStatus.forEach(status => {
-
-        // log.info('*** totvs_atualiza_fluxo_marketing solicitacao: ' + status.solicitacao);
-
-        let solicitacao = extSolicitacoes.filter(s => s.solicitacao == status.solicitacao)[0];
-
-        // log.info('*** totvs_atualiza_fluxo_marketing solicitacao.documentid: ' + solicitacao.documentid);
-        // log.info('*** totvs_atualiza_fluxo_marketing status.retorno: ' + status.retorno);
-
-        if (solicitacao) {
-
-          getDataset('fluig_atualiza_formulario', null, [
-            { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
-            { field: 'valores', value: `false|${status.retorno || 'N/D'}|${String(new Date().getTime())}` },
-            { field: 'documentid', value: String(solicitacao.documentid) }
-          ])
-
-        }
-      })
+      getDataset('fluig_atualiza_formulario', null, [
+        { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
+        { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
+        { field: 'documentid', value: String(solicitacao.documentid) }
+      ])
     }
 
-    // log.info('*** totvs_atualiza_fluxo_marketing 3');
+    // }
+  });
 
-  }
 
-  // log.info('*** totvs_atualiza_fluxo_marketing 4');
+  // log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
 
-  // log.info(JSON.stringify(json))
-
-  return montaDataset(json.ttErro, json.ttStatus, campos, display, dePara, true);
+  return montaDataset(ttErro, ttStatus, campos, display, dePara, true);
 }
 
 function replaceSpecialChars(str) {
