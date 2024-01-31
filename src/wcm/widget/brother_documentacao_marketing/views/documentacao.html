@@ -322,7 +322,7 @@
                 </div>
               </div>
 
-              <div class="row" ng-if="vm.Formulario.evRecusada">
+              <div class="row" ng-if="vm.Formulario.evRecusada && !vm.Formulario.suspenderAcao">
                 <div class="col-sm-12">
                   <div class="alert alert-warning" role="alert">
                     <p>Evidências recusadas</p>
@@ -612,7 +612,7 @@
                 </div>
               </div>
 
-              <div class="row" ng-if="vm.Formulario.ndRecusada">
+              <div class="row" ng-if="vm.Formulario.ndRecusada && !vm.Formulario.suspenderAcao">
                 <div class="col-sm-12">
                   <div class="alert alert-warning" role="alert">
                     <p>ND Recusada</p>
