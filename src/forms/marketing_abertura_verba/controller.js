@@ -414,6 +414,7 @@ angular
 
       vm.calculaPercCategoria = () => {
         vm.Formulario.rateioCategoria.forEach((cat) => (cat.valor = 0));
+        console.log("🚀 ~ vm.Formulario.rateioCategoria:", vm.Formulario.rateioCategoria)
 
         switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
           case "sellout":
@@ -489,15 +490,24 @@ angular
         vm.etapaNotificacao = 0;
         switch (true) {
           case vm.Params.etapa == "inicio":
-            vm.Formulario.solicitante = vm.Usuario;
-            vm.Formulario.dataAbertura = vm.dataAtual;
-            // vm.Formulario.status = 'INÍCIO';
+            vm.Formulario.solicitanteCodigo = vm.Usuario.colleagueId;
+            // vm.Formulario.dataAbertura = vm.dataAtual;
+            vm.Formulario.status = 'INÍCIO';
             break;
           case vm.Params.etapa == "validarMarketing":
             vm.Formulario.userValMarketing = vm.Usuario;
             vm.Formulario.dataValidacaoMarketing = vm.dataAtual;
             vm.Formulario.statusValidacaoMarketing = "PENDENTE";
             vm.Formulario.obsValidacaoMarketing = "";
+
+            if (!vm.Formulario.emailsCliente.length) {
+              vm.changeCliente()
+              // vm.calculaPercCategoria()
+              // vm.buscaContatosCliente();
+            }
+            // if (!vm.Formulario.executivos.length) {
+            //   vm.buscaExecutivosCliente()
+            // }
             break;
 
           case vm.Params.etapa == "aprovarGerMarketing":

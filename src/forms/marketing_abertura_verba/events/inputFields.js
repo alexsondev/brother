@@ -7,16 +7,24 @@ function inputFields(form) {
   const currentState = getValue("WKNumState");
   const nextState = getValue("WKNextState");
 
+  const clienteCodigo = value(form, `clienteCodigo`);
   const clienteNome = value(form, `clienteNome`);
   const nomeAcao = value(form, `nomeAcao`);
   const solicitacao = value(form, `solicitacao`);
-  const tipoAcaoDescricao = value(form, `tipoAcaoDescricao`);
+  const tipoAcaoCodigo = value(form, `tipoAcaoCodigo`);
   const suspenderAcao = value(form, `suspenderAcao`);
+  const inicioAcao = value(form, `inicioAcao`);
+  const terminoAcao = value(form, `terminoAcao`);
+  const solicitanteCodigo = value(form, `solicitanteCodigo`);
 
   const arquivosEvidencias = getChildren(form, `arquivosEvidencias`,
     [`arquivoEv_nome`, `arquivoEv_type`, `arquivoEv_documentid`, `arquivoEv_version`,
       `arquivoEv_url`, `arquivoEv_removed`, `arquivoEv_descricao`, `arquivoEv_aceito`,
       `arquivoEv_motivoRecusa`]);
+
+  // itemSellinIt itensSellinIt
+  // itemprice itensprice
+  // itemSpiffIt itensSpiffIt
 
   const arquivosND = getChildren(form, `arquivosND`,
     [`arquivoND_nome`, `arquivoND_type`, `arquivoND_documentid`, `arquivoND_version`,
@@ -26,6 +34,7 @@ function inputFields(form) {
   const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''} ${clienteNome}`;
 
   log.info(`getValue('WKUser') = ${getValue('WKUser')}`);
+  log.info(`currentState = ${currentState}`);
 
   const dsUser = getDataset('colleague', ['colleagueId', 'colleagueName', 'mail', 'login'], [
     { field: 'login', value: String(getValue('WKUser')) }
@@ -34,6 +43,105 @@ function inputFields(form) {
   form.setValue('displaykey', displaykey);
 
   atualizaPendenteTotvs(form);
+
+  
+  if (currentState == Params.atividades.inicio[0]) {
+
+    // preenche data de abertura
+    form.setValue('dataAbertura', new Date().getTime());
+
+    // preenche solicitante
+    const solicitante = getDataset('colleague', ['colleagueId', 'colleagueName', 'mail', 'login'], [
+      { field: 'login', value: solicitanteCodigo }
+    ], true)[0];
+    if (solicitante) {
+
+      form.setValue('solicitante', JSON.stringify(solicitante));
+    }
+
+    // preenche cliente
+    const cliente = getDataset('totvs_busca_cliente', null, [
+      { field: "codigo", value: clienteCodigo },
+    ], true)[0];
+
+    if (cliente) {
+      log.info(`JSON.stringify(cliente): ${JSON.stringify(cliente)}`)
+
+      form.setValue('clienteCodigo', cliente.codigo);
+      form.setValue('clienteNome', cliente.razaoSocial);
+      form.setValue('cliente', JSON.stringify(cliente));
+    }
+    // preenche tipo de ação
+    const tipoAcao = getDataset('marketing_tipo_acao', ["tipoAcao", "tipoAcaoCodigo", "descricaoTipoAcao", "displaykey", "contaContabil"], [
+      { field: "tipoAcaoCodigo", value: tipoAcaoCodigo },
+    ])[0];
+    if (tipoAcao) {
+      tipoAcao.contaContabil = JSON.parse(tipoAcao.contaContabil)
+      log.info(`JSON.stringify(tipoAcao): ${JSON.stringify(tipoAcao)}`)
+
+      form.setValue('tipoAcaoDescricao', tipoAcao.displaykey);
+      form.setValue('tipoAcao', JSON.stringify(tipoAcao));
+    }
+
+
+    // se formato da data for 99/99/9999, converter para timestamp
+    if (inicioAcao?.indexOf('/') > -1) {
+      form.setValue('inicioAcao', new Date(inicioAcao).getTime());
+    }
+    if (terminoAcao?.indexOf('/') > -1) {
+      form.setValue('terminoAcao', new Date(terminoAcao).getTime());
+    }
+
+    // preenche tabelas de itens
+    [
+      { table: "itensSellout", child: "itemSellout" },
+      { table: "itensSellinIt", child: "itemSellinIt" },
+      { table: "itensprice", child: "itemprice" },
+      { table: "itensSpiffIt", child: "itemSpiffIt" },
+    ].forEach(({ table, child }) => {
+
+      log.info(`${child}_itemCodigo:${child}_itemCodigo`)
+
+      const itens = getChildren(form, table, [`${child}_itemCodigo`]);
+      itens.forEach((item, i) => {
+
+        log.info(`item[${child}_itemCodigo]:, item[${child}_itemCodigo]`)
+
+        const itemDataset = getDataset('totvs_busca_item', null, [
+          { field: "codigo", value: item[`${child}_itemCodigo`] },
+        ], true)[0];
+        if (itemDataset) {
+
+          log.info(`JSON.stringify(itemDataset): ${JSON.stringify(itemDataset)}`);
+
+          form.setValue(`${child}_item___${i + 1}`, JSON.stringify(itemDataset));
+        }
+      })
+    })
+
+    
+    const rateio = getChildren(form, "rateioCategoria", [`rateio_categoriaCodigo`]);
+    const categorias = getDataset('totvs_busca_business_segment')
+    rateio.forEach((item, i) => {
+      const categoria = categorias.filter(cat => cat.codigo == item.rateio_categoriaCodigo)[0]
+      if (categoria) {
+
+        log.info(`JSON.stringify(categoria): ${JSON.stringify(categoria)}`);
+
+        form.setValue(`rateio_categoria___${i + 1}`, JSON.stringify(categoria));
+      }
+    })
+    
+
+    // itensSellout.forEach((itemSellout,i) => {
+    //   const item = getDataset('totvs_busca_item', null, [
+    //     { field: "codigo", value: itemSellout.itemSellout_itemCodigo },
+    //   ], true);
+
+    //   form.setValue( `itemSellout_item___${i + 1}`, JSON.stringify(item[0]))
+    //   form.setValue( `itemSellout_itemDescricao___${i + 1}`, JSON.stringify(item[0].descricao))
+    // })
+  }
 
   if (currentState == Params.atividades.validarMarketing[0]) {
     if (nextState == Params.atividades.gtwAprovarGerMarketing[0]) {
