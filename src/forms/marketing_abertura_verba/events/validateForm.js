@@ -84,7 +84,7 @@ function validateForm(form) {
     }
   }
 
-  if (currentState !== nextState) {
+  if (currentState !== nextState && completeTask) {
 
     if (suspenderAcao && !managerMode) {
       Errors.push(`A ação está suspensa e não poderá ser alterada. Em caso de dúvidas, entre em contato com o gestor do processo.`);
