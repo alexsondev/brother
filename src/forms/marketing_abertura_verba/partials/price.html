@@ -1,5 +1,5 @@
-<table class="table" tablename="itensprice" noaddbutton="true" nodeletebutton="true"
-  ng-show="vm.Formulario.itensprice.length > 0">
+<table class="table" tablename="itensPrice" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.itensPrice.length > 0">
   <thead>
     <tr>
       <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
@@ -7,93 +7,93 @@
     </tr>
   </thead>
   <tbody ng-non-bindable>
-    <tr ng-repeat="itemprice in vm.Formulario.itensprice track by $index">
+    <tr ng-repeat="itemPrice in vm.Formulario.itensPrice track by $index">
       <td ng-if="vm.regras.enableSolicitacao">
-        <span ng-click="vm.removeChild(vm.Formulario.itensprice, itemprice)"
+        <span ng-click="vm.removeChild(vm.Formulario.itensPrice, itemPrice)"
           class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
       </td>
       <td>
         <div class="td-content">
-          <div class="row" ng-show="vm.Formulario.tipoprice == 'target'">
+          <div class="row" ng-show="vm.Formulario.tipoPrice == 'target'">
             <div class="col-sm-4">
               <label>Target</label>
-              <input class="form-control input-lg" name="itemprice_target" ng-model="itemprice.target"
-                ng-value="itemprice.target" ng-readonly="!vm.regras.enableSolicitacao">
+              <input class="form-control input-lg" name="itemPrice_target" ng-model="itemPrice.target"
+                ng-value="itemPrice.target" ng-readonly="!vm.regras.enableSolicitacao">
 
             </div>
             <div class="col-sm-8">
               <label>Finalidade</label>
-              <input class="form-control input-lg" name="itemprice_finalidade" ng-model="itemprice.finalidade"
-                ng-value="itemprice.finalidade" ng-readonly="!vm.regras.enableSolicitacao">
+              <input class="form-control input-lg" name="itemPrice_finalidade" ng-model="itemPrice.finalidade"
+                ng-value="itemPrice.finalidade" ng-readonly="!vm.regras.enableSolicitacao">
             </div>
           </div>
 
-          <div class="row" ng-show="vm.Formulario.tipoprice != 'target'">
+          <div class="row" ng-show="vm.Formulario.tipoPrice != 'target'">
             <div class="col-sm-4">
               <label>Cód. Item</label>
-              <input class="form-control input-lg" name="itemprice_itemC_i" fluig-autocomplete
-                dataset="totvs_busca_item" display-key="codigo" ng-model="itemprice.item"
-                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemprice.loading"
-                ng-change="itemprice.alterado = true;vm.changeItemprice(itemprice, $index)">
+              <input class="form-control input-lg" name="itemPrice_itemC_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="codigo" ng-model="itemPrice.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemPrice.loading"
+                ng-change="itemPrice.alterado = true;vm.changeItemPrice(itemPrice, $index)">
 
             </div>
             <div class="col-sm-8">
               <label>Descrição</label>
-              <input class="form-control input-lg" name="itemprice_itemD_i" fluig-autocomplete
-                dataset="totvs_busca_item" display-key="descricao" ng-model="itemprice.item"
-                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemprice.loading"
-                ng-change="itemprice.alterado = true;vm.changeItemprice(itemprice, $index)">
+              <input class="form-control input-lg" name="itemPrice_itemD_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="descricao" ng-model="itemPrice.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemPrice.loading"
+                ng-change="itemPrice.alterado = true;vm.changeItemPrice(itemPrice, $index)">
             </div>
 
-            <textarea hidden name="itemprice_item" ng-value="itemprice.item | json:0"
-              ng-bind="itemprice.item | json:0"></textarea>
-            <input type="hidden" name="itemprice_itemDescricao" ng-value="itemprice.item.descricao">
-            <input type="hidden" name="itemprice_itemCodigo" ng-value="itemprice.item.codigo">
+            <textarea hidden name="itemPrice_item" ng-value="itemPrice.item | json:0"
+              ng-bind="itemPrice.item | json:0"></textarea>
+            <input type="hidden" name="itemPrice_itemDescricao" ng-value="itemPrice.item.descricao">
+            <input type="hidden" name="itemPrice_itemCodigo" ng-value="itemPrice.item.codigo">
           </div>
 
-          <div class="row" ng-show="vm.Formulario.tipoprice == 'srp'">
+          <div class="row" ng-show="vm.Formulario.tipoPrice == 'srp'">
             <div class="col-sm-4">
               <label>SRP Inicial</label>
-              <input class="form-control input-lg" name="itemprice_srpInicial_i" fluig-money-mask="5"
-                fluig-negative-number fluig-negative-number ng-model="itemprice.srpInicial"
-                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemprice)"
-                ng-change="itemprice.alterado = true">
-              <input type="hidden" name="itemprice_srpInicial_f" ng-value="itemprice.srpInicial | currency">
-              <input type="hidden" name="itemprice_srpInicial" ng-value="itemprice.srpInicial">
+              <input class="form-control input-lg" name="itemPrice_srpInicial_i" fluig-money-mask="5"
+                fluig-negative-number fluig-negative-number ng-model="itemPrice.srpInicial"
+                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemPrice)"
+                ng-change="itemPrice.alterado = true">
+              <input type="hidden" name="itemPrice_srpInicial_f" ng-value="itemPrice.srpInicial | currency">
+              <input type="hidden" name="itemPrice_srpInicial" ng-value="itemPrice.srpInicial">
             </div>
 
             <div class="col-sm-4">
               <label>SRP Sugerido</label>
-              <input class="form-control input-lg" name="itemprice_srpSugerido_i" fluig-money-mask="5"
-                fluig-negative-number fluig-negative-number ng-model="itemprice.srpSugerido"
-                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemprice)"
-                ng-change="itemprice.alterado = true">
-              <input type="hidden" name="itemprice_srpSugerido_f" ng-value="itemprice.srpSugerido | currency">
-              <input type="hidden" name="itemprice_srpSugerido" ng-value="itemprice.srpSugerido">
+              <input class="form-control input-lg" name="itemPrice_srpSugerido_i" fluig-money-mask="5"
+                fluig-negative-number fluig-negative-number ng-model="itemPrice.srpSugerido"
+                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemPrice)"
+                ng-change="itemPrice.alterado = true">
+              <input type="hidden" name="itemPrice_srpSugerido_f" ng-value="itemPrice.srpSugerido | currency">
+              <input type="hidden" name="itemPrice_srpSugerido" ng-value="itemPrice.srpSugerido">
             </div>
           </div>
 
-          <div class="row animation" ng-show="vm.Formulario.tipoprice != 'target'">
+          <div class="row animation" ng-show="vm.Formulario.tipoPrice != 'target'">
             <div class="col-sm-4">
               <label>Net R$ Inicial</label>
-              <input class="form-control input-lg" name="itemprice_netInicial_i"
-                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                fluig-negative-number ng-model="itemprice.netInicial"
-                ng-change="itemprice.alterado = true;vm.calculaItemErp(itemprice)"
-                ng-disabled="vm.Formulario.tipoprice != 'net'">
-              <input type="hidden" name="itemprice_netInicial_f" ng-value="itemprice.netInicial | currency">
-              <input type="hidden" name="itemprice_netInicial" ng-value="itemprice.netInicial">
+              <input class="form-control input-lg" name="itemPrice_netInicial_i"
+                ng-class="{'loading':itemPrice.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrice.netInicial"
+                ng-change="itemPrice.alterado = true;vm.calculaItemErp(itemPrice)"
+                ng-disabled="vm.Formulario.tipoPrice != 'net'">
+              <input type="hidden" name="itemPrice_netInicial_f" ng-value="itemPrice.netInicial | currency">
+              <input type="hidden" name="itemPrice_netInicial" ng-value="itemPrice.netInicial">
             </div>
 
             <div class="col-sm-4">
               <label>Net R$ Sugerido</label>
-              <input class="form-control input-lg" name="itemprice_netSugerido_i"
-                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                fluig-negative-number ng-model="itemprice.netSugerido"
-                ng-change="itemprice.alterado = true;vm.calculaItemErp(itemprice)"
-                ng-disabled="vm.Formulario.tipoprice != 'net'">
-              <input type="hidden" name="itemprice_netSugerido_f" ng-value="itemprice.netSugerido | currency">
-              <input type="hidden" name="itemprice_netSugerido" ng-value="itemprice.netSugerido">
+              <input class="form-control input-lg" name="itemPrice_netSugerido_i"
+                ng-class="{'loading':itemPrice.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrice.netSugerido"
+                ng-change="itemPrice.alterado = true;vm.calculaItemErp(itemPrice)"
+                ng-disabled="vm.Formulario.tipoPrice != 'net'">
+              <input type="hidden" name="itemPrice_netSugerido_f" ng-value="itemPrice.netSugerido | currency">
+              <input type="hidden" name="itemPrice_netSugerido" ng-value="itemPrice.netSugerido">
             </div>
 
           </div>
@@ -101,64 +101,64 @@
           <div class="row animation">
             <div class="col-sm-4">
               <label>Rebate Unit</label>
-              <input class="form-control input-lg" name="itemprice_rebateUnit_i"
-                ng-class="{'loading':itemprice.loading}" fluig-money-mask="5" fluig-negative-number
-                fluig-negative-number ng-model="itemprice.rebateUnit" ng-change="vm.calculaRebateTotal(itemprice)"
-                ng-disabled="vm.Formulario.tipoprice != 'target'">
-              <input type="hidden" name="itemprice_rebateUnit_f" ng-value="itemprice.rebateUnit | currency">
-              <input type="hidden" name="itemprice_rebateUnit" ng-value="itemprice.rebateUnit">
+              <input class="form-control input-lg" name="itemPrice_rebateUnit_i"
+                ng-class="{'loading':itemPrice.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrice.rebateUnit" ng-change="vm.calculaRebateTotal(itemPrice)"
+                ng-disabled="vm.Formulario.tipoPrice != 'target'">
+              <input type="hidden" name="itemPrice_rebateUnit_f" ng-value="itemPrice.rebateUnit | currency">
+              <input type="hidden" name="itemPrice_rebateUnit" ng-value="itemPrice.rebateUnit">
             </div>
 
             <div class="col-sm-4">
               <label>Qtde</label>
-              <input class="form-control input-lg" name="itemprice_qtde_i" fluig-number-mask="2" fluig-negative-number
-                ng-model="itemprice.qtde" ng-readonly="!vm.regras.enableSolicitacao"
-                ng-change="vm.calculaRebateTotal(itemprice)">
-              <input type="hidden" name="itemprice_qtde_f" ng-value="itemprice.qtde | number:'2'">
-              <input type="hidden" name="itemprice_qtde" ng-value="itemprice.qtde">
+              <input class="form-control input-lg" name="itemPrice_qtde_i" fluig-number-mask="2" fluig-negative-number
+                ng-model="itemPrice.qtde" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaRebateTotal(itemPrice)">
+              <input type="hidden" name="itemPrice_qtde_f" ng-value="itemPrice.qtde | number:'2'">
+              <input type="hidden" name="itemPrice_qtde" ng-value="itemPrice.qtde">
             </div>
 
           </div>
           <div class="row animation">
-            <div class="col-sm-2 animation" ng-show="vm.Formulario.tipoprice != 'target'">
+            <div class="col-sm-2 animation" ng-show="vm.Formulario.tipoPrice != 'target'">
               <label>Categoria</label>
-              <input class="form-control input-lg" name="itemprice_categoria" ng-value="itemprice.item.categoria"
+              <input class="form-control input-lg" name="itemPrice_categoria" ng-value="itemPrice.item.categoria"
                 disabled>
             </div>
-            <div class="col-sm-2" ng-show="vm.Formulario.tipoprice != 'target'">
+            <div class="col-sm-2" ng-show="vm.Formulario.tipoPrice != 'target'">
               <label>Centro de Custo</label>
-              <input class="form-control input-lg" name="itemprice_ccusto" ng-value="itemprice.item.ccusto" disabled>
+              <input class="form-control input-lg" name="itemPrice_ccusto" ng-value="itemPrice.item.ccusto" disabled>
             </div>
 
             <div class="col-sm-4">
               <label>Rebate Total</label>
-              <input class="form-control input-lg" name="itemprice_rebateTotal_i" fluig-money-mask="2"
-                fluig-negative-number ng-model="itemprice.rebateTotal" disabled>
-              <input type="hidden" name="itemprice_rebateTotal_f" ng-value="itemprice.rebateTotal | currency">
-              <input type="hidden" name="itemprice_rebateTotal" ng-value="itemprice.rebateTotal">
+              <input class="form-control input-lg" name="itemPrice_rebateTotal_i" fluig-money-mask="2"
+                fluig-negative-number ng-model="itemPrice.rebateTotal" disabled>
+              <input type="hidden" name="itemPrice_rebateTotal_f" ng-value="itemPrice.rebateTotal | currency">
+              <input type="hidden" name="itemPrice_rebateTotal" ng-value="itemPrice.rebateTotal">
             </div>
           </div>
 
           <div class="row">
             <div class="col-sm-12">
-              <!-- <h4>{{itemprice.usuario.colleagueName}} incluiu em {{itemprice.data | date}}</h4> -->
-              <textarea hidden name="itemprice_usuario" ng-value="itemprice.usuario | json:0"
-                ng-bind="itemprice.usuario | json:0"></textarea>
-              <input type="hidden" name="itemprice_usuarioCodigo" ng-value="itemprice.usuario.colleagueId">
-              <input type="hidden" name="itemprice_usuarioNome" ng-value="itemprice.usuario.colleagueName">
-              <input type="hidden" name="itemprice_data_f" ng-value="itemprice.data | date:'fullDate'">
-              <input type="hidden" name="itemprice_data" ng-value="itemprice.data">
+              <!-- <h4>{{itemPrice.usuario.colleagueName}} incluiu em {{itemPrice.data | date}}</h4> -->
+              <textarea hidden name="itemPrice_usuario" ng-value="itemPrice.usuario | json:0"
+                ng-bind="itemPrice.usuario | json:0"></textarea>
+              <input type="hidden" name="itemPrice_usuarioCodigo" ng-value="itemPrice.usuario.colleagueId">
+              <input type="hidden" name="itemPrice_usuarioNome" ng-value="itemPrice.usuario.colleagueName">
+              <input type="hidden" name="itemPrice_data_f" ng-value="itemPrice.data | date:'fullDate'">
+              <input type="hidden" name="itemPrice_data" ng-value="itemPrice.data">
 
             </div>
           </div>
 
-          <input type="hidden" name="itemprice_qtdEvidencia_f" ng-value="itemprice.qtdEvidencia | number:'2'">
-          <input type="hidden" name="itemprice_valEvidencia_f" ng-value="itemprice.valEvidencia | currency">
-          <input type="hidden" name="itemprice_totEvidencia_f" ng-value="itemprice.totEvidencia | currency">
+          <input type="hidden" name="itemPrice_qtdEvidencia_f" ng-value="itemPrice.qtdEvidencia | number:'2'">
+          <input type="hidden" name="itemPrice_valEvidencia_f" ng-value="itemPrice.valEvidencia | currency">
+          <input type="hidden" name="itemPrice_totEvidencia_f" ng-value="itemPrice.totEvidencia | currency">
 
-          <input type="hidden" name="itemprice_qtdEvidencia" ng-value="itemprice.qtdEvidencia">
-          <input type="hidden" name="itemprice_valEvidencia" ng-value="itemprice.valEvidencia">
-          <input type="hidden" name="itemprice_totEvidencia" ng-value="itemprice.totEvidencia">
+          <input type="hidden" name="itemPrice_qtdEvidencia" ng-value="itemPrice.qtdEvidencia">
+          <input type="hidden" name="itemPrice_valEvidencia" ng-value="itemPrice.valEvidencia">
+          <input type="hidden" name="itemPrice_totEvidencia" ng-value="itemPrice.totEvidencia">
 
         </div>
       </td>
@@ -167,5 +167,5 @@
 </table>
 
 <a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
-  ng-click="vm.incluiItem(vm.Formulario.itensprice)">Incluir
+  ng-click="vm.incluiItem(vm.Formulario.itensPrice)">Incluir
   Item</a>

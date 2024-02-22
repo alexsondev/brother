@@ -60,6 +60,10 @@ function jsonLocal() {
       {
         codigo: 'spiff',
         descricao: 'SPIFF'
+      },
+      {
+        codigo: 'price',
+        descricao: 'PRICE PROTECTION'
       }
 
     ]

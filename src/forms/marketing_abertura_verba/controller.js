@@ -431,9 +431,9 @@ angular
 
           //Alteração ACL ok
           case "price":
-            vm.Formulario.itensprice.forEach(function (it, o) {
+            vm.Formulario.itensPrice.forEach(function (it, o) {
               if (it.item) {
-                let cat = vm.Formulario.rateioCategoriitem.filter(function (o) {
+                let cat = vm.Formulario.rateioCategoria.filter(function (o) {
                   return o.categoria.descricao == it.item.ccusto;
                 })[0];
                 if (cat) {
@@ -970,7 +970,7 @@ angular
       vm.copiaDadosAcao = () => {
         [
           'cliente', 'nomeAcao', 'tipoAcao', 'inicioAcao', 'terminoAcao', 'tipoQuantidade',
-          'tipoVpc', 'tipoSellin', 'tipoSellout', 'tipoprice', 'tipoSpiff', 'descricaoDetalhada', 'valorTotalVerba'
+          'tipoVpc', 'tipoSellin', 'tipoSellout', 'tipoPrice', 'tipoSpiff', 'descricaoDetalhada', 'valorTotalVerba'
         ]
           .forEach(field => {
             vm.Formulario[field] = globalService.isJson(vm.Formulario.acaoCopiada[field]) ? JSON.parse(vm.Formulario.acaoCopiada[field]) : vm.Formulario.acaoCopiada[field];
@@ -984,21 +984,21 @@ angular
         }
         if (
           vm.Formulario.tipoAcao.tipoAcaoCodigo == "price" &&
-          !vm.Formulario.tipoprice
+          !vm.Formulario.tipoPrice
         ) {
-          vm.Formulario.tipoprice = "srp";
+          vm.Formulario.tipoPrice = "srp";
         }
-        if (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && !vm.Formulario.tipoprice) {
-          vm.Formulario.tipoprice = 'srp';
+        if (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && !vm.Formulario.tipoPrice) {
+          vm.Formulario.tipoPrice = 'srp';
         }
 
         vm.buscaContatosCliente();
 
         const tablesToCopy = [
           { //Alteração verificar ACL
-            //"price" != d.Formulario.tipoAcao.tipoAcaoCodigo || d.Formulario.tipoprice || (d.Formulario.tipoprice = "srp"), d.buscaContatosCliente(),{
-            tablename: "itensprice",
-            fieldPrefix: "itemprice",
+            //"price" != d.Formulario.tipoAcao.tipoAcaoCodigo || d.Formulario.tipoPrice || (d.Formulario.tipoPrice = "srp"), d.buscaContatosCliente(),{
+            tablename: "itensPrice",
+            fieldPrefix: "itemPrice",
             fields: ["target", "finalidade", "item", "srpInicial", "srpSugerido", "netInicial", "netSugerido", "rebateUnit", "qtde", "rebateTotal", "data"]
           },
           {
@@ -1231,7 +1231,7 @@ angular
           vm.Formulario.itensSellout.forEach(itemSellout => {
             vm.calculaItemErp(itemSellout)
           })
-          vm.Formulario.itensprice.forEach(itemPrice => {
+          vm.Formulario.itensPrice.forEach(itemPrice => {
             vm.calculaItemErp(itemPrice)
           })
 
@@ -1315,7 +1315,7 @@ angular
         //   { titulo: 'TOTAL', class: 'info', rebateSellout: 124000, rebateSellin: 0, spiff: 16900, vpc: 38500, total: 89400 },
         // ]
       }
-      vm.changeItemprice = function changeItemprice(item, index) {
+      vm.changeItemPrice = function changeItemPrice(item, index) {
         if (item.item && item.item.codigo) {
           vm.calculaItemErp(item);
         }
@@ -1327,7 +1327,7 @@ angular
       };
 
       //==================Alteração ACL===========================
-      vm.changeItemprice = function (item, index) {
+      vm.changeItemPrice = function (item, index) {
         item.item && item.item.codigo && vm.calculaItemErp(item);
       };
       //=================FIM Alteração============================
@@ -1342,7 +1342,7 @@ angular
         if (item.item && item.item.codigo && item.alterado) {
           if (
             (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellout' && vm.Formulario.tipoSellout == 'net') ||
-            (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && vm.Formulario.tipoprice == 'net') ||
+            (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && vm.Formulario.tipoPrice == 'net') ||
             (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellin' && vm.Formulario.tipoSellin == 'net')) {
             item.rebateUnit = parseFloat(Number(item.netInicial - item.netSugerido).toFixed(4));
 
@@ -1440,7 +1440,7 @@ angular
 
       vm.changeTipoAcao = function changeTipoAcao() {
         vm.Formulario.itensSellout = [];
-        vm.Formulario.itensprice = [];
+        vm.Formulario.itensPrice = [];
         vm.Formulario.itensSellinIt = [];
         vm.Formulario.itensSellinTg = [];
         vm.Formulario.itensSellinTgAc = [];
@@ -1464,8 +1464,8 @@ angular
               }
               break;
             case 'price':
-              vm.incluiItem(vm.Formulario.itensprice);
-              if (vm.Formulario.tipoprice == 'srp' || vm.Formulario.tipoprice == 'net') {
+              vm.incluiItem(vm.Formulario.itensPrice);
+              if (vm.Formulario.tipoPrice == 'srp' || vm.Formulario.tipoPrice == 'net') {
                 vm.bloqRateio = true;
               }
               break;
@@ -1714,7 +1714,7 @@ angular
           vm.Formulario.tipoAcao &&
           vm.Formulario.tipoAcao.tipoAcaoCodigo &&
           vm.Formulario.tipoSellout !== "target" &&
-          vm.Formulario.tipoprice !== "target"
+          vm.Formulario.tipoPrice !== "target"
         ) {
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case "sellout":
@@ -1729,8 +1729,8 @@ angular
               });
               break
             case 'price':
-              vm.Formulario.itensprice.forEach((it, index) => {
-                vm.ItensEvidencia.push({ tablename: 'itensprice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
+              vm.Formulario.itensPrice.forEach((it, index) => {
+                vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
 
@@ -1805,11 +1805,11 @@ angular
               }));
               break;
             case "price":
-              "net" == vm.Formulario.tipoprice ? (vm.Formulario.itensprice.forEach( (it) => {
+              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach( (it) => {
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensprice.forEach( (it) => {
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach( (it) => {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
-              }), vm.Formulario.itensprice.forEach(function (it) {
+              }), vm.Formulario.itensPrice.forEach(function (it) {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }));
               break;

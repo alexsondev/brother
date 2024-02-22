@@ -3,7 +3,7 @@ function atualizaStatus() {
     ttParam: [],
     ttRateioCategoria: [],
     ttSellout: [],
-    ttprice: [],
+    ttPrice: [],
     ttSellinItem: [],
     ttSellinTarget: [],
     ttSellinTargetAc: [],
@@ -52,7 +52,7 @@ function atualizaStatus() {
       ]
     },
     {
-      tablename: 'itensprice', tt: 'ttprice', fieldPref: 'itemprice',
+      tablename: 'itensPrice', tt: 'ttPrice', fieldPref: 'itemPrice',
       campos: [
         { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
         { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },

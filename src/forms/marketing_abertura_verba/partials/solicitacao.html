@@ -125,30 +125,30 @@
 
   <div class="col-sm-4 animation" ng-show="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'">
     <div class="form-group">
-      <label for="tipoprice_i" class="control-label">Tipo</label>
+      <label for="tipoPrice_i" class="control-label">Tipo</label>
       <div>
         <!-- 
         <label class="radio-inline">
-          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
-            ng-model="vm.Formulario.tipoprice" value="srp" ng-change="vm.changeTipoAcao()"
-            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoprice_i.$error">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoPrice_i"
+            ng-model="vm.Formulario.tipoPrice" value="srp" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoPrice_i.$error">
           SRP
         </label>
         -->
         <label class="radio-inline">
-          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
-            ng-model="vm.Formulario.tipoprice" value="net" ng-change="vm.changeTipoAcao()"
-            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'net'" fluig-error="form.tipoprice_i.$error">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoPrice_i"
+            ng-model="vm.Formulario.tipoPrice" value="net" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'net'" fluig-error="form.tipoPrice_i.$error">
           NET
         </label>
         <label class="radio-inline">
-          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoprice_i"
-            ng-model="vm.Formulario.tipoprice" value="target" ng-change="vm.changeTipoAcao()"
-            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoprice_i.$error">
+          <input type="radio" ng-readonly="!vm.regras.enableSolicitacao" name="tipoPrice_i"
+            ng-model="vm.Formulario.tipoPrice" value="target" ng-change="vm.changeTipoAcao()"
+            ng-required="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price'" fluig-error="form.tipoPrice_i.$error">
           Target
         </label>
       </div>
-      <input type="hidden" name="tipoprice" ng-value="vm.Formulario.tipoprice">
+      <input type="hidden" name="tipoPrice" ng-value="vm.Formulario.tipoPrice">
     </div>
   </div>
   <div class="col-sm-4 animation" ng-show="vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellin'">
