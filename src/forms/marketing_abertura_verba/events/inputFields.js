@@ -85,10 +85,10 @@ function inputFields(form) {
 
 
     // se formato da data for 99/99/9999, converter para timestamp
-    if (inicioAcao?.indexOf('/') > -1) {
+    if (String(inicioAcao)?.indexOf('/') > -1) {
       form.setValue('inicioAcao', new Date(inicioAcao).getTime());
     }
-    if (terminoAcao?.indexOf('/') > -1) {
+    if (String(terminoAcao)?.indexOf('/') > -1) {
       form.setValue('terminoAcao', new Date(terminoAcao).getTime());
     }
 
@@ -96,7 +96,7 @@ function inputFields(form) {
     [
       { table: "itensSellout", child: "itemSellout" },
       { table: "itensSellinIt", child: "itemSellinIt" },
-      { table: "itensprice", child: "itemprice" },
+      { table: "itensPrice", child: "itemPrice" },
       { table: "itensSpiffIt", child: "itemSpiffIt" },
     ].forEach(({ table, child }) => {
 
