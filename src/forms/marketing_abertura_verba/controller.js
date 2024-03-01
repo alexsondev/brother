@@ -983,7 +983,12 @@ angular
           'tipoVpc', 'tipoSellin', 'tipoSellout', 'tipoPrice', 'tipoSpiff', 'descricaoDetalhada', 'valorTotalVerba'
         ]
           .forEach(field => {
-            vm.Formulario[field] = globalService.isJson(vm.Formulario.acaoCopiada[field]) ? JSON.parse(vm.Formulario.acaoCopiada[field]) : vm.Formulario.acaoCopiada[field];
+            try {
+
+              vm.Formulario[field] = globalService.isJson(vm.Formulario.acaoCopiada[field]) ? JSON.parse(vm.Formulario.acaoCopiada[field]) : vm.Formulario.acaoCopiada[field];
+            } catch (error) { 
+              vm.Formulario[field] = ''
+            }
           });
 
         if (
@@ -1640,7 +1645,7 @@ angular
               });
 
             duplicatas.forEach((duplicata) => {
-              regDuplicata = vm.Formulario.duplicatas.filter(
+              let regDuplicata = vm.Formulario.duplicatas.filter(
                 (d) =>
                   d.numTitulo == duplicata.numTitulo &&
                   d.parcela == duplicata.parcela
