@@ -1,4 +1,4 @@
-const campos = ['retorno', 'solicitacao', 'dtAtual'];
+const campos = ['retorno', 'solicitacao', 'sequencia', 'dtAtual'];
 const display = campos;
 const dePara = campos;
 
@@ -223,8 +223,8 @@ function buscaDataset(fields, constraints, sortFields) {
       getDataset('marketing_abertura_verba', null, [
         { field: 'tablename', value: paramTable.tablename },
         { field: 'documentid', value: solicitacao.documentid }
-      ]).forEach(objTable => {
-        let obj = { solicitacao: String(solicitacao.solicitacao) };
+      ]).forEach((objTable,i) => {
+        let obj = { solicitacao: String(solicitacao.solicitacao), sequencia: String(i + 1) };
 
         paramTable.campos.forEach(c => {
 
@@ -267,7 +267,7 @@ function buscaDataset(fields, constraints, sortFields) {
         { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
         { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
         { field: 'documentid', value: String(solicitacao.documentid) }
-      ])
+      ], true)
     }
 
     // }
