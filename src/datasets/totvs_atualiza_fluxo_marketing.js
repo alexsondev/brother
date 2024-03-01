@@ -1,4 +1,4 @@
-const campos = ['retorno', 'solicitacao', 'dtAtual'];
+const campos = ['retorno', 'solicitacao', 'sequencia', 'dtAtual'];
 const display = campos;
 const dePara = campos;
 
@@ -279,7 +279,7 @@ function buscaDataset(fields, constraints, sortFields) {
         { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
         { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
         { field: 'documentid', value: String(solicitacao.documentid) }
-      ])
+      ], true)
     }
 
     // }
