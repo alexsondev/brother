@@ -88,7 +88,14 @@ function buscaDataset(fields, constraints, sortFields) {
     // if (Number(solicitacao.solicitacao) == 12478 || Number(solicitacao.solicitacao) == 2296 || Number(solicitacao.solicitacao) == 1872 || Number(solicitacao.solicitacao) == 1370) {
 
     let objSolicitacao = {};
-    solicitacaoCampos.forEach(c => { objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) });
+    solicitacaoCampos.forEach(c => { 
+      try {
+
+        objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) 
+      } catch(error) {
+        objSolicitacao[c.ttName || c.name] = ""
+      }
+    });
 
     ttParams.ttParam.push(objSolicitacao);
 
@@ -219,24 +226,29 @@ function buscaDataset(fields, constraints, sortFields) {
       },
 
     ].forEach(paramTable => {
+      try {
 
-      getDataset('marketing_abertura_verba', null, [
-        { field: 'tablename', value: paramTable.tablename },
-        { field: 'documentid', value: solicitacao.documentid }
-      ]).forEach(objTable => {
-        let obj = { solicitacao: String(solicitacao.solicitacao) };
-
-        paramTable.campos.forEach(c => {
-
-          let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
-          obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+        getDataset('marketing_abertura_verba', null, [
+          { field: 'tablename', value: paramTable.tablename },
+          { field: 'documentid', value: solicitacao.documentid }
+        ]).forEach(objTable => {
+          let obj = { solicitacao: String(solicitacao.solicitacao) };
+  
+          paramTable.campos.forEach(c => {
+  
+            let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
+            obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+          })
+  
+          if (!ttParams[paramTable.tt]) {
+            ttParams[paramTable.tt] = [];
+          }
+          ttParams[paramTable.tt].push(obj);
         })
-
-        if (!ttParams[paramTable.tt]) {
-          ttParams[paramTable.tt] = [];
-        }
-        ttParams[paramTable.tt].push(obj);
-      })
+      } catch (error) {
+        log.info(`~ //paramTable.forEach ~ error: ${error}`)
+        
+      }
     })
 
 
