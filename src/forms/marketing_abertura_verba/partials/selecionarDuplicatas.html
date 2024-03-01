@@ -76,12 +76,12 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" ng-if="vm.Formulario.difValorLiberado != 0">
   <div class="col-sm-12 alert alert-warning" style="
   background-color: transparent;
   color: inherit;
   border: 1px solid;
-" v-if="vm.Formulario.difValorLiberado != 0">
+" >
     <div class="form-group">
       <label for="obsConferenciaFinanceiro" class="control-label">Aprovar com Diferença</label>
       <input type="checkbox" fluig-switch data-on-text="SIM" data-off-text="NÃO" data-on-color="success"
