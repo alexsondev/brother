@@ -22,6 +22,8 @@ function inputFields(form) {
       `arquivoEv_url`, `arquivoEv_removed`, `arquivoEv_descricao`, `arquivoEv_aceito`,
       `arquivoEv_motivoRecusa`]);
 
+  const executivos = getChildren(form, `executivos`, [`executivo_codigo`]);
+
   // itemSellinIt itensSellinIt
   // itemprice itensprice
   // itemSpiffIt itensSpiffIt
@@ -46,7 +48,7 @@ function inputFields(form) {
 
   atualizaPendenteTotvs(form);
 
-  
+
   if (currentState == Params.atividades.inicio[0]) {
 
     // preenche data de abertura
@@ -72,7 +74,22 @@ function inputFields(form) {
       form.setValue('clienteCodigo', cliente.codigo);
       form.setValue('clienteNome', cliente.razaoSocial);
       form.setValue('cliente', JSON.stringify(cliente));
+
+
+      // preenche executivos
+      if (executivos.length == 0) {
+        const executivosDataset = getDataset('totvs_busca_executivo', null, [
+          { field: "nome", value: cliente.executivo },
+        ], true);
+        executivosDataset.forEach((executivo, i) => {
+          form.setValue(`executivo_executivo___${i + 1}`, JSON.stringify(executivo));
+          form.setValue(`executivo_codigo___${i + 1}`, executivo.codigo);
+          form.setValue(`executivo_nome___${i + 1}`, executivo.nome);
+          form.setValue(`executivo_email___${i + 1}`, executivo.email);
+        })
+      }
     }
+
     // preenche tipo de ação
     const tipoAcao = getDataset('marketing_tipo_acao', ["tipoAcao", "tipoAcaoCodigo", "descricaoTipoAcao", "displaykey", "contaContabil"], [
       { field: "tipoAcaoCodigo", value: tipoAcaoCodigo },
@@ -121,7 +138,7 @@ function inputFields(form) {
       })
     })
 
-    
+
     const rateio = getChildren(form, "rateioCategoria", [`rateio_categoriaCodigo`]);
     const categorias = getDataset('totvs_busca_business_segment')
     rateio.forEach((item, i) => {
@@ -133,7 +150,7 @@ function inputFields(form) {
         form.setValue(`rateio_categoria___${i + 1}`, JSON.stringify(categoria));
       }
     })
-    
+
 
     // itensSellout.forEach((itemSellout,i) => {
     //   const item = getDataset('totvs_busca_item', null, [

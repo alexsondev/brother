@@ -96,15 +96,15 @@ function validateForm(form) {
 
     if (regras.enableSolicitacao || importado) {
 
-      if (!executivos || executivos.length == 0) {
-        Errors.push(`Informe o executivo`);
-      }
+      // if (!executivos || executivos.length == 0) {
+      //   Errors.push(`Informe o executivo`);
+      // }
 
-      executivos.forEach((e, i) => {
-        if (!e.executivo_codigo) {
-          Errors.push(`Informe o executivo na linha ${i + 1}`);
-        }
-      })
+      // executivos.forEach((e, i) => {
+      //   if (!e.executivo_codigo) {
+      //     Errors.push(`Informe o executivo na linha ${i + 1}`);
+      //   }
+      // })
 
       if (!clienteCodigo) {
         Errors.push(`Informe o cliente`);
