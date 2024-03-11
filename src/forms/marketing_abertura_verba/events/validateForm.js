@@ -254,7 +254,8 @@ function validateForm(form) {
         }
       }
       // 2. Devolver para o Cliente
-      if (nextStateTxt == `enviarEvidencias` && arquivosEvidencias.length > 0) {
+      if ((nextStateTxt == `enviarEvidencias` || nextStateTxt == `evidenciasControle`)
+        && arquivosEvidencias.length > 0) {
 
         if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length == 0) {
           Errors.push(`Recuse ao menos um arquivo para devolver ao cliente`);

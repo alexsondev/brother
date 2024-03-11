@@ -203,7 +203,8 @@ function inputFields(form) {
     if (nextState == Params.atividades.gtwAprovarVerbaMaior[0] || nextState == Params.atividades.conferirFinanceiro[0]) {
       form.setValue('statusValidacaoEvid', 'APROVADO');
     }
-    if (nextState == Params.atividades.enviarEvidencias[0]) {
+    if (nextState == Params.atividades.enviarEvidencias[0] ||
+       nextState == Params.atividades.evidenciasControle[0]) {
       form.setValue('statusValidacaoEvid', 'REPROVADO');
     }
   }
