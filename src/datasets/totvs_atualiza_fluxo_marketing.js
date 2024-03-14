@@ -248,8 +248,8 @@ function buscaDataset(fields, constraints, sortFields) {
     // const json = jsonLocal();
 
     try {
-      // json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
-      ttStatus.concat(json.ttStatus)
+      json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+      
     } catch (error) {
       log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
       
@@ -268,6 +268,7 @@ function buscaDataset(fields, constraints, sortFields) {
         { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
         { field: 'documentid', value: String(solicitacao.documentid) }
       ], true)
+      ttStatus.concat(json.ttStatus)
     }
 
     // }
