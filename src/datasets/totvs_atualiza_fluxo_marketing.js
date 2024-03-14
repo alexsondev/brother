@@ -33,12 +33,14 @@ function buscaDataset(fields, constraints, sortFields) {
   let params = getConstraints(constraints);
 
   let extSolicitacoes = getDataset('ext_mav', null, [
-    // { field: 'solicitacao', value: '2296' },
+    // { field: 'solicitacao', value: '33798' },
     { field: 'pendenteTotvs', value: 'true' },
     // { field: 'tipoAcaoCodigo', value: 'spiff' },
     // { field: 'tipoSpiff', value: 'target' },
     // { field: 'solicitacao', value: '13461' },
   ]);
+
+  extSolicitacoes = extSolicitacoes.filter(s => s.documentid != 92018);
 
   // busca filhos e monta params 
 
@@ -266,7 +268,7 @@ function buscaDataset(fields, constraints, sortFields) {
       getDataset('fluig_atualiza_formulario', null, [
         { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
         { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
-        { field: 'documentid', value: String(solicitacao.documentid) }
+        { field: 'documentid', value: String(extSolicitacao.documentid) }
       ], true)
       ttStatus.concat(json.ttStatus)
     }
@@ -275,7 +277,7 @@ function buscaDataset(fields, constraints, sortFields) {
   });
 
 
-  // log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
+  log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
 
   return montaDataset(ttErro, ttStatus, campos, display, dePara, true);
 }

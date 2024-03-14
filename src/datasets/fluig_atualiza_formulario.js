@@ -70,8 +70,12 @@ function buscaDataset(fields, constraints, sortFields) {
   }
 
   const dsParametros = getDataset('marketing_parametros');
+  try {
 
-  atualizaFormulario("1", dsParametros[0].usuarioFluig, dsParametros[0].senhaFluig, csDocumentid, formCampos)
+    atualizaFormulario("1", dsParametros[0].usuarioFluig, dsParametros[0].senhaFluig, csDocumentid, formCampos)
+  } catch (err) {
+    throw err;
+  }
 
   return montaDataset(json.ttErro, json.formCampos, campos, display);
 }
