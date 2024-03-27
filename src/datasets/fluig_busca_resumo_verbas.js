@@ -56,6 +56,19 @@ function buscaDataset(fields, constraints, sortFields) {
             s.produtosCodigos = dsItens.map(i => i.itemSellout_target).join(', ');
           }        
         }
+        
+        if (s.tipoAcaoCodigo == 'price') {
+          const dsItens = getDataset('marketing_abertura_verba', null, [
+            { field: 'documentid', value: s.documentid },
+            { field: 'tablename', value: 'itensPrice' }
+          ]);
+
+          if (s.tipoPrice == 'srp' || s.tipoPrice == 'net' || !s.tipoPrice || s.tipoPrice == '') {
+            s.produtosCodigos = dsItens.map(i => i.itemPrice_itemCodigo).join(', ');
+          } else {
+            s.produtosCodigos = dsItens.map(i => i.itemPrice_target).join(', ');
+          }        
+        }
 
         if (s.tipoAcaoCodigo == 'sellin' && (s.tipoSellin == 'item')) {
           const dsItens = getDataset('marketing_abertura_verba', null, [

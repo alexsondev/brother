@@ -37,10 +37,12 @@ public class MarketingFlowVO implements Serializable {
     private String motivoRecusaND;
     private String motivoRecusaEv;
     private String tipoSellout;
+    private String tipoPrice;
     private String tipoQuantidade;
     private Long folderAttach;
 
     private MarketingItemSelloutVO[] itensSellout;
+    private MarketingItemPriceVO[] itensPrice;
     private MarketingItemSellinItVO[] itensSellinIt;
     private MarketingItemSellinTgVO[] itensSellinTg;
     private MarketingItemSellinTgAcVO[] itensSellinTgAc;
@@ -58,7 +60,7 @@ public class MarketingFlowVO implements Serializable {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
 
-    public MarketingFlowVO(Long documentid, int solicitacao, String status, double valorLiberado, double valorTotalVerba, double valorResultado, String descricaoDetalhada, Long inicioAcao, Long terminoAcao, Boolean envioEvidenciasConcluido, Boolean evRecusada, String obsEnvioEvidencias, Boolean envioNDConcluido, Boolean ndRecusada, String obsEnvioND, int currentStepPortal, String motivoCancelamento, String motivoRecusaND, String motivoRecusaEv, String tipoSellout, String tipoQuantidade, Long folderAttach, MarketingItemSelloutVO[] itensSellout, MarketingItemSellinItVO[] itensSellinIt, MarketingItemSellinTgVO[] itensSellinTg, MarketingItemSellinTgAcVO[] itensSellinTgAc, MarketingItemSpiffItVO[] itensSpiffIt, MarketingItemSpiffTgVO[] itensSpiffTg, MarketingItemVpcEvtVO[] itensVpcEvt, MarketingItemVpcOutrosVO[] itensVpcOutros, MarketingEvidenciaVO[] evidencias, MarketingNdVO[] nd, MarketingDuplicatasVO[] duplicatas) {
+    public MarketingFlowVO(Long documentid, int solicitacao, String status, double valorLiberado, double valorTotalVerba, double valorResultado, String descricaoDetalhada, Long inicioAcao, Long terminoAcao, Boolean envioEvidenciasConcluido, Boolean evRecusada, String obsEnvioEvidencias, Boolean envioNDConcluido, Boolean ndRecusada, String obsEnvioND, int currentStepPortal, String motivoCancelamento, String motivoRecusaND, String motivoRecusaEv, String tipoSellout, String tipoPrice, String tipoQuantidade, Long folderAttach, MarketingItemSelloutVO[] itensSellout, MarketingItemPriceVO[] itensPrice, MarketingItemSellinItVO[] itensSellinIt, MarketingItemSellinTgVO[] itensSellinTg, MarketingItemSellinTgAcVO[] itensSellinTgAc, MarketingItemSpiffItVO[] itensSpiffIt, MarketingItemSpiffTgVO[] itensSpiffTg, MarketingItemVpcEvtVO[] itensVpcEvt, MarketingItemVpcOutrosVO[] itensVpcOutros, MarketingEvidenciaVO[] evidencias, MarketingNdVO[] nd, MarketingDuplicatasVO[] duplicatas) {
         this.documentid = documentid;
         this.solicitacao = solicitacao;
         this.status = status;
@@ -79,9 +81,11 @@ public class MarketingFlowVO implements Serializable {
         this.motivoRecusaND = motivoRecusaND;
         this.motivoRecusaEv = motivoRecusaEv;
         this.tipoSellout = tipoSellout;
+        this.tipoPrice = tipoPrice;
         this.tipoQuantidade = tipoQuantidade;
         this.folderAttach = folderAttach;
         this.itensSellout = itensSellout;
+        this.itensPrice = itensPrice;
         this.itensSellinIt = itensSellinIt;
         this.itensSellinTg = itensSellinTg;
         this.itensSellinTgAc = itensSellinTgAc;
@@ -270,6 +274,14 @@ public class MarketingFlowVO implements Serializable {
         this.tipoSellout = tipoSellout;
     }
 
+    public String getTipoPrice() {
+        return this.tipoPrice;
+    }
+
+    public void setTipoPrice(String tipoPrice) {
+        this.tipoPrice = tipoPrice;
+    }
+
     public String getTipoQuantidade() {
         return this.tipoQuantidade;
     }
@@ -292,6 +304,14 @@ public class MarketingFlowVO implements Serializable {
 
     public void setItensSellout(MarketingItemSelloutVO[] itensSellout) {
         this.itensSellout = itensSellout;
+    }
+
+    public MarketingItemPriceVO[] getItensPrice() {
+        return this.itensPrice;
+    }
+
+    public void setItensPrice(MarketingItemPriceVO[] itensPrice) {
+        this.itensPrice = itensPrice;
     }
 
     public MarketingItemSellinItVO[] getItensSellinIt() {
@@ -474,6 +494,11 @@ public class MarketingFlowVO implements Serializable {
         return this;
     }
 
+    public MarketingFlowVO tipoPrice(String tipoPrice) {
+        setTipoPrice(tipoPrice);
+        return this;
+    }
+
     public MarketingFlowVO tipoQuantidade(String tipoQuantidade) {
         setTipoQuantidade(tipoQuantidade);
         return this;
@@ -486,6 +511,11 @@ public class MarketingFlowVO implements Serializable {
 
     public MarketingFlowVO itensSellout(MarketingItemSelloutVO[] itensSellout) {
         setItensSellout(itensSellout);
+        return this;
+    }
+
+    public MarketingFlowVO itensPrice(MarketingItemPriceVO[] itensPrice) {
+        setItensPrice(itensPrice);
         return this;
     }
 
@@ -547,12 +577,24 @@ public class MarketingFlowVO implements Serializable {
             return false;
         }
         MarketingFlowVO marketingFlowVO = (MarketingFlowVO) o;
-        return Objects.equals(documentid, marketingFlowVO.documentid) && Objects.equals(solicitacao, marketingFlowVO.solicitacao) && Objects.equals(status, marketingFlowVO.status) && valorLiberado == marketingFlowVO.valorLiberado && valorTotalVerba == marketingFlowVO.valorTotalVerba && valorResultado == marketingFlowVO.valorResultado && Objects.equals(descricaoDetalhada, marketingFlowVO.descricaoDetalhada) && Objects.equals(inicioAcao, marketingFlowVO.inicioAcao) && Objects.equals(terminoAcao, marketingFlowVO.terminoAcao) && Objects.equals(envioEvidenciasConcluido, marketingFlowVO.envioEvidenciasConcluido) && Objects.equals(evRecusada, marketingFlowVO.evRecusada) && Objects.equals(obsEnvioEvidencias, marketingFlowVO.obsEnvioEvidencias) && Objects.equals(envioNDConcluido, marketingFlowVO.envioNDConcluido) && Objects.equals(ndRecusada, marketingFlowVO.ndRecusada) && Objects.equals(obsEnvioND, marketingFlowVO.obsEnvioND) && currentStepPortal == marketingFlowVO.currentStepPortal && Objects.equals(motivoCancelamento, marketingFlowVO.motivoCancelamento) && Objects.equals(motivoRecusaND, marketingFlowVO.motivoRecusaND) && Objects.equals(motivoRecusaEv, marketingFlowVO.motivoRecusaEv) && Objects.equals(tipoSellout, marketingFlowVO.tipoSellout) && Objects.equals(tipoQuantidade, marketingFlowVO.tipoQuantidade) && Objects.equals(folderAttach, marketingFlowVO.folderAttach) && Objects.equals(itensSellout, marketingFlowVO.itensSellout) && Objects.equals(itensSellinIt, marketingFlowVO.itensSellinIt) && Objects.equals(itensSellinTg, marketingFlowVO.itensSellinTg) && Objects.equals(itensSellinTgAc, marketingFlowVO.itensSellinTgAc) && Objects.equals(itensSpiffIt, marketingFlowVO.itensSpiffIt) && Objects.equals(itensSpiffTg, marketingFlowVO.itensSpiffTg) && Objects.equals(itensVpcEvt, marketingFlowVO.itensVpcEvt) && Objects.equals(itensVpcOutros, marketingFlowVO.itensVpcOutros) && Objects.equals(evidencias, marketingFlowVO.evidencias) && Objects.equals(nd, marketingFlowVO.nd) && Objects.equals(duplicatas, marketingFlowVO.duplicatas);
+        return Objects.equals(documentid, marketingFlowVO.documentid) && Objects.equals(solicitacao, marketingFlowVO.solicitacao) && Objects.equals(status, marketingFlowVO.status) && valorLiberado == marketingFlowVO.valorLiberado && valorTotalVerba == marketingFlowVO.valorTotalVerba && valorResultado == marketingFlowVO.valorResultado && Objects.equals(descricaoDetalhada, marketingFlowVO.descricaoDetalhada) && Objects.equals(inicioAcao, marketingFlowVO.inicioAcao) && Objects.equals(terminoAcao, marketingFlowVO.terminoAcao) && Objects.equals(envioEvidenciasConcluido, marketingFlowVO.envioEvidenciasConcluido) && Objects.equals(evRecusada, marketingFlowVO.evRecusada) && Objects.equals(obsEnvioEvidencias, marketingFlowVO.obsEnvioEvidencias) && Objects.equals(envioNDConcluido, marketingFlowVO.envioNDConcluido) && Objects.equals(ndRecusada, marketingFlowVO.ndRecusada) && Objects.equals(obsEnvioND, marketingFlowVO.obsEnvioND) && currentStepPortal == marketingFlowVO.currentStepPortal && Objects.equals(motivoCancelamento, marketingFlowVO.motivoCancelamento) && Objects.equals(motivoRecusaND, marketingFlowVO.motivoRecusaND) && Objects.equals(motivoRecusaEv, marketingFlowVO.motivoRecusaEv) && Objects.equals(tipoSellout, marketingFlowVO.tipoSellout) && 
+          Objects.equals(tipoPrice, marketingFlowVO.tipoPrice) &&
+          Objects.equals(tipoQuantidade, marketingFlowVO.tipoQuantidade) && 
+          Objects.equals(folderAttach, marketingFlowVO.folderAttach) && 
+          Objects.equals(itensSellout, marketingFlowVO.itensSellout) && 
+          Objects.equals(itensPrice, marketingFlowVO.itensPrice) &&
+          Objects.equals(itensSellinIt, marketingFlowVO.itensSellinIt) && 
+          Objects.equals(itensSellinTg, marketingFlowVO.itensSellinTg) && 
+          Objects.equals(itensSellinTgAc, marketingFlowVO.itensSellinTgAc) && 
+          Objects.equals(itensSpiffIt, marketingFlowVO.itensSpiffIt) && 
+          Objects.equals(itensSpiffTg, marketingFlowVO.itensSpiffTg) && 
+          Objects.equals(itensVpcEvt, marketingFlowVO.itensVpcEvt) && 
+          Objects.equals(itensVpcOutros, marketingFlowVO.itensVpcOutros) && Objects.equals(evidencias, marketingFlowVO.evidencias) && Objects.equals(nd, marketingFlowVO.nd) && Objects.equals(duplicatas, marketingFlowVO.duplicatas);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoQuantidade, folderAttach, itensSellout, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
+        return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrice, tipoQuantidade, folderAttach, itensSellout, itensPrice, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
     }
 
     @Override

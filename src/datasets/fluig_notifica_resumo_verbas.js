@@ -49,6 +49,7 @@ function createDataset(fields, constraints, sortFields) {
 
   const tables = [
     { name: 'itensSellout', title: 'Sellout', tableCampos: 'camposSellout', campoName: 'campoSellout' },
+    { name: 'itensPrice', title: 'Price', tableCampos: 'camposPrice', campoName: 'campoPrice' },
     { name: 'arquivosND', title: 'Nota de Débito', tableCampos: 'camposND', campoName: 'campoND' },
     { name: 'arquivosEvidencias', title: 'Evidências', tableCampos: 'camposEvidencias', campoName: 'campoEvidencia' },
     { name: 'duplicatas', title: 'Duplicatas', tableCampos: 'camposDuplicatas', campoName: 'campoDuplicata' },

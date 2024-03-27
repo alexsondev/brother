@@ -316,7 +316,7 @@ angular
           },
 
           { regra: 'showNotificacaoCliente', def: true, etapas: vm.etapas },
-          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: ['analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'enviarEvidencias','validarEvidencias', 'autorizarNotificacaoPagamento'] },
+          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: ['analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'enviarEvidencias', 'validarEvidencias', 'autorizarNotificacaoPagamento'] },
           { //mudança ACL
             regra: 'enableNotificacaoCliente3',
             def: true,
@@ -986,7 +986,7 @@ angular
             try {
 
               vm.Formulario[field] = globalService.isJson(vm.Formulario.acaoCopiada[field]) ? JSON.parse(vm.Formulario.acaoCopiada[field]) : vm.Formulario.acaoCopiada[field];
-            } catch (error) { 
+            } catch (error) {
               vm.Formulario[field] = ''
             }
           });
@@ -1010,19 +1010,21 @@ angular
         vm.buscaContatosCliente();
 
         const tablesToCopy = [
-          { //Alteração verificar ACL
-            //"price" != d.Formulario.tipoAcao.tipoAcaoCodigo || d.Formulario.tipoPrice || (d.Formulario.tipoPrice = "srp"), d.buscaContatosCliente(),{
+          {
             tablename: "itensPrice",
             fieldPrefix: "itemPrice",
-            fields: ["target", "finalidade", "item", "srpInicial", "srpSugerido", "netInicial", "netSugerido", "rebateUnit", "qtde", "rebateTotal", "data"]
+            fields: [
+              "target", "finalidade", "item", "srpInicial", "srpSugerido",
+              "netInicial", "netSugerido", "rebateUnit", "qtde", "rebateTotal", "data"
+            ]
           },
           {
-            tablename: 'itensSellout', fieldPrefix: 'itemSellout', fields:
-              [
-                'target', 'finalidade', 'item', 'srpInicial', 'srpSugerido',
-                'netInicial', 'netSugerido', 'rebateUnit', 'qtde', 'rebateTotal', 'data',
-                // 'qtdEvidencia', 'valEvidencia', 'totEvidencia'
-              ]
+            tablename: 'itensSellout', 
+            fieldPrefix: 'itemSellout', 
+            fields: ƒ[
+              'target', 'finalidade', 'item', 'srpInicial', 'srpSugerido',
+              'netInicial', 'netSugerido', 'rebateUnit', 'qtde', 'rebateTotal', 'data'
+            ]
           },
           // {
           //   tablename: "itensSellout",
@@ -1321,14 +1323,7 @@ angular
       }
 
       vm.buscaResumoVerbas = function buscaResumoVerbas() {
-        // erpService.getResumoVerbas(vm.Formulario.cliente.codigo);
-        // vm.Formulario.resumoVerbas = [
-        //   { titulo: 'AGUARDANDO APROVAÇÃO', class: 'warning', rebateSellout: 9000, rebateSellin: 0, spiff: 300, vpc: 0, total: 9300 },
-        //   { titulo: 'FY 2018', class: 'success', rebateSellout: 50000, rebateSellin: 0, spiff: 10000, vpc: 30000, total: 90000 },
-        //   { titulo: 'FY 2019 - YTD', class: 'success', rebateSellout: 10000, rebateSellin: 0, spiff: 10000, vpc: 1500, total: 12500 },
-        //   { titulo: 'PAGAMENTOS EFETUADOS - FY ATUAL (YTD)', class: 'active', rebateSellout: 55000, rebateSellin: 0, spiff: 5600, vpc: 7000, total: 67600 },
-        //   { titulo: 'TOTAL', class: 'info', rebateSellout: 124000, rebateSellin: 0, spiff: 16900, vpc: 38500, total: 89400 },
-        // ]
+       
       }
       vm.changeItemPrice = function changeItemPrice(item, index) {
         if (item.item && item.item.codigo) {
@@ -1820,9 +1815,9 @@ angular
               }));
               break;
             case "price":
-              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach( (it) => {
+              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach( (it) => {
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }), vm.Formulario.itensPrice.forEach(function (it) {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
