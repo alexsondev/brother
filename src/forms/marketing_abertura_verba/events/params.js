@@ -24,6 +24,7 @@ function getParams(form) {
     notificarGrupoBrotherFim: [41],
     autorizarNotificacaoInicio: [32],
     autorizarNotificacaoFim: [43],
+    evidenciasControle: [280],
     enviarEvidencias: [261],
     validarEvidencias: [62],
     gtwAprovarVerbaMaior: [67],

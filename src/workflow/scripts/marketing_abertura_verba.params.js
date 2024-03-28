@@ -12,6 +12,7 @@ function params() {
     autorizarNotificacaoInicio: [32],
     autorizarNotificacaoFim: [43],
     enviarEvidencias: [261],
+    evidenciasControle: [280],
     validarEvidencias: [62],
     aprovarVerbaMaior: [151],
     aprovarVerbaMenor: [75],
