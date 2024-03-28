@@ -116,50 +116,50 @@ function buscaDataset(fields, constraints, sortFields) {
           { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
         ]
       },
-      {
-        tablename: "itensPrice",
-        tt: "ttPrice",
-        fieldPref: "itemPrice",
-        campos: [{
-          name: "itemCodigo"
-        }, {
-          name: "srpInicial",
-          type: "decimal"
-        }, {
-          name: "netInicial",
-          type: "decimal"
-        }, {
-          name: "gpInicial",
-          type: "perc"
-        }, {
-          name: "srpSugerido",
-          type: "decimal"
-        }, {
-          name: "netSugerido",
-          type: "decimal"
-        }, {
-          name: "gpSugerido",
-          type: "perc"
-        }, {
-          name: "rebateUnit",
-          type: "decimal"
-        }, {
-          name: "qtde",
-          type: "decimal"
-        }, {
-          name: "rebateTotal",
-          type: "decimal"
-        }, {
-          name: "qtdEvidencia",
-          type: "decimal"
-        }, {
-          name: "valEvidencia",
-          type: "decimal"
-        }, {
-          name: "totEvidencia",
-          type: "decimal"
-        }]
-      },
+      // {
+      //   tablename: "itensPrice",
+      //   tt: "ttPrice",
+      //   fieldPref: "itemPrice",
+      //   campos: [{
+      //     name: "itemCodigo"
+      //   }, {
+      //     name: "srpInicial",
+      //     type: "decimal"
+      //   }, {
+      //     name: "netInicial",
+      //     type: "decimal"
+      //   }, {
+      //     name: "gpInicial",
+      //     type: "perc"
+      //   }, {
+      //     name: "srpSugerido",
+      //     type: "decimal"
+      //   }, {
+      //     name: "netSugerido",
+      //     type: "decimal"
+      //   }, {
+      //     name: "gpSugerido",
+      //     type: "perc"
+      //   }, {
+      //     name: "rebateUnit",
+      //     type: "decimal"
+      //   }, {
+      //     name: "qtde",
+      //     type: "decimal"
+      //   }, {
+      //     name: "rebateTotal",
+      //     type: "decimal"
+      //   }, {
+      //     name: "qtdEvidencia",
+      //     type: "decimal"
+      //   }, {
+      //     name: "valEvidencia",
+      //     type: "decimal"
+      //   }, {
+      //     name: "totEvidencia",
+      //     type: "decimal"
+      //   }]
+      // },
       {
         tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
         campos: [
@@ -260,7 +260,7 @@ function buscaDataset(fields, constraints, sortFields) {
     // const json = jsonLocal();
 
     try {
-      json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+      // json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
       ttStatus.concat(json.ttStatus)
     } catch (error) {
       log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
