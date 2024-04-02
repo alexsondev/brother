@@ -1,9 +1,11 @@
 function atualizaStatus() {
+  log.info("atualizaStatus ~ atualizaStatus:")
+  
   var ttParams = {
     ttParam: [],
     ttRateioCategoria: [],
     ttSellout: [],
-    ttPrice: [],
+    ttPrpro: [],
     ttSellinItem: [],
     ttSellinTarget: [],
     ttSellinTargetAc: [],
@@ -52,7 +54,7 @@ function atualizaStatus() {
       ]
     },
     {
-      tablename: 'itensPrice', tt: 'ttPrice', fieldPref: 'itemPrice',
+      tablename: 'itensPrpro', tt: 'ttPrpro', fieldPref: 'itemPrpro',
       campos: [
         { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
         { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
@@ -137,5 +139,5 @@ function atualizaStatus() {
 
 
   });
-
+  log.info("atualizaStatus ~ atualizaStatus: fim")
 }

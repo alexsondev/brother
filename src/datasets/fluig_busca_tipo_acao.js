@@ -62,7 +62,7 @@ function jsonLocal() {
         descricao: 'SPIFF'
       },
       {
-        codigo: 'price',
+        codigo: 'prpro',
         descricao: 'PRICE PROTECTION'
       }
 

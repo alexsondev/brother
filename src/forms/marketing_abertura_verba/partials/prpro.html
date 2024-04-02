@@ -1,0 +1,171 @@
+<table class="table" tablename="itensPrpro" noaddbutton="true" nodeletebutton="true"
+  ng-show="vm.Formulario.itensPrpro.length > 0">
+  <thead>
+    <tr>
+      <th class="col-sm-1" ng-if="vm.regras.enableSolicitacao"></th>
+      <th class="col-sm-11"></th>
+    </tr>
+  </thead>
+  <tbody ng-non-bindable>
+    <tr ng-repeat="itemPrpro in vm.Formulario.itensPrpro track by $index">
+      <td ng-if="vm.regras.enableSolicitacao">
+        <span ng-click="vm.removeChild(vm.Formulario.itensPrpro, itemPrpro)"
+          class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+      </td>
+      <td>
+        <div class="td-content">
+          <div class="row" ng-show="vm.Formulario.tipoPrpro == 'target'">
+            <div class="col-sm-4">
+              <label>Target</label>
+              <input class="form-control input-lg" name="itemPrpro_target" ng-model="itemPrpro.target"
+                ng-value="itemPrpro.target" ng-readonly="!vm.regras.enableSolicitacao">
+
+            </div>
+            <div class="col-sm-8">
+              <label>Finalidade</label>
+              <input class="form-control input-lg" name="itemPrpro_finalidade" ng-model="itemPrpro.finalidade"
+                ng-value="itemPrpro.finalidade" ng-readonly="!vm.regras.enableSolicitacao">
+            </div>
+          </div>
+
+          <div class="row" ng-show="vm.Formulario.tipoPrpro != 'target'">
+            <div class="col-sm-4">
+              <label>Cód. Item</label>
+              <input class="form-control input-lg" name="itemPrpro_itemC_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="codigo" ng-model="itemPrpro.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemPrpro.loading"
+                ng-change="itemPrpro.alterado = true;vm.changeItemPrpro(itemPrpro, $index)">
+
+            </div>
+            <div class="col-sm-8">
+              <label>Descrição</label>
+              <input class="form-control input-lg" name="itemPrpro_itemD_i" fluig-autocomplete
+                dataset="totvs_busca_item" display-key="descricao" ng-model="itemPrpro.item"
+                ng-disabled="!vm.regras.enableSolicitacao" ng-readonly="itemPrpro.loading"
+                ng-change="itemPrpro.alterado = true;vm.changeItemPrpro(itemPrpro, $index)">
+            </div>
+
+            <textarea hidden name="itemPrpro_item" ng-value="itemPrpro.item | json:0"
+              ng-bind="itemPrpro.item | json:0"></textarea>
+            <input type="hidden" name="itemPrpro_itemDescricao" ng-value="itemPrpro.item.descricao">
+            <input type="hidden" name="itemPrpro_itemCodigo" ng-value="itemPrpro.item.codigo">
+          </div>
+
+          <div class="row" ng-show="vm.Formulario.tipoPrpro == 'srp'">
+            <div class="col-sm-4">
+              <label>SRP Inicial</label>
+              <input class="form-control input-lg" name="itemPrpro_srpInicial_i" fluig-money-mask="5"
+                fluig-negative-number fluig-negative-number ng-model="itemPrpro.srpInicial"
+                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemPrpro)"
+                ng-change="itemPrpro.alterado = true">
+              <input type="hidden" name="itemPrpro_srpInicial_f" ng-value="itemPrpro.srpInicial | currency">
+              <input type="hidden" name="itemPrpro_srpInicial" ng-value="itemPrpro.srpInicial">
+            </div>
+
+            <div class="col-sm-4">
+              <label>SRP Sugerido</label>
+              <input class="form-control input-lg" name="itemPrpro_srpSugerido_i" fluig-money-mask="5"
+                fluig-negative-number fluig-negative-number ng-model="itemPrpro.srpSugerido"
+                ng-readonly="!vm.regras.enableSolicitacao" ng-blur="vm.calculaItemErp(itemPrpro)"
+                ng-change="itemPrpro.alterado = true">
+              <input type="hidden" name="itemPrpro_srpSugerido_f" ng-value="itemPrpro.srpSugerido | currency">
+              <input type="hidden" name="itemPrpro_srpSugerido" ng-value="itemPrpro.srpSugerido">
+            </div>
+          </div>
+
+          <div class="row animation" ng-show="vm.Formulario.tipoPrpro != 'target'">
+            <div class="col-sm-4">
+              <label>Net R$ Inicial</label>
+              <input class="form-control input-lg" name="itemPrpro_netInicial_i"
+                ng-class="{'loading':itemPrpro.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrpro.netInicial"
+                ng-change="itemPrpro.alterado = true;vm.calculaItemErp(itemPrpro)"
+                ng-disabled="vm.Formulario.tipoPrpro != 'net'">
+              <input type="hidden" name="itemPrpro_netInicial_f" ng-value="itemPrpro.netInicial | currency">
+              <input type="hidden" name="itemPrpro_netInicial" ng-value="itemPrpro.netInicial">
+            </div>
+
+            <div class="col-sm-4">
+              <label>Net R$ Sugerido</label>
+              <input class="form-control input-lg" name="itemPrpro_netSugerido_i"
+                ng-class="{'loading':itemPrpro.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrpro.netSugerido"
+                ng-change="itemPrpro.alterado = true;vm.calculaItemErp(itemPrpro)"
+                ng-disabled="vm.Formulario.tipoPrpro != 'net'">
+              <input type="hidden" name="itemPrpro_netSugerido_f" ng-value="itemPrpro.netSugerido | currency">
+              <input type="hidden" name="itemPrpro_netSugerido" ng-value="itemPrpro.netSugerido">
+            </div>
+
+          </div>
+
+          <div class="row animation">
+            <div class="col-sm-4">
+              <label>Rebate Unit</label>
+              <input class="form-control input-lg" name="itemPrpro_rebateUnit_i"
+                ng-class="{'loading':itemPrpro.loading}" fluig-money-mask="5" fluig-negative-number
+                fluig-negative-number ng-model="itemPrpro.rebateUnit" ng-change="vm.calculaRebateTotal(itemPrpro)"
+                ng-disabled="vm.Formulario.tipoPrpro != 'target'">
+              <input type="hidden" name="itemPrpro_rebateUnit_f" ng-value="itemPrpro.rebateUnit | currency">
+              <input type="hidden" name="itemPrpro_rebateUnit" ng-value="itemPrpro.rebateUnit">
+            </div>
+
+            <div class="col-sm-4">
+              <label>Qtde</label>
+              <input class="form-control input-lg" name="itemPrpro_qtde_i" fluig-number-mask="2" fluig-negative-number
+                ng-model="itemPrpro.qtde" ng-readonly="!vm.regras.enableSolicitacao"
+                ng-change="vm.calculaRebateTotal(itemPrpro)">
+              <input type="hidden" name="itemPrpro_qtde_f" ng-value="itemPrpro.qtde | number:'2'">
+              <input type="hidden" name="itemPrpro_qtde" ng-value="itemPrpro.qtde">
+            </div>
+
+          </div>
+          <div class="row animation">
+            <div class="col-sm-2 animation" ng-show="vm.Formulario.tipoPrpro != 'target'">
+              <label>Categoria</label>
+              <input class="form-control input-lg" name="itemPrpro_categoria" ng-value="itemPrpro.item.categoria"
+                disabled>
+            </div>
+            <div class="col-sm-2" ng-show="vm.Formulario.tipoPrpro != 'target'">
+              <label>Centro de Custo</label>
+              <input class="form-control input-lg" name="itemPrpro_ccusto" ng-value="itemPrpro.item.ccusto" disabled>
+            </div>
+
+            <div class="col-sm-4">
+              <label>Rebate Total</label>
+              <input class="form-control input-lg" name="itemPrpro_rebateTotal_i" fluig-money-mask="2"
+                fluig-negative-number ng-model="itemPrpro.rebateTotal" disabled>
+              <input type="hidden" name="itemPrpro_rebateTotal_f" ng-value="itemPrpro.rebateTotal | currency">
+              <input type="hidden" name="itemPrpro_rebateTotal" ng-value="itemPrpro.rebateTotal">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <!-- <h4>{{itemPrpro.usuario.colleagueName}} incluiu em {{itemPrpro.data | date}}</h4> -->
+              <textarea hidden name="itemPrpro_usuario" ng-value="itemPrpro.usuario | json:0"
+                ng-bind="itemPrpro.usuario | json:0"></textarea>
+              <input type="hidden" name="itemPrpro_usuarioCodigo" ng-value="itemPrpro.usuario.colleagueId">
+              <input type="hidden" name="itemPrpro_usuarioNome" ng-value="itemPrpro.usuario.colleagueName">
+              <input type="hidden" name="itemPrpro_data_f" ng-value="itemPrpro.data | date:'fullDate'">
+              <input type="hidden" name="itemPrpro_data" ng-value="itemPrpro.data">
+
+            </div>
+          </div>
+
+          <input type="hidden" name="itemPrpro_qtdEvidencia_f" ng-value="itemPrpro.qtdEvidencia | number:'2'">
+          <input type="hidden" name="itemPrpro_valEvidencia_f" ng-value="itemPrpro.valEvidencia | currency">
+          <input type="hidden" name="itemPrpro_totEvidencia_f" ng-value="itemPrpro.totEvidencia | currency">
+
+          <input type="hidden" name="itemPrpro_qtdEvidencia" ng-value="itemPrpro.qtdEvidencia">
+          <input type="hidden" name="itemPrpro_valEvidencia" ng-value="itemPrpro.valEvidencia">
+          <input type="hidden" name="itemPrpro_totEvidencia" ng-value="itemPrpro.totEvidencia">
+
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<a ng-if="vm.regras.enableSolicitacao" class="btn btn-default"
+  ng-click="vm.incluiItem(vm.Formulario.itensPrpro)">Incluir
+  Item</a>

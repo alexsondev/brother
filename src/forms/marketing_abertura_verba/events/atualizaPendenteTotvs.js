@@ -1,6 +1,7 @@
 function atualizaPendenteTotvs(form) {
   const solicitacao = form.getValue('solicitacao');
 
+  log.info('atualizaPendenteTotvs solicitacao');
   if (solicitacao) {
     const extMav = getDataset('ext_mav', ['documentid', 'solicitacao', 'pendenteTotvs'], [
       { field: 'solicitacao', value: form.getValue('solicitacao') }
@@ -14,4 +15,5 @@ function atualizaPendenteTotvs(form) {
       ]);
     }
   }
+  log.info('atualizaPendenteTotvs fim');
 }

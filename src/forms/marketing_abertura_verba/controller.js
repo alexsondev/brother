@@ -432,8 +432,8 @@ angular
             break;
 
           //Alteração ACL ok
-          case "price":
-            vm.Formulario.itensPrice.forEach(function (it, o) {
+          case "prpro":
+            vm.Formulario.itensPrpro.forEach(function (it, o) {
               if (it.item) {
                 let cat = vm.Formulario.rateioCategoria.filter(function (o) {
                   return o.categoria.descricao == it.item.ccusto;
@@ -981,7 +981,7 @@ angular
       vm.copiaDadosAcao = () => {
         [
           'cliente', 'nomeAcao', 'tipoAcao', 'inicioAcao', 'terminoAcao', 'tipoQuantidade',
-          'tipoVpc', 'tipoSellin', 'tipoSellout', 'tipoPrice', 'tipoSpiff', 'descricaoDetalhada', 'valorTotalVerba'
+          'tipoVpc', 'tipoSellin', 'tipoSellout', 'tipoPrpro', 'tipoSpiff', 'descricaoDetalhada', 'valorTotalVerba'
         ]
           .forEach(field => {
             try {
@@ -999,21 +999,21 @@ angular
           vm.Formulario.tipoSellout = "srp";
         }
         if (
-          vm.Formulario.tipoAcao.tipoAcaoCodigo == "price" &&
-          !vm.Formulario.tipoPrice
+          vm.Formulario.tipoAcao.tipoAcaoCodigo == "prpro" &&
+          !vm.Formulario.tipoPrpro
         ) {
-          vm.Formulario.tipoPrice = "srp";
+          vm.Formulario.tipoPrpro = "srp";
         }
-        if (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && !vm.Formulario.tipoPrice) {
-          vm.Formulario.tipoPrice = 'srp';
+        if (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'prpro' && !vm.Formulario.tipoPrpro) {
+          vm.Formulario.tipoPrpro = 'srp';
         }
 
         vm.buscaContatosCliente();
 
         const tablesToCopy = [
           {
-            tablename: "itensPrice",
-            fieldPrefix: "itemPrice",
+            tablename: "itensPrpro",
+            fieldPrefix: "itemPrpro",
             fields: [
               "target", "finalidade", "item", "srpInicial", "srpSugerido",
               "netInicial", "netSugerido", "rebateUnit", "qtde", "rebateTotal", "data"
@@ -1250,8 +1250,8 @@ angular
           vm.Formulario.itensSellout.forEach(itemSellout => {
             vm.calculaItemErp(itemSellout)
           })
-          vm.Formulario.itensPrice.forEach(itemPrice => {
-            vm.calculaItemErp(itemPrice)
+          vm.Formulario.itensPrpro.forEach(itemPrpro => {
+            vm.calculaItemErp(itemPrpro)
           })
 
           vm.buscaContatosCliente();
@@ -1327,7 +1327,7 @@ angular
       vm.buscaResumoVerbas = function buscaResumoVerbas() {
        
       }
-      vm.changeItemPrice = function changeItemPrice(item, index) {
+      vm.changeItemPrpro = function changeItemPrpro(item, index) {
         if (item.item && item.item.codigo) {
           vm.calculaItemErp(item);
         }
@@ -1339,7 +1339,7 @@ angular
       };
 
       //==================Alteração ACL===========================
-      vm.changeItemPrice = function (item, index) {
+      vm.changeItemPrpro = function (item, index) {
         item.item && item.item.codigo && vm.calculaItemErp(item);
       };
       //=================FIM Alteração============================
@@ -1354,7 +1354,7 @@ angular
         if (item.item && item.item.codigo && item.alterado) {
           if (
             (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellout' && vm.Formulario.tipoSellout == 'net') ||
-            (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'price' && vm.Formulario.tipoPrice == 'net') ||
+            (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'prpro' && vm.Formulario.tipoPrpro == 'net') ||
             (vm.Formulario.tipoAcao.tipoAcaoCodigo == 'sellin' && vm.Formulario.tipoSellin == 'net')) {
             item.rebateUnit = parseFloat(Number(item.netInicial - item.netSugerido).toFixed(4));
 
@@ -1452,7 +1452,7 @@ angular
 
       vm.changeTipoAcao = function changeTipoAcao() {
         vm.Formulario.itensSellout = [];
-        vm.Formulario.itensPrice = [];
+        vm.Formulario.itensPrpro = [];
         vm.Formulario.itensSellinIt = [];
         vm.Formulario.itensSellinTg = [];
         vm.Formulario.itensSellinTgAc = [];
@@ -1475,9 +1475,9 @@ angular
                 vm.bloqRateio = true;
               }
               break;
-            case 'price':
-              vm.incluiItem(vm.Formulario.itensPrice);
-              if (vm.Formulario.tipoPrice == 'srp' || vm.Formulario.tipoPrice == 'net') {
+            case 'prpro':
+              vm.incluiItem(vm.Formulario.itensPrpro);
+              if (vm.Formulario.tipoPrpro == 'srp' || vm.Formulario.tipoPrpro == 'net') {
                 vm.bloqRateio = true;
               }
               break;
@@ -1726,7 +1726,7 @@ angular
           vm.Formulario.tipoAcao &&
           vm.Formulario.tipoAcao.tipoAcaoCodigo &&
           vm.Formulario.tipoSellout !== "target" &&
-          vm.Formulario.tipoPrice !== "target"
+          vm.Formulario.tipoPrpro !== "target"
         ) {
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case "sellout":
@@ -1740,9 +1740,9 @@ angular
                 });
               });
               break
-            case 'price':
-              vm.Formulario.itensPrice.forEach((it, index) => {
-                vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
+            case 'prpro':
+              vm.Formulario.itensPrpro.forEach((it, index) => {
+                vm.ItensEvidencia.push({ tablename: 'itensPrpro', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
 
@@ -1816,12 +1816,12 @@ angular
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0
               }));
               break;
-            case "price":
-              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach((it) => {
+            case "prpro":
+              "net" == vm.Formulario.tipoPrpro ? (vm.Formulario.itensPrpro.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach((it) => {
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrpro.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
-              }), vm.Formulario.itensPrice.forEach(function (it) {
+              }), vm.Formulario.itensPrpro.forEach(function (it) {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }));
               break;

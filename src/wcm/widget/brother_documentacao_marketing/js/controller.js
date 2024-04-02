@@ -46,3 +46,13 @@ angular.module('BrotherDocumentacaoMarketingMainApp', ['ngRoute', 'brother.direc
 
     };
   }]);
+
+  // try {
+  //   angular.element(document)
+  //     .ready(() => {
+  //       angular.bootstrap(document.getElementById('BrotherDocumentacaoMarketing'), ['BrotherDocumentacaoMarketingMainApp']);
+  //     });
+  // } catch (err) {
+  //   // err
+  // }
+  

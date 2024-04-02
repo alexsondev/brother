@@ -45,7 +45,7 @@ function buscaDataset(fields, constraints, sortFields) {
   let solicitacaoCampos = [
     { name: 'solicitacao' }, { name: 'importado' }, { name: 'clienteCodigo' }, { name: 'tipoAcaoDescricao' }, { name: 'tipoAcaoCodigo' },
     { name: 'inicioAcao', type: 'date' }, { name: 'terminoAcao', type: 'date' }, { name: 'tipoQuantidade' }, { name: 'nomeAcao' },
-    { name: 'tipoPrice' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
+    { name: 'tipoPrpro' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
     { name: 'valorTotalVerba', type: 'decimal' }, { name: 'gpMedioSugerido', type: 'perc' }, { name: 'numControle' },
     { name: 'dataAbertura', type: 'date' }, { name: 'solicitanteNome' }, { name: 'solicitanteCodigo' }, { name: 'atividade' },
     { name: 'responsavel' }, { name: 'statusAprovGerMarketing' }, { name: 'dataAprovGerMarketing', type: 'date' },
@@ -68,7 +68,7 @@ function buscaDataset(fields, constraints, sortFields) {
       ttParam: [],
       ttRateioCategoria: [],
       ttSellout: [],
-      ttPrice: [],
+      ttPrpro: [],
       ttSellinItem: [],
       ttSellinTarget: [],
       ttSellinTargetAc: [],
@@ -116,50 +116,50 @@ function buscaDataset(fields, constraints, sortFields) {
           { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
         ]
       },
-      // {
-      //   tablename: "itensPrice",
-      //   tt: "ttPrice",
-      //   fieldPref: "itemPrice",
-      //   campos: [{
-      //     name: "itemCodigo"
-      //   }, {
-      //     name: "srpInicial",
-      //     type: "decimal"
-      //   }, {
-      //     name: "netInicial",
-      //     type: "decimal"
-      //   }, {
-      //     name: "gpInicial",
-      //     type: "perc"
-      //   }, {
-      //     name: "srpSugerido",
-      //     type: "decimal"
-      //   }, {
-      //     name: "netSugerido",
-      //     type: "decimal"
-      //   }, {
-      //     name: "gpSugerido",
-      //     type: "perc"
-      //   }, {
-      //     name: "rebateUnit",
-      //     type: "decimal"
-      //   }, {
-      //     name: "qtde",
-      //     type: "decimal"
-      //   }, {
-      //     name: "rebateTotal",
-      //     type: "decimal"
-      //   }, {
-      //     name: "qtdEvidencia",
-      //     type: "decimal"
-      //   }, {
-      //     name: "valEvidencia",
-      //     type: "decimal"
-      //   }, {
-      //     name: "totEvidencia",
-      //     type: "decimal"
-      //   }]
-      // },
+      {
+        tablename: "itensPrpro",
+        tt: "ttPrpro",
+        fieldPref: "itemPrpro",
+        campos: [{
+          name: "itemCodigo"
+        }, {
+          name: "srpInicial",
+          type: "decimal"
+        }, {
+          name: "netInicial",
+          type: "decimal"
+        }, {
+          name: "gpInicial",
+          type: "perc"
+        }, {
+          name: "srpSugerido",
+          type: "decimal"
+        }, {
+          name: "netSugerido",
+          type: "decimal"
+        }, {
+          name: "gpSugerido",
+          type: "perc"
+        }, {
+          name: "rebateUnit",
+          type: "decimal"
+        }, {
+          name: "qtde",
+          type: "decimal"
+        }, {
+          name: "rebateTotal",
+          type: "decimal"
+        }, {
+          name: "qtdEvidencia",
+          type: "decimal"
+        }, {
+          name: "valEvidencia",
+          type: "decimal"
+        }, {
+          name: "totEvidencia",
+          type: "decimal"
+        }]
+      },
       {
         tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
         campos: [

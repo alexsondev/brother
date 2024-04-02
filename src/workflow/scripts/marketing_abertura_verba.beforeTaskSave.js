@@ -1,5 +1,6 @@
 function beforeTaskSave(colleagueId, nextSequenceId, userList) {
 
+  log.info("beforeTaskSave ini")
   var Params = params();
 
   var sequenceId = getValue("WKNumState");

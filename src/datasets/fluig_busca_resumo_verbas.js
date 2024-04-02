@@ -57,16 +57,16 @@ function buscaDataset(fields, constraints, sortFields) {
           }        
         }
         
-        if (s.tipoAcaoCodigo == 'price') {
+        if (s.tipoAcaoCodigo == 'prpro') {
           const dsItens = getDataset('marketing_abertura_verba', null, [
             { field: 'documentid', value: s.documentid },
-            { field: 'tablename', value: 'itensPrice' }
+            { field: 'tablename', value: 'itensPrpro' }
           ]);
 
-          if (s.tipoPrice == 'srp' || s.tipoPrice == 'net' || !s.tipoPrice || s.tipoPrice == '') {
-            s.produtosCodigos = dsItens.map(i => i.itemPrice_itemCodigo).join(', ');
+          if (s.tipoPrpro == 'srp' || s.tipoPrpro == 'net' || !s.tipoPrpro || s.tipoPrpro == '') {
+            s.produtosCodigos = dsItens.map(i => i.itemPrpro_itemCodigo).join(', ');
           } else {
-            s.produtosCodigos = dsItens.map(i => i.itemPrice_target).join(', ');
+            s.produtosCodigos = dsItens.map(i => i.itemPrpro_target).join(', ');
           }        
         }
 

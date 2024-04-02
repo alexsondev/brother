@@ -9,7 +9,7 @@ import com.google.gson.Gson;
  * Objeto de com os dados da API /api/public/admin/tenant Pode também ser chamado de DTO
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MarketingItemPriceVO implements Serializable {
+public class MarketingItemPrproVO implements Serializable {
 
     /**
      *
@@ -27,12 +27,12 @@ public class MarketingItemPriceVO implements Serializable {
     private double valEvidencia;
     private double totEvidencia;
 
-    public MarketingItemPriceVO() {
+    public MarketingItemPrproVO() {
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
 
-    public MarketingItemPriceVO(ItemVO item, String finalidade, String target, double rebateUnit,
+    public MarketingItemPrproVO(ItemVO item, String finalidade, String target, double rebateUnit,
             double qtde, double rebateTotal, double qtdEvidencia, double valEvidencia,
             double totEvidencia) {
         this.item = item;
@@ -118,47 +118,47 @@ public class MarketingItemPriceVO implements Serializable {
         this.totEvidencia = totEvidencia;
     }
 
-    public MarketingItemPriceVO item(ItemVO item) {
+    public MarketingItemPrproVO item(ItemVO item) {
         setItem(item);
         return this;
     }
 
-    public MarketingItemPriceVO finalidade(String finalidade) {
+    public MarketingItemPrproVO finalidade(String finalidade) {
         setFinalidade(finalidade);
         return this;
     }
 
-    public MarketingItemPriceVO target(String target) {
+    public MarketingItemPrproVO target(String target) {
         setTarget(target);
         return this;
     }
 
-    public MarketingItemPriceVO rebateUnit(double rebateUnit) {
+    public MarketingItemPrproVO rebateUnit(double rebateUnit) {
         setRebateUnit(rebateUnit);
         return this;
     }
 
-    public MarketingItemPriceVO qtde(double qtde) {
+    public MarketingItemPrproVO qtde(double qtde) {
         setQtde(qtde);
         return this;
     }
 
-    public MarketingItemPriceVO rebateTotal(double rebateTotal) {
+    public MarketingItemPrproVO rebateTotal(double rebateTotal) {
         setRebateTotal(rebateTotal);
         return this;
     }
 
-    public MarketingItemPriceVO qtdEvidencia(double qtdEvidencia) {
+    public MarketingItemPrproVO qtdEvidencia(double qtdEvidencia) {
         setQtdEvidencia(qtdEvidencia);
         return this;
     }
 
-    public MarketingItemPriceVO valEvidencia(double valEvidencia) {
+    public MarketingItemPrproVO valEvidencia(double valEvidencia) {
         setValEvidencia(valEvidencia);
         return this;
     }
 
-    public MarketingItemPriceVO totEvidencia(double totEvidencia) {
+    public MarketingItemPrproVO totEvidencia(double totEvidencia) {
         setTotEvidencia(totEvidencia);
         return this;
     }
@@ -167,19 +167,19 @@ public class MarketingItemPriceVO implements Serializable {
     public boolean equals(Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof MarketingItemPriceVO)) {
+        if (!(o instanceof MarketingItemPrproVO)) {
             return false;
         }
-        MarketingItemPriceVO marketingItemPriceVO = (MarketingItemPriceVO) o;
-        return Objects.equals(item, marketingItemPriceVO.item)
-                && Objects.equals(finalidade, marketingItemPriceVO.finalidade)
-                && Objects.equals(target, marketingItemPriceVO.target)
-                && rebateUnit == marketingItemPriceVO.rebateUnit
-                && qtde == marketingItemPriceVO.qtde
-                && rebateTotal == marketingItemPriceVO.rebateTotal
-                && qtdEvidencia == marketingItemPriceVO.qtdEvidencia
-                && valEvidencia == marketingItemPriceVO.valEvidencia
-                && totEvidencia == marketingItemPriceVO.totEvidencia;
+        MarketingItemPrproVO marketingItemPrproVO = (MarketingItemPrproVO) o;
+        return Objects.equals(item, marketingItemPrproVO.item)
+                && Objects.equals(finalidade, marketingItemPrproVO.finalidade)
+                && Objects.equals(target, marketingItemPrproVO.target)
+                && rebateUnit == marketingItemPrproVO.rebateUnit
+                && qtde == marketingItemPrproVO.qtde
+                && rebateTotal == marketingItemPrproVO.rebateTotal
+                && qtdEvidencia == marketingItemPrproVO.qtdEvidencia
+                && valEvidencia == marketingItemPrproVO.valEvidencia
+                && totEvidencia == marketingItemPrproVO.totEvidencia;
     }
 
     @Override

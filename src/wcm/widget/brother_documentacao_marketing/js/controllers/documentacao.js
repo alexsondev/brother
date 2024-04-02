@@ -5,7 +5,6 @@ angular
       const vm = this;
 
       vm.Errors = [];
-      console.log("🚀 ~ file: documentacao.js:8 ~ BrotherDocumentacaoMarketingController ~ Error:", Error)
       vm.loader = FLUIGC.loading('.container');
 
       vm.inicia = () => {
@@ -166,14 +165,14 @@ angular
       };
 
       vm.salvar = async (completeTask) => {
-      console.log("🚀 ~ file: documentacao.js:164 ~ vm.sal ~ completeTask:", completeTask)
+        console.log("🚀 ~ file: documentacao.js:164 ~ vm.sal ~ completeTask:", completeTask)
 
         if (!vm.alterado || vm.loading) return;
-        
+
         vm.loading = true;
 
         if (completeTask) vm.loader.show();
-        
+
         vm.completeTask = completeTask || false;
 
         console.log("🚀 ~ file: documentacao.js:183 ~ vm.sal ~ vm.Formulario:", vm.Formulario)
@@ -189,8 +188,8 @@ angular
 
           vm.completeTask = false;
           vm.loading = false;
-          
-        } catch(error) {
+
+        } catch (error) {
           console.log("🚀 ~ file: documentacao.js:190 ~ vm.sal ~ error:", error)
           vm.loading = false;
 
@@ -200,14 +199,14 @@ angular
             type: 'danger',
             timeout: 5000
           });
-          
+
           if (completeTask) {
             vm.completeTask = false;
             vm.loader.hide();
           }
         }
 
-        
+
       };
 
       vm.selectFiles = async function selectFiles(tablename, files, item) {
@@ -215,7 +214,7 @@ angular
           vm.Formulario[tablename] = [];
         }
 
-        await Promise.all( files.map(async (file) => {
+        await Promise.all(files.map(async (file) => {
           file.nome = file.name;
           // file.descricao = file.name;
           file.tipo = file.type;
@@ -284,14 +283,14 @@ angular
             if (!arquivo.descricao && !arquivo.removed) {
               Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
             }
-              console.log("🚀 ~ file: documentacao.js:286 ~ vm.Formulario.evidencias.forEach ~ Error:", Error)
+            console.log("🚀 ~ file: documentacao.js:286 ~ vm.Formulario.evidencias.forEach ~ Error:", Error)
           });
 
           vm.ItensEvidencia.forEach((item) => {
             if (vm.Formulario[item.tablename][item.index].valEvidencia === 0) {
               Errors.push(`<li>Informe o valor no item ${item.descricao}</li>`);
             }
-              console.log("🚀 ~ file: documentacao.js:293 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
+            console.log("🚀 ~ file: documentacao.js:293 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
             // if (vm.Formulario[item.tablename][item.index].qtdEvidencia === 0) {
             //   Errors.push(`<li>Informe a quantidade no item ${item.descricao}</li>`);
             // }
@@ -307,15 +306,15 @@ angular
               if (!arquivo.descricao) {
                 Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
               }
-                console.log("🚀 ~ file: documentacao.js:309 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              console.log("🚀 ~ file: documentacao.js:309 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!arquivo.numero) {
                 Errors.push(`<li>Informe o número da ND no arquivo ${arquivo.nome}</li>`);
               }
-                console.log("🚀 ~ file: documentacao.js:313 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              console.log("🚀 ~ file: documentacao.js:313 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!isNaN(Number(arquivo.numero)) && Number(arquivo.numero) === 0) {
                 Errors.push(`<li>Número da ND no arquivo ${arquivo.nome} deve ser diferente de 0</li>`);
               }
-                console.log("🚀 ~ file: documentacao.js:317 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              console.log("🚀 ~ file: documentacao.js:317 ~ vm.Formulario.nd.forEach ~ Error:", Error)
             }
           });
         }
@@ -327,7 +326,7 @@ angular
             message: `<ul>${Errors.join('')}</ul>`,
             type: 'danger',
             timeout: 5000
-            
+
           });
           return;
         }
@@ -359,7 +358,7 @@ angular
             vm.salvar(true);
           }
         });
-      };
+      }
 
       vm.getItens = () => {
         vm.ItensEvidencia = [];
@@ -370,30 +369,31 @@ angular
             vm.ItensEvidencia.push({ tablename: 'itensSellout', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.rebateTotal });
           });
 
-        if (vm.Formulario.tipoPrice !== 'target') {
-          vm.Formulario.itensPrice.forEach((it, index) => {
+          if (vm.Formulario.tipoPrpro !== 'target') {
+            vm.Formulario.itensPrpro.forEach((it, index) => {
+              if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
+              vm.ItensEvidencia.push({ tablename: 'itensPrpro', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.rebateTotal });
+            });
+          }
+          vm.Formulario.itensSellinIt.forEach((it, index) => {
             if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
-            vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.rebateTotal });
+            vm.ItensEvidencia.push({ tablename: 'itensSellinIt', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.rebateTotal });
           });
-        }
-        vm.Formulario.itensSellinIt.forEach((it, index) => {
-          if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
-          vm.ItensEvidencia.push({ tablename: 'itensSellinIt', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.rebateTotal });
-        });
-        vm.Formulario.itensSpiffIt.forEach((it, index) => {
-          if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.valorUnit;
-          vm.ItensEvidencia.push({ tablename: 'itensSpiffIt', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.valorTotal });
-        });
+          vm.Formulario.itensSpiffIt.forEach((it, index) => {
+            if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.valorUnit;
+            vm.ItensEvidencia.push({ tablename: 'itensSpiffIt', index, descricao: `${it.item.codigo} - ${it.item.descricao}`, valorTotal: it.valorTotal });
+          });
 
-        console.log(vm.Formulario.itensSpiffIt, vm.ItensEvidencia);
+          console.log(vm.Formulario.itensSpiffIt, vm.ItensEvidencia);
 
-        vm.ItensEvidencia.forEach((item) => {
-          // vm.Formulario[item.tablename][item.index].valEvidencia = vm.Formulario[item.tablename][item.index].valorUnit || vm.Formulario[item.tablename][item.index].rebateUnit || 0;
-          // vm.Formulario[item.tablename][item.index].qtdEvidencia = vm.Formulario[item.tablename][item.index].qtde || 0;
+          vm.ItensEvidencia.forEach((item) => {
+            // vm.Formulario[item.tablename][item.index].valEvidencia = vm.Formulario[item.tablename][item.index].valorUnit || vm.Formulario[item.tablename][item.index].rebateUnit || 0;
+            // vm.Formulario[item.tablename][item.index].qtdEvidencia = vm.Formulario[item.tablename][item.index].qtde || 0;
 
-          vm.calculaTotalItemEvidencia(item);
-        });
-      };
+            vm.calculaTotalItemEvidencia(item);
+          });
+        };
+      }
 
       vm.calculaTotalItemEvidencia = (item) => {
         // vm.Formulario[item.tablename][item.index].valEvidencia = vm.Formulario[item.tablename][item.index].valEvidencia || 0;
@@ -408,6 +408,6 @@ angular
         vm.alterado = true;
       };
 
-      vm.inicia();
-    }
-  ]);
+        vm.inicia();
+      }
+  ])

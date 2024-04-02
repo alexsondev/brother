@@ -73,7 +73,7 @@ function buscaDataset(fields, constraints, sortFields) {
 
       [
         'emailsCliente', 'arquivosEvidencias', 'arquivosND', 'chat', 'rateioCategoria', 'itensSellinIt', 'itensSellinTgAc',
-        'itensSellinTg', 'itensSellout', 'itensPrice', 'itensSpiffIt', 'itensSpiffTg', 'statusErp', 'itensVpcEvt', 'itensVpcOutros'
+        'itensSellinTg', 'itensSellout', 'itensPrpro', 'itensSpiffIt', 'itensSpiffTg', 'statusErp', 'itensVpcEvt', 'itensVpcOutros'
       ].forEach(table => {
         let dsTable = getDataset('marketing_abertura_verba', null,
           [

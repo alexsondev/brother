@@ -1,6 +1,7 @@
 /*eslint-disable*/
 /*jshint -W116 */
 function validateForm(form) {
+  log.info("validateForm ~ validateForm: ini")
   const Errors = value(form, `Errors`) || [];
   const regras = value(form, `regras`) || [];
   const Params = getParams(form);
@@ -349,7 +350,7 @@ function validateForm(form) {
 
     }
   }
-
+  log.info("validateForm ~ validateForm: fim")
   if (Errors && Errors.length > 0) {
     throw Errors.join(`<br>`);
   }

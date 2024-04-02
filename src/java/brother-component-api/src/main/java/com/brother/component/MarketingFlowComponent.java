@@ -76,7 +76,7 @@ public class MarketingFlowComponent {
       String motivoRecusaND = contentArray.getJSONObject(0).optString("motivoRecusaND");
       String motivoRecusaEv = contentArray.getJSONObject(0).optString("motivoRecusaEv");
       String tipoSellout = contentArray.getJSONObject(0).optString("tipoSellout");
-      String tipoPrice = contentArray.getJSONObject(0).optString("tipoPrice");
+      String tipoPrpro = contentArray.getJSONObject(0).optString("tipoPrpro");
       String tipoQuantidade = contentArray.getJSONObject(0).optString("tipoQuantidade");
 
       log.info(String.format(
@@ -85,8 +85,8 @@ public class MarketingFlowComponent {
 
       MarketingItemSelloutVO[] itensSellout =
           MarketingItemSelloutComponent.getItens(documentid, version);
-      MarketingItemPriceVO[] itensPrice =
-          MarketingItemPriceComponent.getItens(documentid, version);
+      MarketingItemPrproVO[] itensPrpro =
+          MarketingItemPrproComponent.getItens(documentid, version);
 
       MarketingItemSellinItVO[] itensSellinIt =
           MarketingItemSellinItComponent.getItens(documentid, version);
@@ -116,8 +116,8 @@ public class MarketingFlowComponent {
       return new MarketingFlowVO(documentid, solicitacao, status, valorLiberado, valorTotalVerba,
           valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido,
           evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND,
-          currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrice,
-          tipoQuantidade, folderAttach, itensSellout, itensPrice, itensSellinIt, itensSellinTg, itensSellinTgAc,
+          currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro,
+          tipoQuantidade, folderAttach, itensSellout, itensPrpro, itensSellinIt, itensSellinTg, itensSellinTgAc,
           itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
 
     } catch (Exception e) {
@@ -129,7 +129,7 @@ public class MarketingFlowComponent {
       Boolean completeTask) throws Exception {
     try {
       String tables =
-          "emailsCliente;arquivosEvidencias;executivos;arquivosND;chat;rateioCategoria;duplicatas;itensSellinIt;itensSellinTgAc;itensSellinTg;itensSellout;itensPrice;itensSpiffIt;itensSpiffTg;statusErp;itensVpcEvt;itensVpcOutros";
+          "emailsCliente;arquivosEvidencias;executivos;arquivosND;chat;rateioCategoria;duplicatas;itensSellinIt;itensSellinTgAc;itensSellinTg;itensSellout;itensPrpro;itensSpiffIt;itensSpiffTg;statusErp;itensVpcEvt;itensVpcOutros";
       List<ECMFormDataVO> formData = ECMFormDataComponent.getFormData("marketing_abertura_verba",
           solicitacao.getDocumentid(), tables);
 
@@ -256,24 +256,24 @@ public class MarketingFlowComponent {
         }
       }
 
-      if (solicitacao.getItensPrice() != null) {
+      if (solicitacao.getItensPrpro() != null) {
         i = 0;
 
-        for (MarketingItemPriceVO itemPrice : solicitacao.getItensPrice()) {
+        for (MarketingItemPrproVO itemPrpro : solicitacao.getItensPrpro()) {
           i++;
 
-          fields = itemPrice.getClass().getDeclaredFields();
+          fields = itemPrpro.getClass().getDeclaredFields();
           for (Field field : fields) {
             field.setAccessible(true);
 
             String value = "";
             try {
-              value = field.get(itemPrice).toString();
+              value = field.get(itemPrpro).toString();
             } catch (Exception e) {
             }
 
             ECMFormDataVO formDataVO = new ECMFormDataVO(
-                "itemPrice_" + field.getName() + "___" + String.valueOf(i), value);
+                "itemPrpro_" + field.getName() + "___" + String.valueOf(i), value);
 
             item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
                 .findFirst().orElse(null);
