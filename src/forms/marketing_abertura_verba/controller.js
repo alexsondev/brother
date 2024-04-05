@@ -178,6 +178,7 @@ angular
           "autorizarNotificacaoInicio",
           "aguardandoFimDaAcao",
           "autorizarNotificacaoFim",
+          "evidenciasControle",
           "enviarEvidencias",
           "validarEvidencias",
           "aprovarVerbaMaior",
@@ -316,18 +317,18 @@ angular
           },
 
           { regra: 'showNotificacaoCliente', def: true, etapas: vm.etapas },
-          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: ['analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'enviarEvidencias','validarEvidencias', 'autorizarNotificacaoPagamento'] },
+          { regra: 'enableNotificacaoCliente', def: vm.Params.edit, etapas: ['analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'enviarEvidencias', 'evidenciasControle', 'validarEvidencias', 'autorizarNotificacaoPagamento'] },
           { //mudança ACL
             regra: 'enableNotificacaoCliente3',
             def: true,
             etapas: ['consulta', 'inicio', 'revisarSolicitacao', 'aprovarGerMarketing', 'aprovarPresidencia',
-              'analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'aguardandoFimDaAcao', 'enviarEvidencias',
+              'analisarErros', 'autorizarNotificacaoInicio', 'autorizarNotificacaoFim', 'aguardandoFimDaAcao', 'enviarEvidencias', 'evidenciasControle',
               'validarEvidencias', 'aprovarVerbaMaior', 'aprovarVerbaMenor', 'enviarND', 'validarND', 'gerenciarVales',
               'conferirFinanceiro', 'aprovarPagamento', 'atualizarStatus', 'autorizarNotificacaoPagamento'
             ]
           },
-          { regra: 'showEvidencias', def: true, etapas: ['consulta', 'enviarEvidencias', 'validarND', 'aprovarVerbaMaior', 'aprovarVerbaMenor', 'validarEvidencias', 'aprovarPagamento', 'analisarErros', 'conferirFinanceiro', 'gerenciarVales'] },
-          { regra: 'enableEvidencias', def: true, etapas: ['enviarEvidencias', 'analisarErros'] },
+          { regra: 'showEvidencias', def: true, etapas: ['consulta', 'enviarEvidencias', 'evidenciasControle', 'validarND', 'aprovarVerbaMaior', 'aprovarVerbaMenor', 'validarEvidencias', 'aprovarPagamento', 'analisarErros', 'conferirFinanceiro', 'gerenciarVales'] },
+          { regra: 'enableEvidencias', def: true, etapas: ['enviarEvidencias', 'evidenciasControle', 'analisarErros'] },
           { regra: 'enableValidacaoEvidencias', def: true, etapas: ['validarEvidencias', 'analisarErros'] },
 
           {
@@ -569,7 +570,7 @@ angular
             vm.etapaNotificacao = 5;
             break;
 
-          case vm.Params.etapa == 'validarEvidencias' || vm.Params.etapa == 'enviarEvidencias':
+          case vm.Params.etapa == 'validarEvidencias' || vm.Params.etapa == 'enviarEvidencias' || vm.Params.etapa == 'evidenciasControle':
             // vm.Formulario.userValidacaoEvid = vm.Usuario;
             // vm.Formulario.dataValidacaoEvid = vm.dataAtual;
             // vm.Formulario.statusValidacaoEvid = 'PENDENTE';
@@ -1188,7 +1189,8 @@ angular
       vm.checkEtapaNotificacao = function checkEtapaNotificacao() {
         if (
           vm.Params.etapa === "validarEvidencias" ||
-          vm.Params.etapa == "enviarEvidencias"
+          vm.Params.etapa == "enviarEvidencias" ||
+          vm.Params.etapa == "evidenciasControle"
         ) {
           vm.Formulario.evRecusada =
             vm.Formulario.arquivosEvidencias.filter(
