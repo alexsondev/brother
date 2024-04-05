@@ -23,6 +23,7 @@ function inputFields(form) {
       `arquivoEv_motivoRecusa`]);
 
   const executivos = getChildren(form, `executivos`, [`executivo_codigo`]);
+  const emailsCliente = getChildren(form, `emailsCliente`, [`email_email`]);
 
   // itemSellinIt itensSellinIt
   // itemprice itensprice
@@ -88,8 +89,34 @@ function inputFields(form) {
           form.setValue(`executivo_email___${i + 1}`, executivo.email);
         })
       }
-    }
 
+      // busca cliente/marketing
+      const marketingCliente = getDataset('marketing_cliente', null, [
+        { field: "clienteCodigo", value: clienteCodigo },
+      ], true)[0];
+      if (marketingCliente && emailsCliente.length == 0) {
+        const contatos = getDataset('marketing_cliente', null, [
+          { field: "documentid", value: marketingCliente.documentid },
+          { field: 'tablename', value: "contatos" },
+        ], true);
+        contatos.forEach((contato, i) => {
+          // email: contato.contato_email,
+          // iniAcao: contato.contato_iniAcao,
+          // evidencia: contato.contato_evidencia,
+          // envioND: contato.contato_envioND,
+          // pagamento: contato.contato_pagamento,
+          // cancelamento: contato.contato_cancelamento,
+          // vales: contato.contato_vales,
+          form.setValue(`email_email___${i + 1}`, contato.contato_email);
+          form.setValue(`email_iniAcao___${i + 1}`, contato.contato_iniAcao);
+          form.setValue(`email_evidencia___${i + 1}`, contato.contato_evidencia);
+          form.setValue(`email_envioND___${i + 1}`, contato.contato_envioND);
+          form.setValue(`email_pagamento___${i + 1}`, contato.contato_pagamento);
+          form.setValue(`email_cancelamento___${i + 1}`, contato.contato_cancelamento);
+          form.setValue(`email_vales___${i + 1}`, contato.contato_vales);
+        })
+      }
+    }
     // preenche tipo de ação
     const tipoAcao = getDataset('marketing_tipo_acao', ["tipoAcao", "tipoAcaoCodigo", "descricaoTipoAcao", "displaykey", "contaContabil"], [
       { field: "tipoAcaoCodigo", value: tipoAcaoCodigo },
@@ -204,7 +231,7 @@ function inputFields(form) {
       form.setValue('statusValidacaoEvid', 'APROVADO');
     }
     if (nextState == Params.atividades.enviarEvidencias[0] ||
-       nextState == Params.atividades.evidenciasControle[0]) {
+      nextState == Params.atividades.evidenciasControle[0]) {
       form.setValue('statusValidacaoEvid', 'REPROVADO');
     }
   }
