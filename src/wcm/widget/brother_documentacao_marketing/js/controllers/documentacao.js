@@ -167,7 +167,16 @@ angular
       vm.salvar = async (completeTask) => {
         console.log("🚀 ~ file: documentacao.js:164 ~ vm.sal ~ completeTask:", completeTask)
 
-        if (!completeTask && (!vm.alterado || vm.loading)) return;
+        if (!vm.alterado || vm.loading) {
+          if (completeTask) {
+            vm.completeTask = true;
+            vm.loader.show();
+            setTimeout(() => {
+              vm.salvar(completeTask);
+            }, 5000);
+          }
+          return;
+        }
         
         vm.loading = true;
 

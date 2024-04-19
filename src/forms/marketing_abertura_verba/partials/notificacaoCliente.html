@@ -118,7 +118,9 @@
         <a class="btn btn-default btn-lg" ng-disabled="!vm.regras.enableValidacaoMarketing"
           ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
       </div>
-
+      
+      <a class="btn btn-default btn-lg" ng-show="!vm.Formulario.emailsCliente.length"
+          ng-click="vm.buscaContatosCliente()">Recarregar Contatos</a>
     </div>
   </div>
 </div>
