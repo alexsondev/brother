@@ -987,7 +987,7 @@ angular
             try {
 
               vm.Formulario[field] = globalService.isJson(vm.Formulario.acaoCopiada[field]) ? JSON.parse(vm.Formulario.acaoCopiada[field]) : vm.Formulario.acaoCopiada[field];
-            } catch (error) { 
+            } catch (error) {
               vm.Formulario[field] = ''
             }
           });
@@ -1736,6 +1736,7 @@ angular
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case "sellout":
               vm.Formulario.itensSellout.forEach((it, index) => {
+                if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
                 vm.ItensEvidencia.push({
                   tablename: "itensSellout",
                   index,
@@ -1747,6 +1748,7 @@ angular
               break
             case 'price':
               vm.Formulario.itensPrice.forEach((it, index) => {
+                if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
                 vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
@@ -1757,6 +1759,7 @@ angular
                 vm.Formulario.tipoSellin == "net"
               ) {
                 vm.Formulario.itensSellinIt.forEach((it, index) => {
+                  if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
                   vm.ItensEvidencia.push({
                     tablename: "itensSellinIt",
                     index,
@@ -1771,6 +1774,7 @@ angular
             case "spiff":
               if (vm.Formulario.tipoSpiff == "item") {
                 vm.Formulario.itensSpiffIt.forEach((it, index) => {
+                  if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.valorUnit;
                   vm.ItensEvidencia.push({
                     tablename: "itensSpiffIt",
                     index,
@@ -1822,9 +1826,9 @@ angular
               }));
               break;
             case "price":
-              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach( (it) => {
+              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach( (it) => {
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }), vm.Formulario.itensPrice.forEach(function (it) {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
