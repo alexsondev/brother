@@ -1,12 +1,12 @@
 {
   "name": "brother-fluig",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "brother-fluig",
-      "version": "1.0.1",
+      "version": "1.0.6",
       "license": "ISC",
       "dependencies": {
         "angular-animate": "1.8.3",
