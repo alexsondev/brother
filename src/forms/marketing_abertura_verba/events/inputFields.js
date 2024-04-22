@@ -23,7 +23,12 @@ function inputFields(form) {
       `arquivoND_url`, `arquivoND_removed`, `arquivoND_descricao`, `arquivoND_aceito`,
       `arquivoND_motivoRecusa`, `arquivoND_numero`]);
 
-  const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''} ${clienteNome}`;
+  const clienteCodigo = value(form, `clienteCodigo`);
+  const tipoAcaoCodigo = value(form, `tipoAcaoCodigo`);
+
+
+  const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''} ${clienteNome} - ${tipoAcaoCodigo} - ${nomeAcao}`;
+
 
   log.info(`getValue('WKUser') = ${getValue('WKUser')}`);
 
