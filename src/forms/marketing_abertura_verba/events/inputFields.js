@@ -1,7 +1,7 @@
 /*eslint-disable*/
 /*jshint -W116 */
 function inputFields(form) {
-
+  log.info("inputFields ~ inputFields: ini")
   const Params = getParams(form);
 
   const currentState = getValue("WKNumState");
@@ -26,7 +26,7 @@ function inputFields(form) {
   const emailsCliente = getChildren(form, `emailsCliente`, [`email_email`]);
 
   // itemSellinIt itensSellinIt
-  // itemprice itensprice
+  // itemprpro itensprpro
   // itemSpiffIt itensSpiffIt
 
   const arquivosND = getChildren(form, `arquivosND`,
@@ -142,7 +142,7 @@ function inputFields(form) {
     [
       { table: "itensSellout", child: "itemSellout" },
       { table: "itensSellinIt", child: "itemSellinIt" },
-      { table: "itensPrice", child: "itemPrice" },
+      { table: "itensPrpro", child: "itemPrpro" },
       { table: "itensSpiffIt", child: "itemSpiffIt" },
     ].forEach(({ table, child }) => {
 
@@ -289,6 +289,8 @@ function inputFields(form) {
     form.setValue('userAprovPagamento', JSON.stringify(dsUser));
     form.setValue('dataAprovPagamento', new Date().getTime());
   }
+
+  log.info("inputFields ~ inputFields: fim")
 }
 
 function atividade(num, name) {

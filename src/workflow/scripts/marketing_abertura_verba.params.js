@@ -1,6 +1,8 @@
 function params() {
   var Params = {};
 
+  log.info("params ini");
+
   Params.atividades = {
     inicio: [1],
     validarMarketing: [2],

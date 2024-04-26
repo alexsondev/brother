@@ -250,6 +250,7 @@ angular.module('BrotherImportaVerbasApp', ['brother.directives', 'angular.fluig'
                       field.name.match('itemSellinTgAc_vlTotal') ||
                       field.name.match('itemSellinTg_vlTotal') ||
                       field.name.match('itemSellout_rebateTotal') ||
+                      field.name.match('itemPrpro_rebateTotal') ||
                       field.name.match('itemSpiffIt_vlTotal') ||
                       field.name.match('itemSpiffTg_vlTotal') ||
                       field.name.match('itemVpcEvt_vlTotal') ||

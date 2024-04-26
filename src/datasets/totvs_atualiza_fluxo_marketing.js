@@ -45,7 +45,7 @@ function buscaDataset(fields, constraints, sortFields) {
   let solicitacaoCampos = [
     { name: 'solicitacao' }, { name: 'importado' }, { name: 'clienteCodigo' }, { name: 'tipoAcaoDescricao' }, { name: 'tipoAcaoCodigo' },
     { name: 'inicioAcao', type: 'date' }, { name: 'terminoAcao', type: 'date' }, { name: 'tipoQuantidade' }, { name: 'nomeAcao' },
-    { name: 'tipoPrice' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
+    { name: 'tipoPrpro' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
     { name: 'valorTotalVerba', type: 'decimal' }, { name: 'gpMedioSugerido', type: 'perc' }, { name: 'numControle' },
     { name: 'dataAbertura', type: 'date' }, { name: 'solicitanteNome' }, { name: 'solicitanteCodigo' }, { name: 'atividade' },
     { name: 'responsavel' }, { name: 'statusAprovGerMarketing' }, { name: 'dataAprovGerMarketing', type: 'date' },
@@ -68,7 +68,7 @@ function buscaDataset(fields, constraints, sortFields) {
       ttParam: [],
       ttRateioCategoria: [],
       ttSellout: [],
-      ttPrice: [],
+      ttPrpro: [],
       ttSellinItem: [],
       ttSellinTarget: [],
       ttSellinTargetAc: [],
@@ -88,7 +88,14 @@ function buscaDataset(fields, constraints, sortFields) {
     // if (Number(solicitacao.solicitacao) == 12478 || Number(solicitacao.solicitacao) == 2296 || Number(solicitacao.solicitacao) == 1872 || Number(solicitacao.solicitacao) == 1370) {
 
     let objSolicitacao = {};
-    solicitacaoCampos.forEach(c => { objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) });
+    solicitacaoCampos.forEach(c => { 
+      try {
+
+        objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) 
+      } catch(error) {
+        objSolicitacao[c.ttName || c.name] = ""
+      }
+    });
 
     ttParams.ttParam.push(objSolicitacao);
 
@@ -109,50 +116,50 @@ function buscaDataset(fields, constraints, sortFields) {
           { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
         ]
       },
-      // {
-      //   tablename: "itensPrice",
-      //   tt: "ttPrice",
-      //   fieldPref: "itemPrice",
-      //   campos: [{
-      //     name: "itemCodigo"
-      //   }, {
-      //     name: "srpInicial",
-      //     type: "decimal"
-      //   }, {
-      //     name: "netInicial",
-      //     type: "decimal"
-      //   }, {
-      //     name: "gpInicial",
-      //     type: "perc"
-      //   }, {
-      //     name: "srpSugerido",
-      //     type: "decimal"
-      //   }, {
-      //     name: "netSugerido",
-      //     type: "decimal"
-      //   }, {
-      //     name: "gpSugerido",
-      //     type: "perc"
-      //   }, {
-      //     name: "rebateUnit",
-      //     type: "decimal"
-      //   }, {
-      //     name: "qtde",
-      //     type: "decimal"
-      //   }, {
-      //     name: "rebateTotal",
-      //     type: "decimal"
-      //   }, {
-      //     name: "qtdEvidencia",
-      //     type: "decimal"
-      //   }, {
-      //     name: "valEvidencia",
-      //     type: "decimal"
-      //   }, {
-      //     name: "totEvidencia",
-      //     type: "decimal"
-      //   }]
-      // },
+      {
+        tablename: "itensPrpro",
+        tt: "ttPrpro",
+        fieldPref: "itemPrpro",
+        campos: [{
+          name: "itemCodigo"
+        }, {
+          name: "srpInicial",
+          type: "decimal"
+        }, {
+          name: "netInicial",
+          type: "decimal"
+        }, {
+          name: "gpInicial",
+          type: "perc"
+        }, {
+          name: "srpSugerido",
+          type: "decimal"
+        }, {
+          name: "netSugerido",
+          type: "decimal"
+        }, {
+          name: "gpSugerido",
+          type: "perc"
+        }, {
+          name: "rebateUnit",
+          type: "decimal"
+        }, {
+          name: "qtde",
+          type: "decimal"
+        }, {
+          name: "rebateTotal",
+          type: "decimal"
+        }, {
+          name: "qtdEvidencia",
+          type: "decimal"
+        }, {
+          name: "valEvidencia",
+          type: "decimal"
+        }, {
+          name: "totEvidencia",
+          type: "decimal"
+        }]
+      },
       {
         tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
         campos: [
@@ -219,24 +226,29 @@ function buscaDataset(fields, constraints, sortFields) {
       },
 
     ].forEach(paramTable => {
+      try {
 
-      getDataset('marketing_abertura_verba', null, [
-        { field: 'tablename', value: paramTable.tablename },
-        { field: 'documentid', value: solicitacao.documentid }
-      ]).forEach((objTable,i) => {
-        let obj = { solicitacao: String(solicitacao.solicitacao), sequencia: String(i + 1) };
-
-        paramTable.campos.forEach(c => {
-
-          let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
-          obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+        getDataset('marketing_abertura_verba', null, [
+          { field: 'tablename', value: paramTable.tablename },
+          { field: 'documentid', value: solicitacao.documentid }
+        ]).forEach(objTable => {
+          let obj = { solicitacao: String(solicitacao.solicitacao) };
+  
+          paramTable.campos.forEach(c => {
+  
+            let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
+            obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+          })
+  
+          if (!ttParams[paramTable.tt]) {
+            ttParams[paramTable.tt] = [];
+          }
+          ttParams[paramTable.tt].push(obj);
         })
-
-        if (!ttParams[paramTable.tt]) {
-          ttParams[paramTable.tt] = [];
-        }
-        ttParams[paramTable.tt].push(obj);
-      })
+      } catch (error) {
+        log.info(`~ //paramTable.forEach ~ error: ${error}`)
+        
+      }
     })
 
 

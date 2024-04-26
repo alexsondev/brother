@@ -10,7 +10,6 @@
     "node_modules/angular-route/angular-route.js",
     "node_modules/chart.js/dist/Chart.js",
     "node_modules/angular-chart.js/dist/angular-chart.js",
-    "node_modules/moment/moment.js",
     "node_modules/moment/locale/pt-br.js",
     "node_modules/ng-file-upload/dist/ng-file-upload.js"
   ]

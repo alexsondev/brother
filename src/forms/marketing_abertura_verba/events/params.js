@@ -1,5 +1,7 @@
 function getParams(form) {
   const Params = {};
+
+  log.info("params ini");
   Params.formMode = String(form.getFormMode());
   Params.edit = Params.formMode == 'ADD' || Params.formMode == 'MOD';
   Params.numState = String(parseInt(getValue('WKNumState')));
@@ -51,6 +53,6 @@ function getParams(form) {
   if (!Params.edit) {
     Params.etapa = 'consulta';
   }
-
+  log.info("Params fim");
   return Params;
 }
