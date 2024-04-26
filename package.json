@@ -60,6 +60,7 @@
     "rest": "2.0.0",
     "run-sequence": "1.2.2",
     "sass": "^1.62.1",
+    "stylelint": "^16.4.0",
     "through2": "2.0.3",
     "yargs": "7.0.2"
   },
