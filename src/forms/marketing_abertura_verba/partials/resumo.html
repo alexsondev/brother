@@ -49,6 +49,12 @@
       <h4>{{vm.Formulario.cliente.subcanal || '-' | uppercase}}</h4>
     </div>
   </div>
+  <div class="col-md-4 col-sm-6">
+    <div class="form-group animation">
+      <label class="control-label">Pré Verba</label>
+      <h4>{{vm.Formulario.numPreVerba}}</h4>
+    </div>
+  </div>
 
 </div>
 
@@ -218,7 +224,7 @@
   <!--==============================Inicio Prpro========================-->
   <div class="col-sm-12">
     <table class="table table-stripped" ng-show="vm.Formulario.itensPrpro.length > 0">
-      <caption>prpro</caption>
+      <caption>Price</caption>
       <thead>
         <th ng-if="vm.Formulario.tipoPrpro != 'target'">Item</th>
         <th ng-if="vm.Formulario.tipoPrpro != 'target'">Categoria</th>
@@ -571,7 +577,7 @@
         <th></th>
         <th>Rebate Sell-Out</th>
         <th>Rebate Sell-in</th>
-        <th>Prpro</th>
+        <th>Price</th>
         <th>Spiff</th>
         <th>VPC</th>
         <th>Total</th>
