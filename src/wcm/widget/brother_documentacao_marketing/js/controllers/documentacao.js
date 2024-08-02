@@ -5,6 +5,7 @@ angular
       const vm = this;
 
       vm.Errors = [];
+      console.log("🚀 ~ file: documentacao.js:8 ~ BrotherDocumentacaoMarketingController ~ Error:", Error)
       vm.loader = FLUIGC.loading('.container');
 
       vm.inicia = () => {
@@ -30,7 +31,9 @@ angular
           // vm.showConfirmPage();
         }, (error) => {
           console.log("🚀 ~ file: documentacao.js:32 ~ $http.get ~ error:", error)
+          console.log("🚀 ~ file: documentacao.js:32 ~ $http.get ~ error:", error)
           $log.log(error);
+          console.log("🚀 ~ file: documentacao.js:34 ~ $http.get ~ error:", error)
           console.log("🚀 ~ file: documentacao.js:34 ~ $http.get ~ error:", error)
         });
 
@@ -47,8 +50,10 @@ angular
             vm.getItens();
           }, (error) => {
             console.log("🚀 ~ file: documentacao.js:49 ~ .then ~ error:", error)
+            console.log("🚀 ~ file: documentacao.js:49 ~ .then ~ error:", error)
             vm.done = true;
             $log.log(error);
+            console.log("🚀 ~ file: documentacao.js:52 ~ .then ~ error:", error)
             console.log("🚀 ~ file: documentacao.js:52 ~ .then ~ error:", error)
           });
       };
@@ -189,7 +194,12 @@ angular
           await $http.post('/brother-api/v1/marketing/update', vm.Formulario, { headers: { guid: vm.Param.guid, completeTask: vm.completeTask } })
 
           if (completeTask) vm.loader.hide();
+          if (completeTask) vm.loader.hide();
 
+          vm.setRegras();
+          if (completeTask) {
+            vm.showConfirmPage();
+          }
           vm.setRegras();
           if (completeTask) {
             vm.showConfirmPage();
@@ -219,6 +229,7 @@ angular
       };
 
       vm.selectFiles = async function selectFiles(tablename, files, item) {
+      vm.selectFiles = async function selectFiles(tablename, files, item) {
         if (!vm.Formulario[tablename]) {
           vm.Formulario[tablename] = [];
         }
@@ -234,8 +245,15 @@ angular
         }))
         await vm.salvar()
         console.log("🚀 ~ file: documentacao.js:241 ~ selectFiles ~ vm.salvar()")
+          console.log("🚀 ~ file: documentacao.js:236 ~ files.forEach ~ file:", file)
+          return await vm.upload(file);
+        }))
+        await vm.salvar()
+        console.log("🚀 ~ file: documentacao.js:241 ~ selectFiles ~ vm.salvar()")
       };
 
+      vm.upload = async function upload(file) {
+        await Upload.upload({
       vm.upload = async function upload(file) {
         await Upload.upload({
           url: '/brother-api/v1/file/upload',
@@ -243,6 +261,7 @@ angular
             file,
             parentDocumentId: vm.Formulario.folderAttach
           }
+        }).then(async (resp) => {
         }).then(async (resp) => {
           file.documentid = resp.data.documentid;
           file.numero = '';
@@ -260,10 +279,14 @@ angular
           vm.alterado = true;
           // await vm.salvar();
 
+          // await vm.salvar();
+
         }, (resp) => {
           FLUIGC.toast({
             title: 'Oops.. ocorreram erros ao enviar seus dados.',
             message: `Por favor, tente novamente em alguns minutos`,
+            type: 'danger',
+            timeout: 5000
             type: 'danger',
             timeout: 5000
           });
@@ -286,6 +309,7 @@ angular
       vm.enviar = function enviar() {
         const Errors = [];
         console.log("🚀 ~ file: documentacao.js:279 ~ enviar ~ Error:", Error)
+        console.log("🚀 ~ file: documentacao.js:279 ~ enviar ~ Error:", Error)
 
         if (vm.regras.enableEnvioEvidencias) {
           vm.Formulario.evidencias.forEach((arquivo) => {
@@ -303,6 +327,7 @@ angular
             // if (vm.Formulario[item.tablename][item.index].qtdEvidencia === 0) {
             //   Errors.push(`<li>Informe a quantidade no item ${item.descricao}</li>`);
             // }
+            console.log("🚀 ~ file: documentacao.js:297 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
             console.log("🚀 ~ file: documentacao.js:297 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
 
             vm.calculaTotalItemEvidencia(item);
@@ -329,6 +354,7 @@ angular
         }
 
         if (Errors.length > 0) {
+          console.log("🚀 ~ file: documentacao.js:323 ~ enviar ~ Error:", Error)
           console.log("🚀 ~ file: documentacao.js:323 ~ enviar ~ Error:", Error)
           FLUIGC.toast({
             title: 'Oops.. ocorreram erros ao enviar seus dados:',

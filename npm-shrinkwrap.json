@@ -7,6 +7,7 @@
     "": {
       "name": "brother-fluig",
       "version": "1.0.6",
+      "version": "1.0.6",
       "license": "ISC",
       "dependencies": {
         "angular": "^1.8.3",
