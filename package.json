@@ -57,6 +57,7 @@
     "rest": "2.0.0",
     "run-sequence": "1.2.2",
     "sass": "^1.62.1",
+    "simple-git-hooks": "^2.11.1",
     "through2": "2.0.3",
     "yargs": "7.0.2"
   },
@@ -64,7 +65,14 @@
     "start": "gulp",
     "lint": "esw src/widgets/**/*.js src/forms/**/*.js --color --fix",
     "lint:watch": "esw src/widgets/**/*.js src/forms/**/*.js --color --fix --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "simple-git-hooks"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.11"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "node scripts/commit/msg.mjs"
   },
   "author": "",
   "license": "ISC",
