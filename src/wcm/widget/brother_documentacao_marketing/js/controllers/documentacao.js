@@ -42,6 +42,13 @@ angular
             vm.Params = {};
 
             vm.Formulario = response.data;
+            for (const key in vm.Formulario) {
+              if (typeof vm.Formulario[key] === 'string') {
+                if (vm.Formulario[key] === 'null') {
+                  vm.Formulario[key] = '';
+                }
+              }
+            }
 
             vm.setRegras();
             vm.getItens();
