@@ -1,10 +1,14 @@
 /* eslint-disable angular/json-functions */
 const fs = require('fs');
-const argv = require('yargs')
-  .argv;
+const yargs = require('yargs/yargs')
+  // .argv;
+const { hideBin } = require('yargs/helpers')
+
+const argv = yargs(hideBin(process.argv)).argv
 
 module.exports = function params() {
   const nodePackage = JSON.parse(fs.readFileSync('package.json'));
+  console.log("🚀 ~ params ~ argv:", argv)
 
   const p = {};
   p.project = nodePackage.name;
@@ -20,7 +24,6 @@ module.exports = function params() {
   p.prod = argv.prod;
   p.uglify = argv.uglify;
   p.htmlmin = argv.htmlmin;
-  p.watch = argv.watch;
   p.jsmap = argv.jsmap;
   p.export = argv.export;
   p.forms = [];
