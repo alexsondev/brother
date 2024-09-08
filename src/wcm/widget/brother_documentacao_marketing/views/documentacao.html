@@ -1,27 +1,42 @@
 <div id="message-page"></div>
 
+<div class="fs-display-flex fs-justify-content-end" style="position: fixed; bottom: 0; left: 0; z-index: 200;"
+  ng-if="vm.uploading">
+  <span class="loading-img" style="height: 100px; opacity: 0.4;" />
+</div>
+
+
+
+<div style="place-self: center;">
+  <button type="button" class="btn btn-success btn-lg" ng-click="vm.enviar()"
+    ng-disabled="vm.completeTask || vm.uploading" ng-if="vm.Params.edit"
+    style="position: fixed; top: 10px; right: 10px; z-index: 200;">
+    <span>{{vm.uploading ? 'Aguarde...' : vm.completeTask ? 'Enviando...' : 'Enviar'}}</span>
+  </button>
+
+</div>
+
+
 <form name="form" role="form" id="form">
+  <div style="display: flex;margin-bottom: 20px;" class="row">
+    <div class="col-sm-4" style="place-self: center;">
+      <img width="120px" src="/brother_lib/images/logo.png">
+    </div>
+
+    <div class="col-sm-8 hidden-xs">
+
+      <h2 ng-class="{'text-left': vm.Params.edit, 'text-right': !vm.Params.edit}">Ação de Marketing
+      </h2>
+    </div>
+
+
+  </div>
+
+
+
   <div class="row">
     <div class="col-sm-12">
 
-      <div class="page-header fs-sm-space">
-        <div class="row">
-          <div class="col-sm-4">
-            <img width="200px" src="/brother_lib/images/logo.png">
-          </div>
-          <div ng-class="{'col-sm-4': vm.Params.edit, 'col-sm-8': !vm.Params.edit}">
-            <h1 ng-class="{'text-center': vm.Params.edit, 'text-right': !vm.Params.edit}">Ação de Marketing
-            </h1>
-          </div>
-          <div class="col-sm-4" ng-if="vm.Params.edit" style="position: fixed; right: 25px; top: 25px; z-index: 999;">
-            <div class="pull-right">
-              <button type="button" class="btn btn-success btn-lg" ng-click="vm.enviar()" ng-disabled="vm.completeTask">
-                <span>{{vm.completeTask ? 'Aguarde...' : 'Enviar'}}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div ng-if="vm.Formulario.status == 'CANCELADA'" class="alert alert-warning" role="alert">
         <p>Solicitação cancelada! </p>
@@ -382,77 +397,87 @@
                 <div class="col-sm-12">
                   <h3 class="text-muted" class="control-label">Arquivos de Evidências</h3>
                 </div>
-                <div class="col-sm-3" ng-if="vm.regras.enableEnvioEvidencias">
-                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles('evidencias', $files, {})"
-                    ngf-drop="vm.selectFiles('evidencias', $files, {})" ng-model="files" ngf-multiple="true"
-                    ngf-drag-over-class="'dragover'">
-                    <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
-                  </div>
-                </div>
 
-                <div
-                  ng-class="{'col-sm-9': vm.regras.enableEnvioEvidencias, 'col-sm-12': !vm.regras.enableEnvioEvidencias}">
+
+                <div class="col-sm-12" id="arquivosEvidencia">
                   <div ng-show="vm.Formulario.evidencias.length == 0">
                     <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
                   </div>
-                  <div class="table" ng-show="vm.Formulario.evidencias.length > 0">
+                  <table class="table table-striped" ng-show="vm.Formulario.evidencias.length > 0">
                     <!-- <!- <caption>Arquivos de Evidência</caption> -> -->
-                    <div ng-repeat="arquivoEv in vm.Formulario.evidencias" ng-show="!arquivoEv.removed" class="row">
+                    <tbody>
 
-                      <div class="col-sm-1">
-                        <span ng-click="vm.removeArquivo(arquivoEv)"
-                          ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
-                          class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
 
-                        <span ng-if="arquivoEv.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
-                      </div>
-                      <div class="col-sm-11">
-                        <div class="row" ng-if="!arquivoEv.url">
-                          <div class="col-sm-12">
-                            <div class="progress">
-                              <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                aria-valuenow="{{arquivoEv.progressPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: arquivoEv.progressPercentage +'%'}">
-                                <span class="sr-only">{{arquivoEv.progressPercentage}}% Complete</span>
+                      <tr ng-repeat="arquivoEv in vm.Formulario.evidencias" ng-if="!arquivoEv.removed"
+                        class="fs-display-flex fs-align-items-center table-row">
+
+                        <td class="col-sm-1" ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito">
+                          <span ng-click="vm.removeArquivo(arquivoEv)"
+                            class="flaticon icon-lg flaticon-trash fs-cursor-pointer "></span>
+
+                          <span ng-if="arquivoEv.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
+                        </td>
+                        <td class="col-sm-11">
+
+
+                          <div class="row" ng-if="!arquivoEv.url">
+                            <div class="col-sm-12">
+                              <div class="progress" ng-if="arquivoEv.progressPercentage">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                  aria-valuenow="{{arquivoEv.progressPercentage}}" aria-valuemin="0" aria-valuemax="100"
+                                  ng-style="{width: arquivoEv.progressPercentage +'%'}">
+                                  <span class="sr-only">{{arquivoEv.progressPercentage}}% Complete</span>
+                                </div>
+                              </div>
+                              <div ng-if="!arquivoEv.progressPercentage" class="alert alert-danger" role="alert">
+                                Houve um erro ao enviar o arquivo. Exclua o arquivo e tente novamente.
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <label>Descrição do Arquivo</label>
-                            <input type="text" ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
-                              class="form-control input-lg" ng-model="arquivoEv.descricao"
-                              ng-value="arquivoEv.descricao" ng-change="vm.alterado = true" ng-blur="vm.salvar()"
-                              placeholder="Descrição do arquivo">
-                            <h4 class="fs-no-margin" ng-if="!vm.regras.enableEnvioEvidencias || arquivoEv.aceito">
-                              {{arquivoEv.descricao}}</h4>
+                          <div class="row" ng-if="arquivoEv.url">
+                            <div class="col-sm-9">
+                              <label>Descrição do Arquivo</label>
+                              <input type="text" ng-if="vm.regras.enableEnvioEvidencias && !arquivoEv.aceito"
+                                class="form-control input-lg" ng-model="arquivoEv.descricao"
+                                ng-value="arquivoEv.descricao" ng-change="vm.alterado = true" ng-blur="vm.salvar()"
+                                placeholder="Descrição do arquivo">
+                              <h4 class="fs-no-margin" ng-if="!vm.regras.enableEnvioEvidencias || arquivoEv.aceito">
+                                {{arquivoEv.descricao}}</h4>
+                            </div>
+
+                            <div class="col-sm-3">
+                              <label>Arquivo</label>
+                              <a target="_blank" href="{{arquivoEv.url}}">
+                                <div>
+                                  <i class="flaticon flaticon-link icon-md"></i>{{arquivoEv.nome
+                                  || 'Sem descrição'}}
+                                </div>
+                              </a>
+                            </div>
                           </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <a target="_blank" href="{{arquivoEv.url}}">
-                              <h4>
-                                <i class="flaticon flaticon-link icon-md"></i>{{arquivoEv.nome
-                                || 'Sem descrição'}}
-                              </h4>
-                            </a>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-sm-12">
-                            <div style="padding-top: 10px">
-                              <div ng-if="!arquivoEv.aceito && arquivoEv.motivoRecusa" class="alert alert-warning"
-                                role="alert">
-                                <p>Arquivo Recusado. Motivo:
-                                  {{arquivoEv.motivoRecusa}}
-                                </p>
+
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <div style="padding-top: 10px">
+                                <div ng-if="!arquivoEv.aceito && arquivoEv.motivoRecusa" class="alert alert-warning"
+                                  role="alert">
+                                  <p>Arquivo Recusado. Motivo:
+                                    {{arquivoEv.motivoRecusa}}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
+                        </td>
 
-                    </div>
+                      </tr>
+                  </table>
+                </div>
+                <div ng-if="vm.regras.enableEnvioEvidencias" class="col-sm-8 col-sm-offset-2">
+                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles($files, {})"
+                    ngf-drop="vm.selectFiles($files, {})" ng-model="files" ngf-multiple="true"
+                    ngf-drag-over-class="'dragover'">
+                    <div>Clique para Selecionar <br> ou Arraste os Arquivos Aqui</div>
                   </div>
                 </div>
               </div>
@@ -463,12 +488,12 @@
                     Valores por item</h3>
                   <!-- <h2 class="fs-no-margin text-muted text-center"></h2> -->
                 </div>
-                <div class="col-sm-12" style="margin-bottom: 15px;">
+                <div style="margin-bottom: 15px;">
 
                   <div class="panel panel-default">
                     <div class="panel-body">
                       <div class="row" ng-repeat="item in vm.ItensEvidencia track by $index">
-                        <div class="col-sm-4">
+                        <div class="col-sm-12 col-md-4 col-lg-4 ">
                           <div class="form-group">
                             <label for="itemEv_qtdVendida" class="text-right">Item</label>
                             <h4 class="fs-no-margin" class="text-right">{{item.descricao}}
@@ -477,7 +502,7 @@
 
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-4 col-md-2 col-lg-2">
                           <div class="form-group">
                             <label for="itemEv_qtdVendida">Quantidade</label>
                             <div ng-if="vm.regras.enableEnvioEvidencias">
@@ -493,7 +518,7 @@
                             </h2>
                           </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-3 col-lg-3">
                           <div class="form-group">
                             <label for="itemEv_valEvidencia">Valor</label>
                             <div ng-if="vm.regras.enableEnvioEvidencias">
@@ -509,7 +534,7 @@
                             </h2>
                           </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4 col-md-3 col-lg-3">
                           <div class="form-group">
                             <label for="">Total</label>
                             <h2 class="fs-no-margin">
@@ -667,15 +692,8 @@
               </div>
 
               <div class="row">
-                <div class="col-sm-3" ng-if="vm.regras.enableND">
-                  <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles('nd', $files)"
-                    ngf-drop="vm.selectFiles('nd', $files)" ng-model="files" ngf-multiple="true"
-                    ngf-drag-over-class="'dragover'">
-                    <h4>Clique para Selecionar ou Arraste os Arquivos Aqui</h4>
-                  </div>
-                </div>
 
-                <div ng-class="{'col-sm-9': vm.regras.enableND, 'col-sm-12': !vm.regras.enableND}">
+                <div class="col-sm-12" id="arquivosND">
                   <div class="fs-txt-center" ng-show="vm.Formulario.nd.length == 0">
                     <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
                   </div>
@@ -700,7 +718,23 @@
                                 <span ng-if="arquivo.aceito" class="flaticon flaticon-done icon-lg text-success"></span>
                               </div>
                               <div class="col-sm-11">
-                                <div class="row">
+
+                                <div class="row" ng-if="!arquivo.url">
+                                  <div class="col-sm-12">
+                                    <div class="progress" ng-if="arquivo.progressPercentage">
+                                      <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                        aria-valuenow="{{arquivo.progressPercentage}}" aria-valuemin="0"
+                                        aria-valuemax="100" ng-style="{width: arquivo.progressPercentage +'%'}">
+                                        <span class="sr-only">{{arquivo.progressPercentage}}% Complete</span>
+                                      </div>
+                                    </div>
+                                    <div ng-if="!arquivo.progressPercentage" class="alert alert-danger" role="alert">
+                                      Houve um erro ao enviar o arquivo <span class="text-danger font-weight-bold">{{
+                                        arquivo.nome }}</span> Exclua o arquivo e tente novamente.
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="row" ng-if="arquivo.url">
                                   <div class="col-sm-3">
                                     <label>Número</label>
                                     <input type="text" ng-if="vm.regras.enableND" class="form-control input-lg"
@@ -710,7 +744,7 @@
                                       {{arquivo.numero}}</h4>
                                   </div>
 
-                                  <div class="col-sm-9">
+                                  <div class="col-sm-6">
                                     <label>Descrição do arquivo</label>
                                     <input type="text" ng-if="vm.regras.enableND" class="form-control input-lg"
                                       ng-model="arquivo.descricao" ng-value="arquivo.descricao"
@@ -719,24 +753,14 @@
                                     <h4 class="fs-no-margin" ng-if="!vm.regras.enableND">
                                       {{arquivo.descricao}}</h4>
                                   </div>
-                                </div>
-                                <div class="row" ng-if="!arquivo.url">
-                                  <div class="col-sm-12">
-                                    <div class="progress">
-                                      <div class="progress-bar progress-bar-striped active" role="progressbar"
-                                        aria-valuenow="{{arquivo.progressPercentage}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width: arquivo.progressPercentage +'%'}">
-                                        <span class="sr-only">{{arquivo.progressPercentage}}% Complete</span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="col-sm-12">
+
+                                  <div class="col-sm-3">
+                                    <label>Arquivo</label>
                                     <a target="_blank" href="{{arquivo.url}}">
-                                      <h4>
+                                      <div>
                                         <i class="flaticon flaticon-link icon-md"></i>{{arquivo.nome
                                         || 'Sem descrição'}}
-                                      </h4>
+                                      </div>
                                     </a>
                                   </div>
                                 </div>
@@ -758,6 +782,13 @@
                         </tr>
                       </tbody>
                     </table>
+                  </div>
+                  <div ng-if="vm.regras.enableND" class="col-sm-8 col-sm-offset-2">
+                    <div class="drop-box fs-cursor-pointer" ngf-select="vm.selectFiles($files, {})"
+                      ngf-drop="vm.selectFiles($files, {})" ng-model="files" ngf-multiple="true"
+                      ngf-drag-over-class="'dragover'">
+                      <h3>Clique para Selecionar <br> ou Arraste os Arquivos Aqui</h3>
+                    </div>
                   </div>
                 </div>
               </div>
