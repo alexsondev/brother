@@ -5,8 +5,8 @@ $left-menu-width: 20%;
 
 @import "color";
 
-body {
-  background: url("/bv_lib/images/background.svg") center center / cover no-repeat fixed;
+body, .fluig-bg {
+  background: url("/brother_lib/images/background.svg") center center / cover no-repeat fixed;
 }
 
 .wcm-background {
@@ -17,7 +17,9 @@ body {
   border: 3px dotted #ccc;
   background-color: #eee;
   text-align: center;
-  padding: 50px;
+  padding: 25px;
+  font-size: 24px;
+  font-weight: bolder;
 }
 
 .drop-box.dragover {
@@ -28,4 +30,12 @@ body {
 .drop-box.dragover-err {
   border-color: #f00;
   background-color: #ffb2b2;
+}
+
+.table {
+  .table-row {
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
 }

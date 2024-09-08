@@ -42,6 +42,13 @@ angular
             vm.Params = {};
 
             vm.Formulario = response.data;
+            for (const key in vm.Formulario) {
+              if (typeof vm.Formulario[key] === 'string') {
+                if (vm.Formulario[key] === 'null') {
+                  vm.Formulario[key] = '';
+                }
+              }
+            }
 
             vm.setRegras();
             vm.getItens();
@@ -167,109 +174,150 @@ angular
       vm.salvar = async (completeTask) => {
         console.log("🚀 ~ file: documentacao.js:164 ~ vm.sal ~ completeTask:", completeTask)
 
-        if (!vm.alterado || vm.loading) {
+        if (vm.saving) {
           if (completeTask) {
             vm.completeTask = true;
             vm.loader.show();
-            setTimeout(() => {
-              vm.salvar(completeTask);
-            }, 5000);
+          }
+
+          if (vm.alterado || vm.completeTask) {
+            vm.pendingSaving = true;
           }
           return;
         }
-        
-        vm.loading = true;
 
+        console.log("🚀 ~ salvando... ")
+
+        vm.pendingSaving = false;
+        // if (!vm.alterado || vm.saving) {
+        //   if (completeTask) {
+        //     vm.completeTask = true;
+        //     vm.loader.show();
+        //     setTimeout(() => {
+        //       vm.salvar(completeTask);
+        //     }, 5000);
+        //   }
+        //   return;
+        // }
+        
         if (completeTask) vm.loader.show();
 
         vm.completeTask = completeTask || false;
+        vm.saving = true;
 
         console.log("🚀 ~ file: documentacao.js:183 ~ vm.sal ~ vm.Formulario:", vm.Formulario)
         try {
-          await $http.post('/brother-api/v1/marketing/update', vm.Formulario, { headers: { guid: vm.Param.guid, completeTask: vm.completeTask } })
+          const response = await $http.post('/brother-api/v1/marketing/update', vm.Formulario, { headers: { guid: vm.Param.guid, completeTask: vm.completeTask } })
 
-          if (completeTask) vm.loader.hide();
+          console.log("🚀 ~ vm.sal ~ response:", response)
 
           vm.setRegras();
+          
           if (completeTask) {
             vm.showConfirmPage();
           }
-
-          vm.completeTask = false;
-          vm.loading = false;
-
         } catch (error) {
           console.log("🚀 ~ file: documentacao.js:190 ~ vm.sal ~ error:", error)
-          vm.loading = false;
 
-          FLUIGC.toast({
-            title: 'Oops.. ocorreram erros ao enviar seus dados.',
-            message: `Por favor, tente novamente em alguns minutos`,
-            type: 'danger',
-            timeout: 5000
-          });
+          // showError('Oops...', 'Ocorreu algum erro ao salvar os dados. Tente novamente', error.data);
 
-          if (completeTask) {
+        } finally {
+          
+          console.log("🚀 ~ file: documentacao.js:194 ~ vm.finally ~ vm.saving:", vm.saving)
+          console.log("🚀 ~ file: documentacao.js:194 ~ vm.finally ~ vm.vm.pendingSaving:", vm.pendingSaving)
+          
             vm.completeTask = false;
             vm.loader.hide();
-          }
+            vm.saving = false;
+
+            if (vm.pendingSaving) {
+              vm.salvar(completeTask);
+            }
         }
+      
+        $scope.$apply();
 
 
       };
 
-      vm.selectFiles = async function selectFiles(tablename, files, item) {
-        if (!vm.Formulario[tablename]) {
-          vm.Formulario[tablename] = [];
-        }
+      vm.selectFiles = async function selectFiles(files, item) {
+        const tablename = vm.regras.enableND ? 'nd' : 'evidencias';
+        vm.uploading = true;
+        // vm.loader.show();
 
-        await Promise.all(files.map(async (file) => {
-          file.nome = file.name;
-          // file.descricao = file.name;
-          file.tipo = file.type;
-          file.item = item || {};
-          vm.Formulario[tablename].push(file);
-          console.log("🚀 ~ file: documentacao.js:236 ~ files.forEach ~ file:", file)
-          return await vm.upload(file);
-        }))
-        await vm.salvar()
-        console.log("🚀 ~ file: documentacao.js:241 ~ selectFiles ~ vm.salvar()")
+        try {
+          const div = tablename === 'nd' ? $("#arquivosND") : $("#arquivosEvidencia")
+          const position = div.offset().top + div.outerHeight()
+          scrollTo({top: position, behavior: "smooth"})
+          const uploadedFiles = await Promise.all(files.map(async (file) => {
+            let newFile = {
+              nome: file.name,
+              tipo: file.type,
+              item: item || {},
+              progressPercentage: 1
+            }
+            
+            vm.Formulario[tablename].push(newFile);
+            await vm.upload(file, newFile);
+            // file = uploadedFile;
+            return newFile
+          }))
+
+
+        } catch (error) {
+          showError('Oops...', 'Ocorreram erros ao enviar os arquivos. Verifique os arquivos com erro e tente enviar novamente', error.data);
+        } finally {
+          vm.uploading = false;
+          // vm.loader.hide();
+          if (!vm.Formulario[tablename]) {
+            vm.Formulario[tablename] = [];
+          }        
+        }
+        
+        $scope.$apply();
+        
+        console.log("🚀 ~ selectFiles ~ finish upload:", vm.uploading)
+
+        vm.salvar()
       };
 
-      vm.upload = async function upload(file) {
-        await Upload.upload({
-          url: '/brother-api/v1/file/upload',
-          data: {
-            file,
-            parentDocumentId: vm.Formulario.folderAttach
-          }
-        }).then(async (resp) => {
-          file.documentid = resp.data.documentid;
-          file.numero = '';
-          file.descricao = '';
-          file.nome = resp.data.filename;
-          file.filename = resp.data.filename;
-          file.url = resp.data.url;
-          file.description = resp.data.description;
-          file.version = resp.data.version;
-          file.uploaded = true;
-          file.removed = false;
+      vm.upload = async function upload(file, data) {
+        return await new Promise(async (resolve, reject) => {
+          Upload.upload({
+            url: '/brother-api/v1/file/upload',
+            data: {
+              file,
+              parentDocumentId: vm.Formulario.folderAttach
+            }
+          }).then(async (resp) => {
+            // data = resp.data;
+            data.documentid = resp.data.documentid;
+            data.numero = '';
+            data.descricao = '';
+            data.nome = resp.data.filename;
+            data.filename = resp.data.filename;
+            data.url = resp.data.url;
+            data.description = resp.data.description;
+            data.version = resp.data.version;
+            data.uploaded = true;
+            data.removed = false;
 
-          $log.log(file);
-
-          vm.alterado = true;
-          // await vm.salvar();
-
-        }, (resp) => {
-          FLUIGC.toast({
-            title: 'Oops.. ocorreram erros ao enviar seus dados.',
-            message: `Por favor, tente novamente em alguns minutos`,
-            type: 'danger',
-            timeout: 5000
+            resolve(resp.data);
+          
+            // $log.log(file);
+  
+            // vm.alterado = true;
+            // await vm.salvar();
+  
+          }, (error) => {
+            // showError('Ocorreram erros ao enviar o arquivo', error);
+            reject(error);
+          }, (evt) => {
+            data.progressPercentage = parseInt((100.0 * evt.loaded) / evt.total, 10);
+            console.log("🚀 ~ returnnewPromise ~ data.progressPercentage:", data.progressPercentage)
           });
-        }, (evt) => {
-          file.progressPercentage = parseInt((100.0 * evt.loaded) / evt.total, 10);
-        });
+        })
+        
       };
 
       vm.removeArquivo = function removeArquivo(arquivo) {
@@ -285,25 +333,25 @@ angular
 
       vm.enviar = function enviar() {
         const Errors = [];
-        console.log("🚀 ~ file: documentacao.js:279 ~ enviar ~ Error:", Error)
+        // console.log("🚀 ~ file: documentacao.js:279 ~ enviar ~ Error:", Error)
 
         if (vm.regras.enableEnvioEvidencias) {
           vm.Formulario.evidencias.forEach((arquivo) => {
             if (!arquivo.descricao && !arquivo.removed) {
               Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
             }
-            console.log("🚀 ~ file: documentacao.js:286 ~ vm.Formulario.evidencias.forEach ~ Error:", Error)
+            // console.log("🚀 ~ file: documentacao.js:286 ~ vm.Formulario.evidencias.forEach ~ Error:", Error)
           });
 
           vm.ItensEvidencia.forEach((item) => {
             if (vm.Formulario[item.tablename][item.index].valEvidencia === 0) {
               Errors.push(`<li>Informe o valor no item ${item.descricao}</li>`);
             }
-            console.log("🚀 ~ file: documentacao.js:293 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
+            // console.log("🚀 ~ file: documentacao.js:293 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
             // if (vm.Formulario[item.tablename][item.index].qtdEvidencia === 0) {
             //   Errors.push(`<li>Informe a quantidade no item ${item.descricao}</li>`);
             // }
-            console.log("🚀 ~ file: documentacao.js:297 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
+            // console.log("🚀 ~ file: documentacao.js:297 ~ vm.ItensEvidencia.forEach ~ Error:", Error)
 
             vm.calculaTotalItemEvidencia(item);
           });
@@ -312,31 +360,35 @@ angular
         if (vm.regras.enableND) {
           vm.Formulario.nd.forEach((arquivo) => {
             if (!arquivo.removed) {
+              if (!arquivo.documentid || !arquivo.url) {
+                Errors.push(`<li>O envio do arquivo ${arquivo.nome} não foi concluído corretamente. Exclua-o ou envie novamente</li>`);
+              }
               if (!arquivo.descricao) {
                 Errors.push(`<li>Informe a descrição no arquivo ${arquivo.nome}</li>`);
               }
-              console.log("🚀 ~ file: documentacao.js:309 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              // console.log("🚀 ~ file: documentacao.js:309 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!arquivo.numero) {
                 Errors.push(`<li>Informe o número da ND no arquivo ${arquivo.nome}</li>`);
               }
-              console.log("🚀 ~ file: documentacao.js:313 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              // console.log("🚀 ~ file: documentacao.js:313 ~ vm.Formulario.nd.forEach ~ Error:", Error)
               if (!isNaN(Number(arquivo.numero)) && Number(arquivo.numero) === 0) {
                 Errors.push(`<li>Número da ND no arquivo ${arquivo.nome} deve ser diferente de 0</li>`);
               }
-              console.log("🚀 ~ file: documentacao.js:317 ~ vm.Formulario.nd.forEach ~ Error:", Error)
+              // console.log("🚀 ~ file: documentacao.js:317 ~ vm.Formulario.nd.forEach ~ Error:", Error)
             }
           });
         }
 
         if (Errors.length > 0) {
-          console.log("🚀 ~ file: documentacao.js:323 ~ enviar ~ Error:", Error)
-          FLUIGC.toast({
-            title: 'Oops.. ocorreram erros ao enviar seus dados:',
-            message: `<ul>${Errors.join('')}</ul>`,
-            type: 'danger',
-            timeout: 5000
+          console.log("🚀 ~ file: documentacao.js:323 ~ enviar ~ Error:", Errors)
+          // FLUIGC.toast({
+          //   title: 'Oops.. ocorreram erros ao enviar seus dados:',
+          //   message: `<ul>${Errors.join('')}</ul>`,
+          //   type: 'danger',
+          //   timeout: 5000
 
-          });
+          // });
+          showError('Oops.. ', `Ocorreram os erros abaixo ao enviar a solicitação. Por favor verifique: <br> <ul>${Errors.join('')}</ul>`);
           return;
         }
 
@@ -414,3 +466,19 @@ angular
         vm.inicia();
       }
   ])
+
+
+  const showError = (title, message, details) => {
+    FLUIGC.message.error({
+      title: title,
+      message,
+      details
+  }, function(el, ev) {
+      //Callback action executed by the user...
+   
+      //el: Element (button) clicked...
+      //ev: Event triggered...
+   
+      // this.someFunc();
+  });
+  }

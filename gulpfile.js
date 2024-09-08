@@ -9,13 +9,13 @@ const forms = require('./tasks/forms').forms;
 const widget = require('./tasks/wcm').widget;
 const workflow = require('./tasks/workflow').workflow;
 
-params.watch && watch([`./src/datasets/**/*`], {}, series(datasets));
-params.watch && watch([`./src/forms/**/*`], {}, series(forms));
-// params.watch && watch([`./src/java/**/*`], {}, series(forms));
-// params.watch && watch([`./src/progress/**/*`], {}, series(progress));
-// params.watch && watch([`./src/templates/**/*`], {}, series(templates));
-params.watch && watch([`./src/wcm/**/*`], {}, series(wcm));
-params.watch && watch([`./src/workflow/**/*`], {}, series(workflow));
+watch([`./src/datasets/**/*`], {}, series(datasets));
+watch([`./src/forms/**/*`], {}, series(forms));
+// watch([`./src/java/**/*`], {}, series(forms));
+// watch([`./src/progress/**/*`], {}, series(progress));
+// watch([`./src/templates/**/*`], {}, series(templates));
+watch([`./src/wcm/**/*`], {}, series(widget));
+watch([`./src/workflow/**/*`], {}, series(workflow));
 
 exports.datasets = datasets
 exports.forms = forms

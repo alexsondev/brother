@@ -1,15 +1,19 @@
 {
   "name": "brother-fluig",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "",
   "main": "gulpfile.js",
   "dependencies": {
+    "angular": "1.6.3",
     "angular-animate": "1.8.3",
     "angular-chart.js": "1.1.1",
     "angular-fluig": "1.0.9",
     "angular-locale-pt-br": "^1.3.16",
     "angular-route": "1.8.3",
+    "animate.css": "^4.1.1",
+    "chart.js": "2.3.0",
     "components-font-awesome": "5.9.0",
+    "moment": "^2.30.1",
     "ng-file-upload": "^12.2.13"
   },
   "devDependencies": {
@@ -57,14 +61,22 @@
     "rest": "2.0.0",
     "run-sequence": "1.2.2",
     "sass": "^1.62.1",
+    "simple-git-hooks": "^2.11.1",
     "through2": "2.0.3",
-    "yargs": "7.0.2"
+    "yargs": "17.7.2"
   },
   "scripts": {
-    "start": "gulp",
+    "start": "gulp --watch",
     "lint": "esw src/widgets/**/*.js src/forms/**/*.js --color --fix",
     "lint:watch": "esw src/widgets/**/*.js src/forms/**/*.js --color --fix --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "simple-git-hooks"
+  },
+  "overrides": {
+    "graceful-fs": "^4.2.11"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "node scripts/commit/msg.mjs"
   },
   "author": "",
   "license": "ISC",
