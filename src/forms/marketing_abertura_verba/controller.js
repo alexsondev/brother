@@ -1808,13 +1808,26 @@ angular
         if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case 'sellout':
-              "net" == vm.Formulario.tipoSellout ? (vm.Formulario.itensSellout.forEach((it) => {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensSellout.forEach(function (it) {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
-              }), vm.Formulario.itensSellout.forEach(function (it) {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
-              }));
+              vm.Formulario.tipoSellout == "net" ? 
+              
+              (
+                vm.Formulario.itensSellout.forEach((it) => {
+                  vm.Formulario.valorTotalVerba += it.rebateTotal || 0, 
+                  vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, 
+                  qtdItem++
+                }), 
+                vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, 
+                vm.calculaPercCategoria()
+              ) : 
+              
+              (
+                vm.Formulario.itensSellout.forEach(function (it) {
+                  vm.Formulario.valorTotalVerba += it.rebateTotal || 0
+                })
+                // vm.Formulario.itensSellout.forEach(function (it) {
+                //   vm.Formulario.valorTotalVerba += it.rebateTotal || 0
+                // })
+              );
               break;
             case "prpro":
               "net" == vm.Formulario.tipoPrpro ? (vm.Formulario.itensPrpro.forEach((it) => {
