@@ -1803,72 +1803,107 @@ angular
       vm.calculaTotais = function calculaTotais() {
         vm.Formulario.valorTotalVerba = 0;
         vm.Formulario.gpMedioSugerido = 0;
+        const tipoAcaoCodigo = vm.Formulario.tipoAcao?.tipoAcaoCodigo;
+        const tipoSellout = vm.Formulario.tipoSellout;
+        const tipoPrpro = vm.Formulario.tipoPrpro;
+        const tipoSellin = vm.Formulario.tipoSellin;
+        const tipoVpc = vm.Formulario.tipoVpc;
+        const tipoSpiff = vm.Formulario.tipoSpiff;
+        vm.Formulario.valorTotalVerba = 0;
+        console.log("🚀 ~ calculaTotais ~ tipoAcaoCodigo:", tipoAcaoCodigo)
+        switch (tipoAcaoCodigo) {
+          case 'sellout':
+            
+            vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoSellout === 'net' ? vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
+            break;
+          case "prpro":
+            vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoPrpro === 'net' && vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            break;
+          case 'sellin':
+            vm.Formulario.valorTotalVerba = tipoSellin === 'item' || tipoSellin === 'net'
+              ? vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba) +
+                vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.vlTotal || 0), 0);
+            vm.Formulario.gpMedioSugerido = tipoSellin === 'item' || tipoSellin === 'net' && vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            break;
+
+          case "vpc":
+            vm.Formulario.valorTotalVerba = tipoVpc === "eventos"
+              ? vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
+            break;
+
+          case "spiff":
+            vm.Formulario.valorTotalVerba = tipoSpiff === "item"
+              ? vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
+              vm.Formulario.gpMedioSugerido = tipoSpiff === "item" && vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            break;
+        }
+
+        vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / vm.Formulario.itensSellout.length;
+        vm.calculaPercCategoria();
+      };
+
+      vm.calculaTotais = function calculaTotais() {
+        vm.Formulario.valorTotalVerba = 0;
+        vm.Formulario.gpMedioSugerido = 0;
         let qtdItem = 0;
 
         if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case 'sellout':
-              "net" == vm.Formulario.tipoSellout ? (vm.Formulario.itensSellout.forEach((it) => {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensSellout.forEach(function (it) {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
-              }), vm.Formulario.itensSellout.forEach(function (it) {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0
-              }));
+              vm.Formulario.tipoSellout === "net" ? (
+              
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+                vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellout.length, 
+                vm.calculaPercCategoria()
+            ) : (
+              vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+            );
               break;
             case "prpro":
-              "net" == vm.Formulario.tipoPrpro ? (vm.Formulario.itensPrpro.forEach((it) => {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrpro.forEach((it) => {
-                vm.Formulario.valorTotalVerba += it.vlTotal || 0
-              }), vm.Formulario.itensPrpro.forEach(function (it) {
-                vm.Formulario.valorTotalVerba += it.vlTotal || 0
-              }));
+              "net" == vm.Formulario.tipoPrpro ? (
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+                vm.Formulario.gpMedioSugerido = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensPrpro.length, 
+                vm.calculaPercCategoria()
+            ) : (
+              
+              vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+            );
               break;
             case 'sellin':
               if (vm.Formulario.tipoSellin == 'item' || vm.Formulario.tipoSellin == 'net') {
-                vm.Formulario.itensSellinIt.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.rebateTotal || 0;
-                  vm.Formulario.gpMedioSugerido += it.gpSugerido || 0;
-                  qtdItem++;
-                });
-                vm.Formulario.gpMedioSugerido =
-                  vm.Formulario.gpMedioSugerido / qtdItem;
-                vm.calculaPercCategoria();
+
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+                vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellinIt.length
+                vm.calculaPercCategoria()
+
               } else {
-                vm.Formulario.itensSellinTg.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
-                vm.Formulario.itensSellinTgAc.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
+
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
               }
 
               break;
 
             case "vpc":
               if (vm.Formulario.tipoVpc == "eventos") {
-                vm.Formulario.itensVpcEvt.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
               } else {
-                vm.Formulario.itensVpcOutros.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
               }
 
               break;
 
             case "spiff":
               if (vm.Formulario.tipoSpiff == "item") {
-                vm.Formulario.itensSpiffIt.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
                 vm.calculaPercCategoria();
               } else {
-                vm.Formulario.itensSpiffTg.forEach((it) => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                });
+                vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
               }
 
               break;

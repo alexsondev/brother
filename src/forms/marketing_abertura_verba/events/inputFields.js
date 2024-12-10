@@ -139,12 +139,14 @@ function inputFields(form) {
     }
 
     // preenche tabelas de itens
-    [
+    const tables = [
       { table: "itensSellout", child: "itemSellout" },
       { table: "itensSellinIt", child: "itemSellinIt" },
       { table: "itensPrpro", child: "itemPrpro" },
       { table: "itensSpiffIt", child: "itemSpiffIt" },
-    ].forEach(({ table, child }) => {
+    ];
+
+    tables.forEach(({ table, child }) => {
 
       log.info(`${child}_itemCodigo:${child}_itemCodigo`)
 
@@ -178,6 +180,17 @@ function inputFields(form) {
       }
     })
 
+
+
+    const itensVpcEvt = getChildren(form, `itensVpcEvt`, [`itemVpcEvt_inicio`, `itemVpcEvt_termino`]);
+    itensVpcEvt.forEach((item, i) => {
+      if (String(item.itemVpcEvt_inicio)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_inicio___${i + 1}`, new Date(item.itemVpcEvt_inicio).getTime());
+      }
+      if (String(item.itemVpcEvt_termino)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_termino___${i + 1}`, new Date(item.itemVpcEvt_termino).getTime());
+      }
+    })
 
     // itensSellout.forEach((itemSellout,i) => {
     //   const item = getDataset('totvs_busca_item', null, [
