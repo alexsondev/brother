@@ -1,0 +1,17 @@
+application.title=Custom Widget
+application.description=This is a custom widget
+application.category=Custom
+application.code=customwidget
+application.icon=icon.png
+application.renderer=freemarker
+application.type=widget
+application.resource.css.1=/resources/css/customwidget.css
+application.resource.js.2=/resources/js/customwidget.js
+application.uiwidget=false
+
+edit.file=edit.ftl
+view.file=view.ftl
+
+developer.code=TOTVS
+developer.name=TOTVS S.A.
+developer.url=http://www.totvs.com

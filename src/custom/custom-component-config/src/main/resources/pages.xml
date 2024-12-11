@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--	
+	A estrutura de páginas desse exemplo está definida da seguinte maneira:
+	- Na raíz, existe apenas uma página referente ao app.
+		- Existem duas outras páginas que são filha dessa página na raíz.	
+	
+	Exemplo utilizado aqui nesse app:
+	- custom-component-page (pai)
+		- custom_page1 (filha 1 e default)
+		- custom_page2 (filha 2)
+		
+     * O seu app pode ter apenas uma página na raíz. As demais, devem ser filhas.		
+ -->
+
+<pages>
+	<page>
+		<code>custom-component-page</code>
+		<enabledChildren>true</enabledChildren>
+		<enabledPathParam>false</enabledPathParam>
+		<hidden>false</hidden>
+		<title>Custom Component</title>
+		<description>Custom Component</description>
+		<theme>themedefault</theme>
+		<layout>layoutsimple</layout>
+		<editable>false</editable>
+		<auth>1</auth>
+		<icon>custom-component.png</icon>
+		<menuGroup>true</menuGroup>
+		<slots>
+			<slot>
+				<name>SlotA</name>
+				<widget>html_editor</widget>
+				<showWidgetTitle>false</showWidgetTitle>
+				<enabledMobileApp>false</enabledMobileApp>
+				<preference>
+					<key>htmlContent</key>
+					<value>
+						<h1>Custom Component</h1>
+					</value>
+				</preference>
+			</slot>
+		</slots>
+		<permissions>
+			<permission>
+				<code>pageView</code>
+				<description>permission.page.view</description>
+				<role>user</role>
+				<!-- Caso queira colocar um grupo, é só trocar de role para group: <group>grupo-rh</gorup> -->
+			</permission>
+			<permission>
+				<code>pageUpdate</code>
+				<description>permission.page.update</description>
+				<role>admin</role>
+			</permission>
+			<permission>
+				<code>pageRemove</code>
+				<description>permission.page.remove</description>
+				<role>admin</role>
+			</permission>
+		</permissions>
+		<pages>
+			<page>
+				<code>custom_page1</code>
+				<enabledChildren>false</enabledChildren>
+				<enabledPathParam>false</enabledPathParam>
+				<hidden>false</hidden>
+				<title>Custom Layout</title>
+				<description>Custom Layout</description>
+				<theme>themedefault</theme>
+				<layout>customlayout</layout>
+				<editable>false</editable>
+				<auth>1</auth>
+				<parentCode>custom-component-page</parentCode>
+				<menuGroup>true</menuGroup>
+				<icon>custom.png</icon>
+				<slots>
+					<slot>
+						<name>SlotA</name>
+						<widget>customwidget</widget>
+					</slot>
+				</slots>
+				<permissions>
+					<permission>
+						<code>pageView</code>
+						<description>permission.page.view</description>
+						<role>user</role>
+					</permission>
+					<permission>
+						<code>pageUpdate</code>
+						<description>permission.page.update</description>
+						<role>admin</role>
+					</permission>
+					<permission>
+						<code>pageRemove</code>
+						<description>permission.page.remove</description>
+						<role>admin</role>
+					</permission>
+				</permissions>
+			</page>
+			<page>
+				<code>custom_page2</code>
+				<enabledChildren>true</enabledChildren>
+				<enabledPathParam>false</enabledPathParam>
+				<hidden>false</hidden>
+				<title>Custom Layout</title>
+				<description>Custom Layout</description>
+				<theme>themedefault</theme>
+				<layout>customcustomlayout</layout>
+				<editable>false</editable>
+				<auth>1</auth>
+				<icon>custom.png</icon>
+				<slots>
+					<slot>
+						<name>SlotA</name>
+						<widget>customwidgetmenu</widget>
+					</slot>					
+				</slots>
+				<parentCode>custom-component-page</parentCode>
+				<permissions>
+					<permission>
+						<code>pageView</code>
+						<description>permission.page.view</description>
+						<role>user</role>
+					</permission>
+					<permission>
+						<code>pageUpdate</code>
+						<description>permission.page.update</description>
+						<role>admin</role>
+					</permission>
+					<permission>
+						<code>pageRemove</code>
+						<description>permission.page.remove</description>
+						<role>admin</role>
+					</permission>
+				</permissions>
+			</page>
+		</pages>
+	</page>
+
+</pages>
