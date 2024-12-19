@@ -85,8 +85,8 @@ public class MarketingFlowComponent {
 
       MarketingItemSelloutVO[] itensSellout =
           MarketingItemSelloutComponent.getItens(documentid, version);
-      MarketingItemPrproVO[] itensPrpro =
-          MarketingItemPrproComponent.getItens(documentid, version);
+      // MarketingItemPrproVO[] itensPrpro =
+      //     MarketingItemPrproComponent.getItens(documentid, version);
 
       MarketingItemSellinItVO[] itensSellinIt =
           MarketingItemSellinItComponent.getItens(documentid, version);
@@ -117,7 +117,7 @@ public class MarketingFlowComponent {
           valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido,
           evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND,
           currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro,
-          tipoQuantidade, folderAttach, itensSellout, itensPrpro, itensSellinIt, itensSellinTg, itensSellinTgAc,
+          tipoQuantidade, folderAttach, itensSellout, itensSellinIt, itensSellinTg, itensSellinTgAc,
           itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
 
     } catch (Exception e) {
@@ -256,36 +256,36 @@ public class MarketingFlowComponent {
         }
       }
 
-      if (solicitacao.getItensPrpro() != null) {
-        i = 0;
+      // if (solicitacao.getItensPrpro() != null) {
+      //   i = 0;
 
-        for (MarketingItemPrproVO itemPrpro : solicitacao.getItensPrpro()) {
-          i++;
+      //   for (MarketingItemPrproVO itemPrpro : solicitacao.getItensPrpro()) {
+      //     i++;
 
-          fields = itemPrpro.getClass().getDeclaredFields();
-          for (Field field : fields) {
-            field.setAccessible(true);
+      //     fields = itemPrpro.getClass().getDeclaredFields();
+      //     for (Field field : fields) {
+      //       field.setAccessible(true);
 
-            String value = "";
-            try {
-              value = field.get(itemPrpro).toString();
-            } catch (Exception e) {
-            }
+      //       String value = "";
+      //       try {
+      //         value = field.get(itemPrpro).toString();
+      //       } catch (Exception e) {
+      //       }
 
-            ECMFormDataVO formDataVO = new ECMFormDataVO(
-                "itemPrpro_" + field.getName() + "___" + String.valueOf(i), value);
+      //       ECMFormDataVO formDataVO = new ECMFormDataVO(
+      //           "itemPrpro_" + field.getName() + "___" + String.valueOf(i), value);
 
-            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
-                .findFirst().orElse(null);
+      //       item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+      //           .findFirst().orElse(null);
 
-            if (item != null) {
-              item.setValue(formDataVO.getValue());
-            } else {
-              formData.add(formDataVO);
-            }
-          }
-        }
-      }
+      //       if (item != null) {
+      //         item.setValue(formDataVO.getValue());
+      //       } else {
+      //         formData.add(formDataVO);
+      //       }
+      //     }
+      //   }
+      // }
 
       if (solicitacao.getItensSellinIt() != null) {
         i = 0;

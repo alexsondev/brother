@@ -42,7 +42,7 @@ public class MarketingFlowVO implements Serializable {
     private Long folderAttach;
 
     private MarketingItemSelloutVO[] itensSellout;
-    private MarketingItemPrproVO[] itensPrpro;
+    // private MarketingItemPrproVO[] itensPrpro;
     private MarketingItemSellinItVO[] itensSellinIt;
     private MarketingItemSellinTgVO[] itensSellinTg;
     private MarketingItemSellinTgAcVO[] itensSellinTgAc;
@@ -60,7 +60,7 @@ public class MarketingFlowVO implements Serializable {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
 
-    public MarketingFlowVO(Long documentid, int solicitacao, String status, double valorLiberado, double valorTotalVerba, double valorResultado, String descricaoDetalhada, Long inicioAcao, Long terminoAcao, Boolean envioEvidenciasConcluido, Boolean evRecusada, String obsEnvioEvidencias, Boolean envioNDConcluido, Boolean ndRecusada, String obsEnvioND, int currentStepPortal, String motivoCancelamento, String motivoRecusaND, String motivoRecusaEv, String tipoSellout, String tipoPrpro, String tipoQuantidade, Long folderAttach, MarketingItemSelloutVO[] itensSellout, MarketingItemPrproVO[] itensPrpro, MarketingItemSellinItVO[] itensSellinIt, MarketingItemSellinTgVO[] itensSellinTg, MarketingItemSellinTgAcVO[] itensSellinTgAc, MarketingItemSpiffItVO[] itensSpiffIt, MarketingItemSpiffTgVO[] itensSpiffTg, MarketingItemVpcEvtVO[] itensVpcEvt, MarketingItemVpcOutrosVO[] itensVpcOutros, MarketingEvidenciaVO[] evidencias, MarketingNdVO[] nd, MarketingDuplicatasVO[] duplicatas) {
+    public MarketingFlowVO(Long documentid, int solicitacao, String status, double valorLiberado, double valorTotalVerba, double valorResultado, String descricaoDetalhada, Long inicioAcao, Long terminoAcao, Boolean envioEvidenciasConcluido, Boolean evRecusada, String obsEnvioEvidencias, Boolean envioNDConcluido, Boolean ndRecusada, String obsEnvioND, int currentStepPortal, String motivoCancelamento, String motivoRecusaND, String motivoRecusaEv, String tipoSellout, String tipoPrpro, String tipoQuantidade, Long folderAttach, MarketingItemSelloutVO[] itensSellout, MarketingItemSellinItVO[] itensSellinIt, MarketingItemSellinTgVO[] itensSellinTg, MarketingItemSellinTgAcVO[] itensSellinTgAc, MarketingItemSpiffItVO[] itensSpiffIt, MarketingItemSpiffTgVO[] itensSpiffTg, MarketingItemVpcEvtVO[] itensVpcEvt, MarketingItemVpcOutrosVO[] itensVpcOutros, MarketingEvidenciaVO[] evidencias, MarketingNdVO[] nd, MarketingDuplicatasVO[] duplicatas) {
         this.documentid = documentid;
         this.solicitacao = solicitacao;
         this.status = status;
@@ -85,7 +85,6 @@ public class MarketingFlowVO implements Serializable {
         this.tipoQuantidade = tipoQuantidade;
         this.folderAttach = folderAttach;
         this.itensSellout = itensSellout;
-        this.itensPrpro = itensPrpro;
         this.itensSellinIt = itensSellinIt;
         this.itensSellinTg = itensSellinTg;
         this.itensSellinTgAc = itensSellinTgAc;
@@ -306,13 +305,13 @@ public class MarketingFlowVO implements Serializable {
         this.itensSellout = itensSellout;
     }
 
-    public MarketingItemPrproVO[] getItensPrpro() {
-        return this.itensPrpro;
-    }
+    // public MarketingItemPrproVO[] getItensPrpro() {
+    //     return this.itensPrpro;
+    // }
 
-    public void setItensPrpro(MarketingItemPrproVO[] itensPrpro) {
-        this.itensPrpro = itensPrpro;
-    }
+    // public void setItensPrpro(MarketingItemPrproVO[] itensPrpro) {
+    //     this.itensPrpro = itensPrpro;
+    // }
 
     public MarketingItemSellinItVO[] getItensSellinIt() {
         return this.itensSellinIt;
@@ -514,10 +513,10 @@ public class MarketingFlowVO implements Serializable {
         return this;
     }
 
-    public MarketingFlowVO itensPrpro(MarketingItemPrproVO[] itensPrpro) {
-        setItensPrpro(itensPrpro);
-        return this;
-    }
+    // public MarketingFlowVO itensPrpro(MarketingItemPrproVO[] itensPrpro) {
+    //     setItensPrpro(itensPrpro);
+    //     return this;
+    // }
 
     public MarketingFlowVO itensSellinIt(MarketingItemSellinItVO[] itensSellinIt) {
         setItensSellinIt(itensSellinIt);
@@ -582,7 +581,7 @@ public class MarketingFlowVO implements Serializable {
           Objects.equals(tipoQuantidade, marketingFlowVO.tipoQuantidade) && 
           Objects.equals(folderAttach, marketingFlowVO.folderAttach) && 
           Objects.equals(itensSellout, marketingFlowVO.itensSellout) && 
-          Objects.equals(itensPrpro, marketingFlowVO.itensPrpro) &&
+          // Objects.equals(itensPrpro, marketingFlowVO.itensPrpro) &&
           Objects.equals(itensSellinIt, marketingFlowVO.itensSellinIt) && 
           Objects.equals(itensSellinTg, marketingFlowVO.itensSellinTg) && 
           Objects.equals(itensSellinTgAc, marketingFlowVO.itensSellinTgAc) && 
@@ -592,10 +591,10 @@ public class MarketingFlowVO implements Serializable {
           Objects.equals(itensVpcOutros, marketingFlowVO.itensVpcOutros) && Objects.equals(evidencias, marketingFlowVO.evidencias) && Objects.equals(nd, marketingFlowVO.nd) && Objects.equals(duplicatas, marketingFlowVO.duplicatas);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro, tipoQuantidade, folderAttach, itensSellout, itensPrpro, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
-    }
+    // @Override
+    // public int hashCode() {
+    //     return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro, tipoQuantidade, folderAttach, itensSellout, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
+    // }
 
     @Override
     public String toString() {

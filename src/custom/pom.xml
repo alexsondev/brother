@@ -27,10 +27,10 @@
 	</properties>
 
 	<modules>
-		<module>custom-component-layout</module>
-		<module>custom-component-layout-custom</module>
-		<module>custom-component-widget</module>
-		<module>custom-component-widget-menu</module>
+		<!-- <module>custom-component-layout</module>
+		<module>custom-component-layout-custom</module> -->
+		<!-- <module>custom-component-widget</module>
+		<module>custom-component-widget-menu</module> -->
 		<module>custom-component-config</module>
 		<module>custom-component-entity</module>
 		<module>custom-component-service</module>

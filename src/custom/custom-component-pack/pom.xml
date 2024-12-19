@@ -30,7 +30,7 @@
 			<artifactId>foundation-cache-module</artifactId>
 			<version>${fluig.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.fluig</groupId>
 			<artifactId>custom-component-widget</artifactId>
 			<version>${project.version}</version>
@@ -57,7 +57,7 @@
 			<version>${project.version}</version>
 			<scope>compile</scope>
 			<type>war</type>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.fluig</groupId>
 			<artifactId>custom-component-config</artifactId>
@@ -137,7 +137,7 @@
 						</security-role>
 					</security>
 					<modules>
-						<webModule>
+						<!-- <webModule>
 							<groupId>com.fluig</groupId>
 							<artifactId>custom-component-layout</artifactId>
 							<contextRoot>/customlayout</contextRoot>
@@ -156,7 +156,7 @@
 							<groupId>com.fluig</groupId>
 							<artifactId>custom-component-widget</artifactId>
 							<contextRoot>/customwidget</contextRoot>
-						</webModule>
+						</webModule> -->
 						<webModule>
 							<groupId>com.fluig</groupId>
 							<artifactId>custom-component-rest</artifactId>
