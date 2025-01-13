@@ -1020,8 +1020,8 @@ angular
             ]
           },
           {
-            tablename: 'itensSellout', 
-            fieldPrefix: 'itemSellout', 
+            tablename: 'itensSellout',
+            fieldPrefix: 'itemSellout',
             fields: ƒ[
               'target', 'finalidade', 'item', 'srpInicial', 'srpSugerido',
               'netInicial', 'netSugerido', 'rebateUnit', 'qtde', 'rebateTotal', 'data'
@@ -1325,7 +1325,7 @@ angular
       }
 
       vm.buscaResumoVerbas = function buscaResumoVerbas() {
-       
+
       }
       vm.changeItemPrpro = function changeItemPrpro(item, index) {
         if (item.item && item.item.codigo) {
@@ -1813,7 +1813,7 @@ angular
         console.log("🚀 ~ calculaTotais ~ tipoAcaoCodigo:", tipoAcaoCodigo)
         switch (tipoAcaoCodigo) {
           case 'sellout':
-            
+
             vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
             vm.Formulario.gpMedioSugerido = tipoSellout === 'net' ? vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
             break;
@@ -1825,7 +1825,7 @@ angular
             vm.Formulario.valorTotalVerba = tipoSellin === 'item' || tipoSellin === 'net'
               ? vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
               : vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba) +
-                vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.vlTotal || 0), 0);
+              vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.vlTotal || 0), 0);
             vm.Formulario.gpMedioSugerido = tipoSellin === 'item' || tipoSellin === 'net' && vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
             break;
 
@@ -1839,7 +1839,7 @@ angular
             vm.Formulario.valorTotalVerba = tipoSpiff === "item"
               ? vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
               : vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
-              vm.Formulario.gpMedioSugerido = tipoSpiff === "item" && vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            vm.Formulario.gpMedioSugerido = tipoSpiff === "item" && vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
             break;
         }
 
@@ -1847,69 +1847,69 @@ angular
         vm.calculaPercCategoria();
       };
 
-      vm.calculaTotais = function calculaTotais() {
-        vm.Formulario.valorTotalVerba = 0;
-        vm.Formulario.gpMedioSugerido = 0;
-        let qtdItem = 0;
+      // vm.calculaTotais = function calculaTotais() {
+      //   vm.Formulario.valorTotalVerba = 0;
+      //   vm.Formulario.gpMedioSugerido = 0;
+      //   let qtdItem = 0;
 
-        if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
-          switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
-            case 'sellout':
-              vm.Formulario.tipoSellout === "net" ? (
-              
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
-                vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellout.length, 
-                vm.calculaPercCategoria()
-            ) : (
-              vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
-            );
-              break;
-            case "prpro":
-              "net" == vm.Formulario.tipoPrpro ? (
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
-                vm.Formulario.gpMedioSugerido = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensPrpro.length, 
-                vm.calculaPercCategoria()
-            ) : (
-              
-              vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
-            );
-              break;
-            case 'sellin':
-              if (vm.Formulario.tipoSellin == 'item' || vm.Formulario.tipoSellin == 'net') {
+      //   if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
+      //     switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
+      //       case 'sellout':
+      //         vm.Formulario.tipoSellout === "net" ? (
 
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
-                vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellinIt.length
-                vm.calculaPercCategoria()
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellout.length, 
+      //           vm.calculaPercCategoria()
+      //       ) : (
+      //         vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //       );
+      //         break;
+      //       case "prpro":
+      //         "net" == vm.Formulario.tipoPrpro ? (
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensPrpro.length, 
+      //           vm.calculaPercCategoria()
+      //       ) : (
 
-              } else {
+      //         vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //       );
+      //         break;
+      //       case 'sellin':
+      //         if (vm.Formulario.tipoSellin == 'item' || vm.Formulario.tipoSellin == 'net') {
 
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
-              }
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellinIt.length
+      //           vm.calculaPercCategoria()
 
-              break;
+      //         } else {
 
-            case "vpc":
-              if (vm.Formulario.tipoVpc == "eventos") {
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
-              } else {
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
-              }
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
 
-              break;
+      //         break;
 
-            case "spiff":
-              if (vm.Formulario.tipoSpiff == "item") {
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
-                vm.calculaPercCategoria();
-              } else {
-                vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
-              }
+      //       case "vpc":
+      //         if (vm.Formulario.tipoVpc == "eventos") {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         } else {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
 
-              break;
-          }
-        }
-      };
+      //         break;
+
+      //       case "spiff":
+      //         if (vm.Formulario.tipoSpiff == "item") {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.calculaPercCategoria();
+      //         } else {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
+
+      //         break;
+      //     }
+      //   }
+      // };
 
       vm.incluirEmailNotificacao = function incluirEmailNotificacao() {
         vm.Formulario.emailsCliente.push({
