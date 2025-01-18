@@ -160,10 +160,10 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" >
 
-  <div class="col-sm-12">
-    <table class="table table-stripped" ng-show="vm.Formulario.itensSellout.length > 0">
+  <div class="col-sm-12" >
+    <table class="table table-stripped" ng-show="vm.Formulario.itensSellout.length > 0 && vm.Formulario.tipoAcao.tipoAcaoCodigo=='sellout'">
       <caption>Sell-Out</caption>
       <thead>
         <th ng-if="vm.Formulario.tipoSellout != 'target'">Item</th>
