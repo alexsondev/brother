@@ -1020,8 +1020,8 @@ angular
             ]
           },
           {
-            tablename: 'itensSellout', 
-            fieldPrefix: 'itemSellout', 
+            tablename: 'itensSellout',
+            fieldPrefix: 'itemSellout',
             fields: ƒ[
               'target', 'finalidade', 'item', 'srpInicial', 'srpSugerido',
               'netInicial', 'netSugerido', 'rebateUnit', 'qtde', 'rebateTotal', 'data'
@@ -1325,7 +1325,7 @@ angular
       }
 
       vm.buscaResumoVerbas = function buscaResumoVerbas() {
-       
+
       }
       vm.changeItemPrpro = function changeItemPrpro(item, index) {
         if (item.item && item.item.codigo) {
@@ -1731,6 +1731,7 @@ angular
           switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
             case "sellout":
               vm.Formulario.itensSellout.forEach((it, index) => {
+                if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
                 vm.ItensEvidencia.push({
                   tablename: "itensSellout",
                   index,
@@ -1740,9 +1741,10 @@ angular
                 });
               });
               break
-            case 'prpro':
-              vm.Formulario.itensPrpro.forEach((it, index) => {
-                vm.ItensEvidencia.push({ tablename: 'itensPrpro', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
+            case 'price':
+              vm.Formulario.itensPrice.forEach((it, index) => {
+                if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
+                vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
 
@@ -1752,6 +1754,7 @@ angular
                 vm.Formulario.tipoSellin == "net"
               ) {
                 vm.Formulario.itensSellinIt.forEach((it, index) => {
+                  if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
                   vm.ItensEvidencia.push({
                     tablename: "itensSellinIt",
                     index,
@@ -1766,6 +1769,7 @@ angular
             case "spiff":
               if (vm.Formulario.tipoSpiff == "item") {
                 vm.Formulario.itensSpiffIt.forEach((it, index) => {
+                  if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.valorUnit;
                   vm.ItensEvidencia.push({
                     tablename: "itensSpiffIt",
                     index,
@@ -1816,10 +1820,10 @@ angular
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0
               }));
               break;
-            case "prpro":
-              "net" == vm.Formulario.tipoPrpro ? (vm.Formulario.itensPrpro.forEach((it) => {
+            case "price":
+              "net" == vm.Formulario.tipoPrice ? (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.rebateTotal || 0, vm.Formulario.gpMedioSugerido += it.gpSugerido || 0, qtdItem++
-              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrpro.forEach((it) => {
+              }), vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem, vm.calculaPercCategoria()) : (vm.Formulario.itensPrice.forEach((it) => {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
               }), vm.Formulario.itensPrpro.forEach(function (it) {
                 vm.Formulario.valorTotalVerba += it.vlTotal || 0
