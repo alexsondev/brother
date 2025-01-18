@@ -34,7 +34,8 @@ function inputFields(form) {
       `arquivoND_url`, `arquivoND_removed`, `arquivoND_descricao`, `arquivoND_aceito`,
       `arquivoND_motivoRecusa`, `arquivoND_numero`]);
 
-  const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''}${clienteNome} - ${tipoAcaoCodigo} - ${nomeAcao} `;
+  // const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''}${solicitacao} - ${tipoAcaoCodigo} - ${nomeAcao} - ${clienteNome}`;
+  const displaykey = clienteNome;
   // `${suspenderAcao == "true" ? "SUSPENSA - " : ""
   //               } ${solicitacao} - ${tipoAcaoDescricao} - ${nomeAcao} - ${clienteNome}`;
 
