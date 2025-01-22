@@ -1,4 +1,4 @@
-const campos = ['retorno', 'solicitacao', 'dtAtual'];
+const campos = ['retorno', 'solicitacao', 'sequencia', 'dtAtual'];
 const display = campos;
 const dePara = campos;
 
@@ -41,34 +41,42 @@ function buscaDataset(fields, constraints, sortFields) {
   ]);
 
   // busca filhos e monta params 
-  ttParams = {
-    ttParam: [],
-    ttRateioCategoria: [],
-    ttSellout: [],
-    ttSellinItem: [],
-    ttSellinTarget: [],
-    ttSellinTargetAc: [],
-    ttSpiffItem: [],
-    ttSpiffTarget: [],
-    ttVpcEvt: [],
-    ttVpcOutros: []
-  }
 
   let solicitacaoCampos = [
     { name: 'solicitacao' }, { name: 'importado' }, { name: 'clienteCodigo' }, { name: 'tipoAcaoDescricao' }, { name: 'tipoAcaoCodigo' },
     { name: 'inicioAcao', type: 'date' }, { name: 'terminoAcao', type: 'date' }, { name: 'tipoQuantidade' }, { name: 'nomeAcao' },
-    { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
+    { name: 'tipoPrpro' }, { name: 'tipoSellin' }, { name: 'tipoSellout' }, { name: 'tipoVpc' }, { name: 'tipoSpiff' }, { name: 'descricaoDetalhada' },
     { name: 'valorTotalVerba', type: 'decimal' }, { name: 'gpMedioSugerido', type: 'perc' }, { name: 'numControle' },
     { name: 'dataAbertura', type: 'date' }, { name: 'solicitanteNome' }, { name: 'solicitanteCodigo' }, { name: 'atividade' },
     { name: 'responsavel' }, { name: 'statusAprovGerMarketing' }, { name: 'dataAprovGerMarketing', type: 'date' },
     { name: 'userAprovGerMarketingNome' }, { name: 'userAprovGerMarketingCodigo' }, { name: 'obsAprovGerMarketing' },
     { name: 'statusAprovPresidenciaVp' }, { name: 'dataAprovPresidenciaVp', type: 'date' }, { name: 'userAprovPresidenciaVpNome' },
-    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' }, { name: 'status', ttName: 'statusSolicitacao' }, { name: 'motivoCancelamento' }
+    { name: 'userAprovPresidenciaVpCodigo' }, { name: 'obsAprovPresidenciaVp' }, { name: 'status', ttName: 'statusSolicitacao' }, { name: 'motivoCancelamento' },
+    { name: "guid" }, { name: "valorLiberado" }
+
   ]
 
-  // log.info(`solicitacoes.length = ${solicitacoes.length}`);
+  // log.info(`solicitacoes.length = ${extSolicitacoes.length}`);
+  let json = {};
+  let ttErro = [];
+  let ttStatus = [];
 
-  extSolicitacoes.forEach(extSolicitacao => {
+  extSolicitacoes.forEach((extSolicitacao, seq) => {
+    // extSolicitacoes.forEach(async (extSolicitacao) => {
+
+    let ttParams = {
+      ttParam: [],
+      ttRateioCategoria: [],
+      ttSellout: [],
+      ttPrpro: [],
+      ttSellinItem: [],
+      ttSellinTarget: [],
+      ttSellinTargetAc: [],
+      ttSpiffItem: [],
+      ttSpiffTarget: [],
+      ttVpcEvt: [],
+      ttVpcOutros: []
+    }
 
     let solicitacao = getDataset('marketing_abertura_verba', null, [
       { field: 'solicitacao', value: extSolicitacao.solicitacao },
@@ -80,7 +88,14 @@ function buscaDataset(fields, constraints, sortFields) {
     // if (Number(solicitacao.solicitacao) == 12478 || Number(solicitacao.solicitacao) == 2296 || Number(solicitacao.solicitacao) == 1872 || Number(solicitacao.solicitacao) == 1370) {
 
     let objSolicitacao = {};
-    solicitacaoCampos.forEach(c => { objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) });
+    solicitacaoCampos.forEach(c => { 
+      try {
+
+        objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) 
+      } catch(error) {
+        objSolicitacao[c.ttName || c.name] = ""
+      }
+    });
 
     ttParams.ttParam.push(objSolicitacao);
 
@@ -100,6 +115,50 @@ function buscaDataset(fields, constraints, sortFields) {
           { name: 'rebateTotal', type: 'decimal' },
           { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
         ]
+      },
+      {
+        tablename: "itensPrpro",
+        tt: "ttPrpro",
+        fieldPref: "itemPrpro",
+        campos: [{
+          name: "itemCodigo"
+        }, {
+          name: "srpInicial",
+          type: "decimal"
+        }, {
+          name: "netInicial",
+          type: "decimal"
+        }, {
+          name: "gpInicial",
+          type: "perc"
+        }, {
+          name: "srpSugerido",
+          type: "decimal"
+        }, {
+          name: "netSugerido",
+          type: "decimal"
+        }, {
+          name: "gpSugerido",
+          type: "perc"
+        }, {
+          name: "rebateUnit",
+          type: "decimal"
+        }, {
+          name: "qtde",
+          type: "decimal"
+        }, {
+          name: "rebateTotal",
+          type: "decimal"
+        }, {
+          name: "qtdEvidencia",
+          type: "decimal"
+        }, {
+          name: "valEvidencia",
+          type: "decimal"
+        }, {
+          name: "totEvidencia",
+          type: "decimal"
+        }]
       },
       {
         tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
@@ -167,31 +226,31 @@ function buscaDataset(fields, constraints, sortFields) {
       },
 
     ].forEach(paramTable => {
+      try {
 
-      getDataset('marketing_abertura_verba', null, [
-        { field: 'tablename', value: paramTable.tablename },
-        { field: 'documentid', value: solicitacao.documentid }
-      ]).forEach(objTable => {
-        let obj = { solicitacao: String(solicitacao.solicitacao) };
-
-        paramTable.campos.forEach(c => {
-
-          let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
-          obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+        getDataset('marketing_abertura_verba', null, [
+          { field: 'tablename', value: paramTable.tablename },
+          { field: 'documentid', value: solicitacao.documentid }
+        ]).forEach(objTable => {
+          let obj = { solicitacao: String(solicitacao.solicitacao) };
+  
+          paramTable.campos.forEach(c => {
+  
+            let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
+            obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+          })
+  
+          if (!ttParams[paramTable.tt]) {
+            ttParams[paramTable.tt] = [];
+          }
+          ttParams[paramTable.tt].push(obj);
         })
-
-        if (!ttParams[paramTable.tt]) {
-          ttParams[paramTable.tt] = [];
-        }
-        ttParams[paramTable.tt].push(obj);
-      })
+      } catch (error) {
+        log.info(`~ //paramTable.forEach ~ error: ${error}`)
+        
+      }
     })
-    // }
-  })
 
-  let json = {};
-
-  if (ttParams.ttParam.length > 0) {
 
     var properties = {};
     properties["receive.timeout"] = "60000";
@@ -199,55 +258,37 @@ function buscaDataset(fields, constraints, sortFields) {
     // log.info(`*** totvs_atualiza_fluxo_marketing 1 ${JSON.stringify(ttParams)}`);
 
     // const json = jsonLocal();
-    try {
-      json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
-    } catch (error) {
-      extSolicitacoes.forEach(solicitacao => {
-        if (solicitacao.statusIntegraTotvs != error) {
-          // getDataset('fluig_atualiza_formulario', null, [
-          //   { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
-          //   { field: 'valores', value: `S|${String(error) || 'N/D'}|${String(new Date().getTime())}` },
-          //   { field: 'documentid', value: String(solicitacao.documentid) }
-          // ])
-        }
 
+    try {
+      // json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+      ttStatus.concat(json.ttStatus)
+    } catch (error) {
+      log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
+      
+      json = {}
+      ttErro.push({
+        mensagem: `THROW ${solicitacao.solicitacao} ${seq}: ${error}`
       })
     }
 
-    // log.info('*** totvs_atualiza_fluxo_marketing 2');
+    // log.info(`*** totvs_atualiza_fluxo_marketing 2. json: ${JSON.stringify(json)}`);
 
     if (json && json.ttStatus) {
       // log.info('*** totvs_atualiza_fluxo_marketing entrou na json.ttStatus')
-      json.ttStatus.forEach(status => {
-
-        // log.info('*** totvs_atualiza_fluxo_marketing solicitacao: ' + status.solicitacao);
-
-        let solicitacao = extSolicitacoes.filter(s => s.solicitacao == status.solicitacao)[0];
-
-        // log.info('*** totvs_atualiza_fluxo_marketing solicitacao.documentid: ' + solicitacao.documentid);
-        // log.info('*** totvs_atualiza_fluxo_marketing status.retorno: ' + status.retorno);
-
-        if (solicitacao) {
-
-          getDataset('fluig_atualiza_formulario', null, [
-            { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
-            { field: 'valores', value: `false|${status.retorno || 'N/D'}|${String(new Date().getTime())}` },
-            { field: 'documentid', value: String(solicitacao.documentid) }
-          ])
-
-        }
-      })
+      getDataset('fluig_atualiza_formulario', null, [
+        { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
+        { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
+        { field: 'documentid', value: String(solicitacao.documentid) }
+      ], true)
     }
 
-    // log.info('*** totvs_atualiza_fluxo_marketing 3');
+    // }
+  });
 
-  }
 
-  // log.info('*** totvs_atualiza_fluxo_marketing 4');
+  // log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
 
-  // log.info(JSON.stringify(json))
-
-  return montaDataset(json.ttErro, json.ttStatus, campos, display, dePara, true);
+  return montaDataset(ttErro, ttStatus, campos, display, dePara, true);
 }
 
 function replaceSpecialChars(str) {

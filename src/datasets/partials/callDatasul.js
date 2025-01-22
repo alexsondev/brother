@@ -1,4 +1,4 @@
-function callDatasul(programa, metodo, json, tenantId, properties, usuario) {
+const callDatasul =  (programa, metodo, json, tenantId, properties, usuario) => {
 
   properties = properties || {};
   usuario = usuario || 'super';
@@ -41,9 +41,9 @@ function callDatasul(programa, metodo, json, tenantId, properties, usuario) {
   let resp;
 
   if (tenantId) {
-    resp = client.callProcedureWithTokenAndCompany(token, tenantId, programa, metodo, jsonParams);
+    resp =  client.callProcedureWithTokenAndCompany(token, tenantId, programa, metodo, jsonParams);
   } else {
-    resp = client.callProcedureWithToken(token, programa, metodo, jsonParams);
+    resp =  client.callProcedureWithToken(token, programa, metodo, jsonParams);
   }
 
   // Converte o resultado para um objeto

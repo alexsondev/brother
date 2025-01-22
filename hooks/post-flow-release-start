@@ -13,8 +13,6 @@
 # MASTER_BRANCH - The branch defined as Master
 # DEVELOP_BRANCH - The branch defined as Develop
 
-echo post-flow-release-start start
-
 VERSION=$1
 ORIGIN=$2
 BRANCH=$3

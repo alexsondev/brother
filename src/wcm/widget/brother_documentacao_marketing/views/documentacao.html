@@ -90,6 +90,7 @@
                   <h4>{{vm.Formulario.terminoAcao | date:'fullDate'}}</h4>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-12" ng-if="vm.Formulario.itensSellout.length > 0">
                   <h3 class="text-muted">Itens de Sellout</h3>
@@ -113,6 +114,36 @@
                         <td ng-if="vm.Formulario.tipoSellout != 'target'">{{item.item.codigo}} -
                           {{item.item.descricao}}</td>
                         <td ng-if="vm.Formulario.tipoSellout != 'target'">
+                          {{item.item.categoria}}</td>
+                        <td>{{item.rebateUnit | currency}}</td>
+                        <td>{{item.qtde | number:2}}</td>
+                        <td>{{item.rebateTotal | currency}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-sm-12" ng-if="vm.Formulario.itensPrpro.length > 0">
+                  <h3 class="text-muted">Itens de Prpro</h3>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th ng-if="vm.Formulario.tipoPrpro == 'target'">Target</th>
+                        <th ng-if="vm.Formulario.tipoPrpro == 'target'">Finalidade</th>
+                        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Item</th>
+                        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Categoria</th>
+                        <th>Rebate Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Rebate Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in vm.Formulario.itensPrpro">
+                        <td ng-if="vm.Formulario.tipoPrpro == 'target'">{{item.target}}</td>
+                        <td ng-if="vm.Formulario.tipoPrpro == 'target'">{{item.finalidade}}
+                        </td>
+                        <td ng-if="vm.Formulario.tipoPrpro != 'target'">{{item.item.codigo}} -
+                          {{item.item.descricao}}</td>
+                        <td ng-if="vm.Formulario.tipoPrpro != 'target'">
                           {{item.item.categoria}}</td>
                         <td>{{item.rebateUnit | currency}}</td>
                         <td>{{item.qtde | number:2}}</td>

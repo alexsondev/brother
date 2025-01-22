@@ -6,7 +6,8 @@
         name="obsNotificacaoCliente" elastic class="form-control input-lg"
         placeholder="Utilize este campo para incluir informações adicionais no e-mail que será enviado ao cliente"
         ng-model="vm.Formulario.obsNotificacaoCliente" ng-value="vm.Formulario.obsNotificacaoCliente"></textarea>
-      <p ng-show="!vm.regras.enableNotificacaoCliente">{{vm.Formulario.obsNotificacaoCliente || 'Sem observações'}}</p>
+      <p ng-show="!vm.regras.enableNotificacaoCliente">
+        {{vm.Formulario.obsNotificacaoCliente || 'Sem observações'}}</p>
     </div>
   </div>
   <div class="col-sm-12">
@@ -23,9 +24,11 @@
       <tbody ng-non-bindable>
         <tr ng-repeat="email in vm.Formulario.emailsCliente">
           <td ng-show="vm.regras.enableNotificacaoCliente">
-            <span ng-click="vm.removeChild(vm.Formulario.emailsCliente, email)"
+            <span ng-if="vm.regras.enableValidacaoMarketing"
+              ng-click="vm.removeChild(vm.Formulario.emailsCliente, email)"
               class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
-            <div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0">
+            <div class="dropdown fs-float-right"
+              ng-show="vm.Params.edit && vm.NotificationTypes.length > 0 && vm.regras.showReenvia">
               <span class="fluigicon fluigicon-test-refresh fs-cursor-pointer icon-md dropdown-toggle"
                 data-toggle="dropdown"></span>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -38,62 +41,86 @@
             <div class="row">
               <div class="col-sm-12">
                 <input type="email" ng-required="true" fluig-error="form.email_email_i___{{$index}}.$error"
-                  class="form-control" name="email_email_i" ng-model="email.email">
+                  class="form-control" name="email_email_i" ng-model="email.email"
+                  ng-readonly="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_email" ng-value="email.email">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Início da Ação</label>
                 <input type="checkbox" name="email_iniAcao_i" ng-model="email.iniAcao" fluig-switch data-off-text="NÃO"
-                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3">
+                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_iniAcao" ng-value="email.iniAcao">
               </div>
+              <!-- fim ação -->
+              <div class="col-sm-4 col-md-2">
+                <label for="">Fim da Ação</label>
+                <input type="checkbox" name="email_fimAcao_i" ng-model="email.fimAcao" id="fimacao" fluig-switch
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
+                <input type="hidden" name="email_fimAcao" ng-value="email.fimAcao">
+              </div>
+              <!-- fim ação -->
+
+
               <div class="col-sm-4 col-md-2">
                 <label for="">Evidências</label>
                 <input type="checkbox" name="email_evidencia_i" ng-model="email.evidencia" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3">
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 3"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_evidencia" ng-value="email.evidencia">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Envio ND</label>
                 <input type="checkbox" name="email_envioND_i" ng-model="email.envioND" fluig-switch data-off-text="NÃO"
-                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 4">
+                  data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 4"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_envioND" ng-value="email.envioND">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Pagamento</label>
                 <input type="checkbox" name="email_pagamento_i" ng-model="email.pagamento" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 5">
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success" ng-readonly="vm.etapaNotificacao > 5"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_pagamento" ng-value="email.pagamento">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Cancelamento</label>
                 <input type="checkbox" name="email_cancelamento_i" ng-model="email.cancelamento" fluig-switch
-                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                  data-off-text="NÃO" data-on-text="SIM" data-on-color="success"
+                  ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_cancelamento" ng-value="email.cancelamento">
               </div>
               <div class="col-sm-4 col-md-2">
                 <label for="">Vales</label>
                 <input type="checkbox" name="email_vales_i" ng-model="email.vales" fluig-switch data-off-text="NÃO"
-                  data-on-text="SIM" data-on-color="success">
+                  data-on-text="SIM" data-on-color="success" ng-disabled="!vm.regras.enableValidacaoMarketing">
                 <input type="hidden" name="email_vales" ng-value="email.vales">
               </div>
             </div>
+
 
           </td>
         </tr>
       </tbody>
     </table>
+    <div class="dropdown fs-float-right" id="div_reenvia" ng-show="vm.regras.showReenvia">
+
+      <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
+
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
+            ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
+      </ul>
+    </div>
     <div ng-show="vm.regras.enableNotificacaoCliente">
-      <a class="btn btn-default btn-lg" ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
-      <div class="dropdown fs-float-right" ng-show="vm.Params.edit && vm.NotificationTypes.length > 0">
-        <a class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">Reenviar Para Todos</a>
-
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" ng-repeat="type in vm.NotificationTypes"
-              ng-click="vm.reenviaNotificacao(null, type)">{{type.label}}</a></li>
-        </ul>
+      <div ng-show="vm.regras.enableValidacaoMarketing">
+        <a class="btn btn-default btn-lg" ng-disabled="!vm.regras.enableValidacaoMarketing"
+          ng-click="vm.incluirEmailNotificacao()">Incluir E-mail</a>
       </div>
-
+      
+      <a class="btn btn-default btn-lg" ng-show="!vm.Formulario.emailsCliente.length"
+          ng-click="vm.buscaContatosCliente()">Recarregar Contatos</a>
     </div>
   </div>
 </div>

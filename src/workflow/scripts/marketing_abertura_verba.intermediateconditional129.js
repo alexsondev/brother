@@ -1,6 +1,7 @@
 //Aguardando Fim da Ação
 function intermediateconditional129() {
 
+  log.info("intermediateconditional129 solicitacao = " + hAPI.getCardValue("solicitacao"));
 	var anteciparEncerramento = String(hAPI.getCardValue("anteciparEncerramento"));
 
 	if (anteciparEncerramento == "true") {

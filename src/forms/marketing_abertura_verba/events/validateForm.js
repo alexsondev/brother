@@ -1,6 +1,7 @@
 /*eslint-disable*/
 /*jshint -W116 */
 function validateForm(form) {
+  log.info("validateForm ~ validateForm: ini")
   const Errors = value(form, `Errors`) || [];
   const regras = value(form, `regras`) || [];
   const Params = getParams(form);
@@ -56,6 +57,7 @@ function validateForm(form) {
 
   const obsConferenciaFinanceiro = value(form, `obsConferenciaFinanceiro`);
   const difValorLiberado = value(form, `difValorLiberado`);
+  const aprovarDiferenca = value(form, `aprovarDiferenca`);
   const obsAprovPagamento = value(form, `obsAprovPagamento`);
   const suspenderAcao = value(form, `suspenderAcao`);
 
@@ -83,7 +85,7 @@ function validateForm(form) {
     }
   }
 
-  if (currentState !== nextState) {
+  if (currentState !== nextState && completeTask) {
 
     if (suspenderAcao && !managerMode) {
       Errors.push(`A ação está suspensa e não poderá ser alterada. Em caso de dúvidas, entre em contato com o gestor do processo.`);
@@ -95,15 +97,15 @@ function validateForm(form) {
 
     if (regras.enableSolicitacao || importado) {
 
-      if (!executivos || executivos.length == 0) {
-        Errors.push(`Informe o executivo`);
-      }
+      // if (!executivos || executivos.length == 0) {
+      //   Errors.push(`Informe o executivo`);
+      // }
 
-      executivos.forEach((e, i) => {
-        if (!e.executivo_codigo) {
-          Errors.push(`Informe o executivo na linha ${i + 1}`);
-        }
-      })
+      // executivos.forEach((e, i) => {
+      //   if (!e.executivo_codigo) {
+      //     Errors.push(`Informe o executivo na linha ${i + 1}`);
+      //   }
+      // })
 
       if (!clienteCodigo) {
         Errors.push(`Informe o cliente`);
@@ -166,7 +168,7 @@ function validateForm(form) {
       // 2. Devolver para Solicitante
       if (nextStateTxt == `revisarSolicitacao`) {
         if (!obsValidacaoMarketing && !comments) {
-          // Errors.push(`Informe o motivo da reprovação 1`);
+          Errors.push(`Informe o motivo da reprovação`);
         }
       }
     }
@@ -179,7 +181,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarMarketing`) {
         if (!obsAprovGerMarketing) {
-          // Errors.push(`Informe o motivo da reprovação 2`);
+          Errors.push(`Informe o motivo da reprovação `);
         }
       }
     }
@@ -190,9 +192,9 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `revisarSolicitacao`) {
+      if (nextStateTxt == `validarMarketing`) {
         if (!obsAprovPresidenciaVp) {
-          // Errors.push(`Informe o motivo da reprovação 3`);
+          Errors.push(`Informe o motivo da reprovação `);
         }
       }
     }
@@ -205,7 +207,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarEvidencias`) {
         if (!obsAprovVerbaMaior) {
-          // Errors.push(`Informe o motivo da reprovação 4`);
+          Errors.push(`Informe o motivo da reprovação`);
         }
       }
     }
@@ -218,7 +220,7 @@ function validateForm(form) {
       // 2. Reprovar
       if (nextStateTxt == `validarEvidencias`) {
         if (!obsAprovVerbaMenor) {
-          // Errors.push(`Informe o motivo da reprovação 5`);
+          Errors.push(`Informe o motivo da reprovação 5`);
         }
       }
     }
@@ -240,7 +242,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableValidacaoEvidencias) {
+    if (currentStateTxt == 'validarEvidencias') {
       // 1. Enviar para Aprovação
       if (nextStateTxt == `gtwAprovarVerbaMaior`) {
 
@@ -253,7 +255,8 @@ function validateForm(form) {
         }
       }
       // 2. Devolver para o Cliente
-      if (nextStateTxt == `enviarEvidencias` && arquivosEvidencias.length > 0) {
+      if ((nextStateTxt == `enviarEvidencias` || nextStateTxt == `evidenciasControle`)
+        && arquivosEvidencias.length > 0) {
 
         if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length == 0) {
           Errors.push(`Recuse ao menos um arquivo para devolver ao cliente`);
@@ -273,7 +276,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableND) {
+    if (currentStateTxt == 'validarND') {
       if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_descricao).length > 0) {
         Errors.push(`Informe a descrição de todos os arquivos de ND`);
       }
@@ -283,7 +286,7 @@ function validateForm(form) {
       }
     }
 
-    if (regras.enableValidacaoND) {
+    if (currentStateTxt == 'validarND') {
       // 1. Aprovar
       if (nextStateTxt == `conferirFinanceiro`) {
         if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_aceito).length > 0) {
@@ -308,7 +311,13 @@ function validateForm(form) {
       // 1. Aprovar
       if (nextStateTxt == `aprovarPagamento`) {
         if (difValorLiberado != 0) {
-          Errors.push(`O valor total das antecipações deve ser igual ao total liberado na ação`);
+          if (!aprovarDiferenca) {
+            Errors.push(`O valor total das antecipações deve ser igual ao total liberado na ação`);
+          } else {
+            if (!obsConferenciaFinanceiro) {
+              Errors.push(`Justifique a diferença no saldo`);
+            }
+          }
         }
       }
       // 2. Devolver para Marketing
@@ -341,7 +350,7 @@ function validateForm(form) {
 
     }
   }
-
+  log.info("validateForm ~ validateForm: fim")
   if (Errors && Errors.length > 0) {
     throw Errors.join(`<br>`);
   }

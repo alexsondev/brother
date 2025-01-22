@@ -1,7 +1,7 @@
 
 const { watch, series } = require('gulp');
 
-const params = require('./tasks/params');
+const params = require('./tasks/params')();
 
 const datasets = require('./tasks/datasets').datasets;
 const forms = require('./tasks/forms').forms;
@@ -21,6 +21,10 @@ exports.datasets = datasets
 exports.forms = forms
 exports.widget = widget
 exports.workflow = workflow
+
+// const watchDataset = () => {
+//   watch([`./src/datasets/**/*`], {}, series(datasets));
+// }
 
 exports.default = series(
   datasets,

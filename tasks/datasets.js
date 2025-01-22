@@ -9,8 +9,9 @@ const { src, dest } = require('gulp'),
   util = require('gulp-util'),
   gulpInjectPartials = require('gulp-inject-partials');
 
-const datasets = () =>
-  src(`${params.srcdir}/datasets/${params.dataset}`)
+const datasets = () => {
+console.log(params.builddir)
+  return src(`${params.srcdir}/datasets/${params.dataset}`)
     .pipe(tap(file =>
       src(file.path)
         .pipe(gulpInjectPartials({
@@ -26,5 +27,6 @@ const datasets = () =>
           .on('error', util.log)))
         .pipe(dest(`${params.builddir}/datasets`))
     ));
+      }
 
 exports.datasets = datasets

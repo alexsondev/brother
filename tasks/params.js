@@ -24,6 +24,7 @@ module.exports = function params() {
   p.prod = argv.prod;
   p.uglify = argv.uglify;
   p.htmlmin = argv.htmlmin;
+  p.watch = true;
   p.jsmap = argv.jsmap;
   p.export = argv.export;
   p.forms = [];

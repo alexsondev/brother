@@ -1,0 +1,108 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">Itens de Prpro</h4>
+      </div>
+
+      <div class="panel-body">
+
+        <table class="table" tablename="camposPrpro" noaddbutton="true" nodeletebutton="true"
+          ng-show="vm.Formulario.camposPrpro.length > 0">
+          
+          <thead>
+            <tr>
+              <th ng-show="vm.Params.edit"></th>
+              <th></th>
+            </tr>
+          </thead>
+          
+          <tbody ng-non-bindable>
+            <tr ng-repeat="campoPrpro in vm.Formulario.camposPrpro">
+              <td ng-show="vm.Params.edit">
+                <span class="fluigicon fluigicon-md fluigicon-arrow-up fs-cursor-pointer"
+                  ng-click="$index>0?vm.Formulario.camposPrpro.move($index,$index-1):null"></span>
+                <span class="fluigicon fluigicon-md fluigicon-arrow-down fs-cursor-pointer"
+                  ng-click="$index<vm.Formulario.camposPrpro.length-1?vm.Formulario.camposPrpro.move($index,$index+1):null"></span>
+
+                <span ng-click="vm.removeChild(vm.Formulario.camposPrpro, $index)"
+                  class="fluigicon fluigicon-md fluigicon-trash fs-cursor-pointer"></span>
+              </td>
+              <td>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Título</label>
+                      <input type="text" class="form-control input-lg" name="campoPrpro_label"
+                        ng-value="campoPrpro.label">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Campo</label>
+                      <input class="form-control input-lg" name="campoPrpro_column_i" fluig-autocomplete
+                        values="vm.CamposPrpro" ng-model="campoPrpro.column" display-key="name">
+                      <textarea hidden name="campoPrpro_column" ng-value="campoPrpro.column | json:0"
+                        ng-bind="campoPrpro.column | json:0"></textarea>
+                      <input type="hidden" name="campoPrpro_name" ng-value="campoPrpro.column.name">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+
+                  <div class="col-sm-2">
+                    <label>Início da Ação</label>
+                    <input type="checkbox" name="campoPrpro_iniAcao_i" ng-model="campoPrpro.iniAcao"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_iniAcao" ng-value="campoPrpro.iniAcao">
+                  </div>
+                  <!-- <div class="col-sm-2">
+                    <label>Término da Ação</label>
+                    <input type="checkbox" name="campoPrpro_fimAcao_i" ng-model="campoPrpro.fimAcao"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_fimAcao" ng-value="campoPrpro.fimAcao">
+                  </div> -->
+                  <div class="col-sm-2">
+                    <label>Evidências</label>
+                    <input type="checkbox" name="campoPrpro_evidencia_i" ng-model="campoPrpro.evidencia"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_evidencia" ng-value="campoPrpro.evidencia">
+                  </div>
+                  <div class="col-sm-2">
+                    <label>Envio da ND</label>
+                    <input type="checkbox" name="campoPrpro_envioND_i" ng-model="campoPrpro.envioND"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_envioND" ng-value="campoPrpro.envioND">
+                  </div>
+                  <div class="col-sm-2">
+                    <label>Pagamento</label>
+                    <input type="checkbox" name="campoPrpro_pagamento_i" ng-model="campoPrpro.pagamento"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_pagamento" ng-value="campoPrpro.pagamento">
+                  </div>
+                  <div class="col-sm-2">
+                    <label>Cancelamento</label>
+                    <input type="checkbox" name="campoPrpro_cancelamento_i" ng-model="campoPrpro.cancelamento"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_cancelamento" ng-value="campoPrpro.cancelamento">
+                  </div>
+                  <div class="col-sm-2">
+                    <label>Vales</label>
+                    <input type="checkbox" name="campoPrpro_vales_i" ng-model="campoPrpro.vales"
+                      fluig-switch data-off-text="NÃO" data-on-text="SIM" data-on-color="success">
+                    <input type="hidden" name="campoPrpro_vales" ng-value="campoPrpro.vales">
+                  </div>
+                </div>
+
+            </tr>
+          </tbody>
+        </table>
+        <div ng-show="vm.Params.edit">
+          <a class="btn btn-default btn-lg" ng-click="vm.Formulario.camposPrpro.push(
+        {iniAcao: true, fimAcao: true, evidencia: true, envioND: true, pagamento: true}
+        )">Incluir Campo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

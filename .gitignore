@@ -6,6 +6,7 @@ src/workflow/.resources
 
 # compiled output
 deploy
+homolog
 dist
 diff
 tmp
@@ -34,3 +35,5 @@ npm-debug.log
 .DS_Store
 Thumbs.db
 com.totvs.tds.ecm.dataservers
+
+projects

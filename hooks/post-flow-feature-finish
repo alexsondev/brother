@@ -13,8 +13,6 @@
 # DEVELOP_BRANCH - The branch defined as Develop
 #
 
-echo post-flow-feature-finish start
-
 NAME=$1
 ORIGIN=$2
 BRANCH=$3

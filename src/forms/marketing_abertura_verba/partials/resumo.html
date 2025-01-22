@@ -49,6 +49,12 @@
       <h4>{{vm.Formulario.cliente.subcanal || '-' | uppercase}}</h4>
     </div>
   </div>
+  <div class="col-md-4 col-sm-6">
+    <div class="form-group animation">
+      <label class="control-label">Pré Verba</label>
+      <h4>{{vm.Formulario.numPreVerba}}</h4>
+    </div>
+  </div>
 
 </div>
 
@@ -131,6 +137,7 @@
     <div class="form-group animation">
       <label class="control-label">Conta Contábil</label>
       <h4>{{vm.Formulario.tipoAcao.contaContabil.displaykey || '-' | uppercase}}</h4>
+      
     </div>
   </div>
   <div class="col-md-4 col-sm-6">
@@ -213,6 +220,66 @@
     </table>
 
   </div>
+
+  <!--==============================Inicio Prpro========================-->
+  <div class="col-sm-12">
+    <table class="table table-stripped" ng-show="vm.Formulario.itensPrpro.length > 0">
+      <caption>Price</caption>
+      <thead>
+        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Item</th>
+        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Categoria</th>
+        <th ng-if="vm.Formulario.tipoPrpro == 'target'">Target</th>
+        <th ng-if="vm.Formulario.tipoPrpro == 'target'">Finalidad e</th>
+        <th ng-if="vm.Formulario.tipoPrpro == 'srp'">SRP I/S</th>
+        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Net I/S</th>
+        <th>Rebate Unit</th>
+        <th>Qtde</th>
+        <th>Rebate Total</th>
+        <th ng-if="vm.Formulario.tipoPrpro != 'target'">Dolar</th>
+        <th ng-if="vm.Formulario.tipoPrpro != 'target'">C. Custo</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="itemPrpro in vm.Formulario.itensPrpro track by $index">
+          <td ng-if="vm.Formulario.tipoPrpro != 'target'">
+            {{itemPrpro.item.displaykey}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro == 'target'">
+            {{itemPrpro.target}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro != 'target'">
+            {{itemPrpro.item.categoria}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro == 'target'">
+            {{itemPrpro.finalidade}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro == 'srp'">
+            <p>{{itemPrpro.srpInicial | currency}}</p>
+            <p>{{itemPrpro.srpSugerido | currency}}</p>
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro != 'target'">
+            <p>{{itemPrpro.netInicial | currency}}</p>
+            <p>{{itemPrpro.netSugerido | currency}}</p>
+          </td>
+          <td>
+            {{itemPrpro.rebateUnit | currency}}
+          </td>
+          <td>
+            {{itemPrpro.qtde | number:'2'}}
+          </td>
+          <td>
+            {{itemPrpro.rebateTotal | currency}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro != 'target'">
+            {{itemPrpro.dolar | currency:'U$'}}
+          </td>
+          <td ng-if="vm.Formulario.tipoPrpro != 'target'">
+            {{itemPrpro.item.ccusto}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--==============================Fim Prpro========================-->
 
   <div class="col-sm-12">
     <table class="table table-stripped" ng-show="vm.Formulario.itensSellinIt.length > 0">
@@ -510,6 +577,7 @@
         <th></th>
         <th>Rebate Sell-Out</th>
         <th>Rebate Sell-in</th>
+        <th>Price</th>
         <th>Spiff</th>
         <th>VPC</th>
         <th>Total</th>
@@ -524,6 +592,9 @@
           </td>
           <td>
             {{item.rebateSellin | currency}}
+          </td>
+          <td>
+            {{item.prpro | currency}}
           </td>
           <td>
             {{item.spiff | currency}}

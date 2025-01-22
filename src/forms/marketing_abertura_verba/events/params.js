@@ -1,5 +1,7 @@
 function getParams(form) {
   const Params = {};
+
+  log.info("params ini");
   Params.formMode = String(form.getFormMode());
   Params.edit = Params.formMode == 'ADD' || Params.formMode == 'MOD';
   Params.numState = String(parseInt(getValue('WKNumState')));
@@ -24,12 +26,13 @@ function getParams(form) {
     notificarGrupoBrotherFim: [41],
     autorizarNotificacaoInicio: [32],
     autorizarNotificacaoFim: [43],
-    enviarEvidencias: [180],
+    evidenciasControle: [280],
+    enviarEvidencias: [261],
     validarEvidencias: [62],
     gtwAprovarVerbaMaior: [67],
     aprovarVerbaMaior: [151],
     aprovarVerbaMenor: [75],
-    enviarND: [186],
+    enviarND: [264],
     validarND: [103],
     gerenciarVales: [202],
     conferirFinanceiro: [113],
@@ -50,6 +53,6 @@ function getParams(form) {
   if (!Params.edit) {
     Params.etapa = 'consulta';
   }
-
+  log.info("Params fim");
   return Params;
 }

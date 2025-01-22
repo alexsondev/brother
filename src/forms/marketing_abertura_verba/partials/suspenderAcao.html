@@ -3,7 +3,8 @@
     <div class="form-group">
       <label for="suspenderAcao" class="control-label">Suspender Ação</label>
       <input type="checkbox" fluig-switch data-on-text="SIM" data-off-text="NÃO" data-on-color="success"
-        name="suspenderAcao_i" ng-model="vm.Formulario.suspenderAcao" ng-readonly="!vm.regras.enableSuspenderAcao">
+        name="suspenderAcao_i" ng-model="vm.Formulario.suspenderAcao" ng-readonly="!vm.regras.enableSuspenderAcao"
+        ng-change="vm.checkEtapaNotificacao()">
       <input type="hidden" name="suspenderAcao" ng-value="vm.Formulario.suspenderAcao">
     </div>
   </div>

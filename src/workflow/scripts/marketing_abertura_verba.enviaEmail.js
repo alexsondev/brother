@@ -1,5 +1,6 @@
 function enviaEmail(tipo, enviaBrother, enviaCliente, enviaExecutivo) {
 
+  log.info("@@@@@@@@@@@@ marketing_abertura_verba enviaEmail() tipo: " + tipo);
   var solicitacao = hAPI.getCardValue("solicitacao");
 
   log.info("@@@@@@@@@@@@ marketing_abertura_verba enviaEmail() solicitacao: " + solicitacao);
