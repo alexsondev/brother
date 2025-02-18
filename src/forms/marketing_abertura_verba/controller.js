@@ -478,6 +478,8 @@ angular
               });
             }
             break;
+          default:
+            return
         }
 
         vm.Formulario.rateioCategoria.forEach((cat) => {
