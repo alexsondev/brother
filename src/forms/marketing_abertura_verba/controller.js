@@ -478,8 +478,11 @@ angular
               });
             }
             break;
+          default:
+            return
         }
 
+        console.log("🚀 ~ vm.Formulario.rateioCategoria.forEach ~ vm.Formulario.valorTotalVerba:", vm.Formulario.valorTotalVerba)
         vm.Formulario.rateioCategoria.forEach((cat) => {
           cat.perc = cat.valor / vm.Formulario.valorTotalVerba;
         });
@@ -1741,10 +1744,10 @@ angular
                 });
               });
               break
-            case 'price':
-              vm.Formulario.itensPrice.forEach((it, index) => {
+            case 'prpro':
+              vm.Formulario.itensPrpro.forEach((it, index) => {
                 if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
-                vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
+                vm.ItensEvidencia.push({ tablename: 'itensPrpro', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
 
@@ -1810,6 +1813,7 @@ angular
         const tipoAcaoCodigo = vm.Formulario.tipoAcao?.tipoAcaoCodigo;
         const tipoSellout = vm.Formulario.tipoSellout;
         const tipoPrpro = vm.Formulario.tipoPrpro;
+        console.log("🚀 ~ calculaTotais ~ tipoPrpro:", tipoPrpro)
         const tipoSellin = vm.Formulario.tipoSellin;
         const tipoVpc = vm.Formulario.tipoVpc;
         const tipoSpiff = vm.Formulario.tipoSpiff;
@@ -1822,8 +1826,8 @@ angular
             vm.Formulario.gpMedioSugerido = tipoSellout === 'net' ? vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
             break;
           case "prpro":
-            vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
-            vm.Formulario.gpMedioSugerido = tipoPrpro === 'net' && vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoPrpro === 'net' ? vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
             break;
           case 'sellin':
             vm.Formulario.valorTotalVerba = tipoSellin === 'item' || tipoSellin === 'net'
@@ -1847,6 +1851,7 @@ angular
             break;
         }
 
+        console.log("🚀 ~ calculaTotais ~ vm.Formulario.valorTotalVerba:", vm.Formulario.valorTotalVerba)
         vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / vm.Formulario.itensSellout.length;
         vm.calculaPercCategoria();
       };
