@@ -1745,9 +1745,9 @@ angular
               });
               break
             case 'prpro':
-              vm.Formulario.itensPrice.forEach((it, index) => {
+              vm.Formulario.itensPrpro.forEach((it, index) => {
                 if (!it.valEvidencia || it.valEvidencia === 0) it.valEvidencia = it.rebateUnit;
-                vm.ItensEvidencia.push({ tablename: 'itensPrice', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
+                vm.ItensEvidencia.push({ tablename: 'itensPrpro', index, descricao: it.item.displaykey, valEvidencia: it.rebateUnit, valorTotal: it.rebateTotal });
               });
               break
 
