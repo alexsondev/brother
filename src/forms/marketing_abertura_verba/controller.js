@@ -417,7 +417,7 @@ angular
         vm.Formulario.rateioCategoria.forEach((cat) => (cat.valor = 0));
         console.log("🚀 ~ vm.Formulario.rateioCategoria:", vm.Formulario.rateioCategoria)
 
-        switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
+        switch (vm.Formulario.tipoAcao?.tipoAcaoCodigo) {
           case "sellout":
             vm.Formulario.itensSellout.forEach((it, index) => {
               if (it.item) {
