@@ -1,6 +1,12 @@
 function afterProcessCreate(processId) {
   hAPI.setCardValue("solicitacao", processId);
   // hAPI.setCardValue("numControle", processId);
+  
+
+  DatasetFactory.getDataset("fluig_cria_ext_mav", null, [
+    DatasetFactory.createConstraint("solicitacao", processId, processId, ConstraintType.MUST)
+  ], null);
+
   hAPI.setCardValue("guid", guid());
 }
 
