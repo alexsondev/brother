@@ -41,9 +41,11 @@ function buscaDataset(fields, constraints, sortFields) {
     // { field: 'tipoSpiff', value: 'target' },
     // { field: 'solicitacao', value: '13461' },
   ]);
+  
+  params.pendenteTotvs = "true"
 
   if (!extSolicitacao[0]) {
-    createCardIndex(334176, params)
+    createCardIndex(34176, params)
   }
 
   return montaDataset(ttErro, ttStatus, campos, display, dePara, true);
