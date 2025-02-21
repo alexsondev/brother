@@ -85,8 +85,8 @@ public class MarketingFlowComponent {
 
       MarketingItemSelloutVO[] itensSellout =
           MarketingItemSelloutComponent.getItens(documentid, version);
-      // MarketingItemPrproVO[] itensPrpro =
-      //     MarketingItemPrproComponent.getItens(documentid, version);
+      MarketingItemPrproVO[] itensPrpro =
+          MarketingItemPrproComponent.getItens(documentid, version);
 
       MarketingItemSellinItVO[] itensSellinIt =
           MarketingItemSellinItComponent.getItens(documentid, version);
@@ -117,7 +117,7 @@ public class MarketingFlowComponent {
           valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido,
           evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND,
           currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro,
-          tipoQuantidade, folderAttach, itensSellout, itensSellinIt, itensSellinTg, itensSellinTgAc,
+          tipoQuantidade, folderAttach, itensSellout, itensPrpro, itensSellinIt, itensSellinTg, itensSellinTgAc,
           itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
 
     } catch (Exception e) {

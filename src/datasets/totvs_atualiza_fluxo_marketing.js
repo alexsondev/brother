@@ -28,7 +28,7 @@ function onMobileSync(user) {
 
 function buscaDataset(fields, constraints, sortFields) {
 
-  log.info('******** totvs_atualiza_fluxo_marketing INICIO ');
+  log.info('******** totvs_atualiza_fluxo_marketing TESTE PROD 28-01 ');
 
   let params = getConstraints(constraints);
 
@@ -56,234 +56,239 @@ function buscaDataset(fields, constraints, sortFields) {
 
   ]
 
-  // log.info(`solicitacoes.length = ${extSolicitacoes.length}`);
+  log.info(`solicitacoes.length = ${extSolicitacoes.length}`);
+
   let json = {};
   let ttErro = [];
   let ttStatus = [];
 
-  extSolicitacoes.forEach((extSolicitacao, seq) => {
-    // extSolicitacoes.forEach(async (extSolicitacao) => {
+  extSolicitacoes
+    .filter((extSolicitacao) => Number(extSolicitacao.documentid) >= 183320)
+    .forEach((extSolicitacao, seq) => {
+      // extSolicitacoes.forEach(async (extSolicitacao) => {
 
-    let ttParams = {
-      ttParam: [],
-      ttRateioCategoria: [],
-      ttSellout: [],
-      ttPrpro: [],
-      ttSellinItem: [],
-      ttSellinTarget: [],
-      ttSellinTargetAc: [],
-      ttSpiffItem: [],
-      ttSpiffTarget: [],
-      ttVpcEvt: [],
-      ttVpcOutros: []
-    }
+      log.info(`extSolicitacao.documentid = ${extSolicitacao.documentid}`);
 
-    let solicitacao = getDataset('marketing_abertura_verba', null, [
-      { field: 'solicitacao', value: extSolicitacao.solicitacao },
-      // { field: 'pendenteTotvs', value: 'S' },
-      // { field: 'tipoAcaoCodigo', value: 'spiff' },
-      // { field: 'tipoSpiff', value: 'target' },
-      // { field: 'solicitacao', value: '13461' },
-    ])[0];
-    // if (Number(solicitacao.solicitacao) == 12478 || Number(solicitacao.solicitacao) == 2296 || Number(solicitacao.solicitacao) == 1872 || Number(solicitacao.solicitacao) == 1370) {
-
-    let objSolicitacao = {};
-    solicitacaoCampos.forEach(c => { 
-      try {
-
-        objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name])) 
-      } catch(error) {
-        objSolicitacao[c.ttName || c.name] = ""
+      let ttParams = {
+        ttParam: [],
+        ttRateioCategoria: [],
+        ttSellout: [],
+        ttPrpro: [],
+        ttSellinItem: [],
+        ttSellinTarget: [],
+        ttSellinTargetAc: [],
+        ttSpiffItem: [],
+        ttSpiffTarget: [],
+        ttVpcEvt: [],
+        ttVpcOutros: []
       }
-    });
 
-    ttParams.ttParam.push(objSolicitacao);
+      let solicitacao = getDataset('marketing_abertura_verba', null, [
+        { field: 'solicitacao', value: extSolicitacao.solicitacao },
+        // { field: 'pendenteTotvs', value: 'S' },
+        // { field: 'tipoAcaoCodigo', value: 'spiff' },
+        // { field: 'tipoSpiff', value: 'target' },
+        // { field: 'solicitacao', value: '13461' },
+      ])[0];
+      // if (Number(solicitacao.solicitacao) == 12478 || Number(solicitacao.solicitacao) == 2296 || Number(solicitacao.solicitacao) == 1872 || Number(solicitacao.solicitacao) == 1370) {
 
-    [
-      {
-        tablename: 'rateioCategoria', tt: 'ttRateioCategoria', fieldPref: 'rateio',
-        campos: [
-          { name: 'categoriaCodigo' }, { name: 'categoriaDescricao' }, { name: 'perc', type: 'perc' }
-        ]
-      },
-      {
-        tablename: 'itensSellout', tt: 'ttSellout', fieldPref: 'itemSellout',
-        campos: [
-          { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
-          { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
-          { name: 'gpSugerido', type: 'perc' }, { name: 'rebateUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
-          { name: 'rebateTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: "itensPrpro",
-        tt: "ttPrpro",
-        fieldPref: "itemPrpro",
-        campos: [{
-          name: "itemCodigo"
-        }, {
-          name: "srpInicial",
-          type: "decimal"
-        }, {
-          name: "netInicial",
-          type: "decimal"
-        }, {
-          name: "gpInicial",
-          type: "perc"
-        }, {
-          name: "srpSugerido",
-          type: "decimal"
-        }, {
-          name: "netSugerido",
-          type: "decimal"
-        }, {
-          name: "gpSugerido",
-          type: "perc"
-        }, {
-          name: "rebateUnit",
-          type: "decimal"
-        }, {
-          name: "qtde",
-          type: "decimal"
-        }, {
-          name: "rebateTotal",
-          type: "decimal"
-        }, {
-          name: "qtdEvidencia",
-          type: "decimal"
-        }, {
-          name: "valEvidencia",
-          type: "decimal"
-        }, {
-          name: "totEvidencia",
-          type: "decimal"
-        }]
-      },
-      {
-        tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
-        campos: [
-          { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
-          { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
-          { name: 'gpSugerido', type: 'perc' }, { name: 'rebateUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
-          { name: 'rebateTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensSellinTg', tt: 'ttSellinTarget', fieldPref: 'itemSellinTg',
-        campos: [
-          { name: 'descricao' }, { name: 'target' }, { name: 'qtde', type: 'decimal' }, { name: 'perc', type: 'perc' },
-          { name: 'vlTarget', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensSellinTgAc', tt: 'ttSellinTargetAc', fieldPref: 'itemSellinTgAc',
-        campos: [
-          { name: 'descricao' }, { name: 'target' }, { name: 'qtde', type: 'decimal' }, { name: 'perc', type: 'perc' },
-          { name: 'vlTarget', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensSpiffIt', tt: 'ttSpiffItem', fieldPref: 'itemSpiffIt',
-        campos: [
-          { name: 'itemCodigo' }, { name: 'spiffUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
-          { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensSpiffTg', tt: 'ttSpiffTarget', fieldPref: 'itemSpiffTg',
-        campos: [
-          { name: 'foco' }, { name: 'target', type: 'perc' }, { name: 'qtde', type: 'decimal' },
-          { name: 'vlUnit', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensVpcEvt', tt: 'ttVpcEvt', fieldPref: 'itemVpcEvt',
-        campos: [
-          { name: 'nomeEvento' }, { name: 'finalidade' }, { name: 'inicio', type: 'date' }, { name: 'termino', type: 'date' },
-          { name: 'perc', type: 'perc' }, { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'itensVpcOutros', tt: 'ttVpcOutros', fieldPref: 'itemVpcOutros',
-        campos: [
-          { name: 'tipo' }, { name: 'finalidade' }, { name: 'qtde', type: 'decimal' },
-          { name: 'perc', type: 'perc' }, { name: 'vlTotal', type: 'decimal' },
-          { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
-        ]
-      },
-      {
-        tablename: 'arquivosND', tt: 'ttArquivosND', fieldPref: 'arquivoND',
-        campos: [
-          { name: 'numero' }, { name: 'aceito' }, { name: 'removed' },
-        ]
-      },
+      let objSolicitacao = {};
+      solicitacaoCampos.forEach(c => {
+        try {
 
-    ].forEach(paramTable => {
-      try {
+          objSolicitacao[c.ttName || c.name] = String(solicitacao[c.name]) == "null" ? "" : String(solicitacao[c.name]) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(solicitacao[c.name]), true), true) : replaceSpecialChars(String(solicitacao[c.name]))
+        } catch (error) {
+          objSolicitacao[c.ttName || c.name] = ""
+        }
+      });
 
-        getDataset('marketing_abertura_verba', null, [
-          { field: 'tablename', value: paramTable.tablename },
-          { field: 'documentid', value: solicitacao.documentid }
-        ]).forEach(objTable => {
-          let obj = { solicitacao: String(solicitacao.solicitacao) };
-  
-          paramTable.campos.forEach(c => {
-  
-            let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
-            obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+      ttParams.ttParam.push(objSolicitacao);
+
+      [
+        {
+          tablename: 'rateioCategoria', tt: 'ttRateioCategoria', fieldPref: 'rateio',
+          campos: [
+            { name: 'categoriaCodigo' }, { name: 'categoriaDescricao' }, { name: 'perc', type: 'perc' }
+          ]
+        },
+        {
+          tablename: 'itensSellout', tt: 'ttSellout', fieldPref: 'itemSellout',
+          campos: [
+            { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
+            { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
+            { name: 'gpSugerido', type: 'perc' }, { name: 'rebateUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
+            { name: 'rebateTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: "itensPrpro",
+          tt: "ttPrpro",
+          fieldPref: "itemPrpro",
+          campos: [{
+            name: "itemCodigo"
+          }, {
+            name: "srpInicial",
+            type: "decimal"
+          }, {
+            name: "netInicial",
+            type: "decimal"
+          }, {
+            name: "gpInicial",
+            type: "perc"
+          }, {
+            name: "srpSugerido",
+            type: "decimal"
+          }, {
+            name: "netSugerido",
+            type: "decimal"
+          }, {
+            name: "gpSugerido",
+            type: "perc"
+          }, {
+            name: "rebateUnit",
+            type: "decimal"
+          }, {
+            name: "qtde",
+            type: "decimal"
+          }, {
+            name: "rebateTotal",
+            type: "decimal"
+          }, {
+            name: "qtdEvidencia",
+            type: "decimal"
+          }, {
+            name: "valEvidencia",
+            type: "decimal"
+          }, {
+            name: "totEvidencia",
+            type: "decimal"
+          }]
+        },
+        {
+          tablename: 'itensSellinIt', tt: 'ttSellinItem', fieldPref: 'itemSellinIt',
+          campos: [
+            { name: 'itemCodigo' }, { name: 'srpInicial', type: 'decimal' }, { name: 'netInicial', type: 'decimal' },
+            { name: 'gpInicial', type: 'perc' }, { name: 'srpSugerido', type: 'decimal' }, { name: 'netSugerido', type: 'decimal' },
+            { name: 'gpSugerido', type: 'perc' }, { name: 'rebateUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
+            { name: 'rebateTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensSellinTg', tt: 'ttSellinTarget', fieldPref: 'itemSellinTg',
+          campos: [
+            { name: 'descricao' }, { name: 'target' }, { name: 'qtde', type: 'decimal' }, { name: 'perc', type: 'perc' },
+            { name: 'vlTarget', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensSellinTgAc', tt: 'ttSellinTargetAc', fieldPref: 'itemSellinTgAc',
+          campos: [
+            { name: 'descricao' }, { name: 'target' }, { name: 'qtde', type: 'decimal' }, { name: 'perc', type: 'perc' },
+            { name: 'vlTarget', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensSpiffIt', tt: 'ttSpiffItem', fieldPref: 'itemSpiffIt',
+          campos: [
+            { name: 'itemCodigo' }, { name: 'spiffUnit', type: 'decimal' }, { name: 'qtde', type: 'decimal' },
+            { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensSpiffTg', tt: 'ttSpiffTarget', fieldPref: 'itemSpiffTg',
+          campos: [
+            { name: 'foco' }, { name: 'target', type: 'perc' }, { name: 'qtde', type: 'decimal' },
+            { name: 'vlUnit', type: 'decimal' }, { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensVpcEvt', tt: 'ttVpcEvt', fieldPref: 'itemVpcEvt',
+          campos: [
+            { name: 'nomeEvento' }, { name: 'finalidade' }, { name: 'inicio', type: 'date' }, { name: 'termino', type: 'date' },
+            { name: 'perc', type: 'perc' }, { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'itensVpcOutros', tt: 'ttVpcOutros', fieldPref: 'itemVpcOutros',
+          campos: [
+            { name: 'tipo' }, { name: 'finalidade' }, { name: 'qtde', type: 'decimal' },
+            { name: 'perc', type: 'perc' }, { name: 'vlTotal', type: 'decimal' },
+            { name: 'qtdEvidencia', type: 'decimal' }, { name: 'valEvidencia', type: 'decimal' }, { name: 'totEvidencia', type: 'decimal' },
+          ]
+        },
+        {
+          tablename: 'arquivosND', tt: 'ttArquivosND', fieldPref: 'arquivoND',
+          campos: [
+            { name: 'numero' }, { name: 'aceito' }, { name: 'removed' },
+          ]
+        },
+
+      ].forEach(paramTable => {
+        try {
+
+          getDataset('marketing_abertura_verba', null, [
+            { field: 'tablename', value: paramTable.tablename },
+            { field: 'documentid', value: solicitacao.documentid }
+          ]).forEach(objTable => {
+            let obj = { solicitacao: String(solicitacao.solicitacao) };
+
+            paramTable.campos.forEach(c => {
+
+              let value = String(objTable[`${paramTable.fieldPref}_${c.name}`] || '');
+              obj[c.ttName || c.name] = String(value) == "null" ? "" : String(value) == "NaN" ? "" : c.type == 'date' ? String(dateDDMMYYY(Number(value), true)) : replaceSpecialChars(String(value));
+            })
+
+            if (!ttParams[paramTable.tt]) {
+              ttParams[paramTable.tt] = [];
+            }
+            ttParams[paramTable.tt].push(obj);
           })
-  
-          if (!ttParams[paramTable.tt]) {
-            ttParams[paramTable.tt] = [];
-          }
-          ttParams[paramTable.tt].push(obj);
-        })
-      } catch (error) {
-        log.info(`~ //paramTable.forEach ~ error: ${error}`)
-        
-      }
-    })
+        } catch (error) {
+          log.info(`~ //paramTable.forEach ~ error: ${error}`)
 
-
-    var properties = {};
-    properties["receive.timeout"] = "60000";
-
-    // log.info(`*** totvs_atualiza_fluxo_marketing 1 ${JSON.stringify(ttParams)}`);
-
-    // const json = jsonLocal();
-
-    try {
-      // json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
-      ttStatus.concat(json.ttStatus)
-    } catch (error) {
-      log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
-      
-      json = {}
-      ttErro.push({
-        mensagem: `THROW ${solicitacao.solicitacao} ${seq}: ${error}`
+        }
       })
-    }
 
-    // log.info(`*** totvs_atualiza_fluxo_marketing 2. json: ${JSON.stringify(json)}`);
 
-    if (json && json.ttStatus) {
-      // log.info('*** totvs_atualiza_fluxo_marketing entrou na json.ttStatus')
-      getDataset('fluig_atualiza_formulario', null, [
-        { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
-        { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
-        { field: 'documentid', value: String(solicitacao.documentid) }
-      ], true)
-    }
+      var properties = {};
+      properties["receive.timeout"] = "60000";
 
-    // }
-  });
+      log.info(`*** totvs_atualiza_fluxo_marketing 1 ${JSON.stringify(ttParams)}`);
+
+      // const json = jsonLocal();
+
+      try {
+        json = callDatasul("esp/atualizaFluxoMarketing.p", "piCria", ttParams, null, properties);
+        ttStatus.concat(json.ttStatus)
+      } catch (error) {
+        log.info(`~ //extSolicitacoes.forEach ~ error: ${error}`)
+
+        json = {}
+        ttErro.push({
+          mensagem: `THROW ${solicitacao.solicitacao} ${seq}: ${error}`
+        })
+      }
+
+      log.info(`*** totvs_atualiza_fluxo_marketing 2. json: ${JSON.stringify(json)}`);
+
+      if (json && json.ttStatus) {
+        // log.info('*** totvs_atualiza_fluxo_marketing entrou na json.ttStatus')
+        getDataset('fluig_atualiza_formulario', null, [
+          { field: 'campos', value: 'pendenteTotvs|statusIntegraTotvs|dataIntegraTotvs' },
+          { field: 'valores', value: `false|${json.ttStatus[0].retorno || 'N/D'}|${String(new Date().getTime())}` },
+          { field: 'documentid', value: String(extSolicitacao.documentid) }
+        ], true)
+      }
+
+      // }
+    });
 
 
   // log.info(`~ saiu extSolicitacoes.forEach ~ ttStatus: ${JSON.stringify(ttStatus)}`)
