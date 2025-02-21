@@ -81,7 +81,7 @@ angular
         vm.desktop = !vm.Params.mobile;
         vm.dataAtual = new Date().getTime();
 
-        vm.createExtMav();
+        // vm.createExtMav();
         vm.checkRegras();
 
         if (vm.Params.formMode == "ADD") {
@@ -120,6 +120,7 @@ angular
 
         fluigService.getUsuarios(vm.Params.user).then((resp) => {
           vm.Usuario = resp[0];
+          console.log("🚀 ~ fluigService.getUsuarios ~ vm.Usuario:", vm.Usuario)
           vm.checkEtapa();
           vm.calculaTotais();
         });
@@ -495,6 +496,7 @@ angular
         switch (true) {
           case vm.Params.etapa == "inicio":
             vm.Formulario.solicitanteCodigo = vm.Usuario.colleagueId;
+            console.log("🚀 ~ checkEtapa ~ vm.Formulario.solicitanteCodigo:", vm.Formulario.solicitanteCodigo)
             // vm.Formulario.dataAbertura = vm.dataAtual;
             vm.Formulario.status = 'INÍCIO';
             break;
@@ -1025,7 +1027,7 @@ angular
           {
             tablename: 'itensSellout',
             fieldPrefix: 'itemSellout',
-            fields: ƒ[
+            fields: [
               'target', 'finalidade', 'item', 'srpInicial', 'srpSugerido',
               'netInicial', 'netSugerido', 'rebateUnit', 'qtde', 'rebateTotal', 'data'
             ]
