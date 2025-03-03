@@ -60,12 +60,14 @@ function validateForm(form) {
   const aprovarDiferenca = value(form, `aprovarDiferenca`);
   const obsAprovPagamento = value(form, `obsAprovPagamento`);
   const suspenderAcao = value(form, `suspenderAcao`);
+  const obsSuspensao = value(form, `obsSuspensao`);
 
   const currentState = getValue(`WKNumState`);
   const nextState = getValue(`WKNextState`);
   const completeTask = getValue("WKCompletTask") == 'true';
   const managerMode = getValue("WKManagerMode") == 'true';
   const comments = getValue("WKUserComment");
+  console.log("🚀 ~ validateForm ~ comments:", comments)
 
   let nextStateTxt = ''
   let currentStateTxt = ''
@@ -85,6 +87,9 @@ function validateForm(form) {
     }
   }
 
+  if (suspenderAcao && !obsSuspensao) {
+    Errors.push(`Informe o motivo da suspensão`);
+  }
   if (currentState !== nextState && completeTask) {
 
     if (suspenderAcao && !managerMode) {

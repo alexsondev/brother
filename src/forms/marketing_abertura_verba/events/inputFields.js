@@ -6,6 +6,8 @@ function inputFields(form) {
 
   const currentState = getValue("WKNumState");
   const nextState = getValue("WKNextState");
+  const comments = getValue("WKUserComment");
+  console.log("🚀 ~ inputFields ~ comments:", comments)
 
   const clienteCodigo = value(form, `clienteCodigo`);
   const clienteNome = value(form, `clienteNome`);
