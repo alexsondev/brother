@@ -15,6 +15,8 @@ function createDataset(fields, constraints, sortFields) {
   const campos = ['to', 'subject'];
   const sdk = new javax.naming.InitialContext().lookup('java:global/fluig/wcm-core/service/SDK');
 
+  
+  
   campos.forEach(campo => dataset.addColumn(campo));
 
   const params = getConstraints(constraints);
@@ -27,17 +29,23 @@ function createDataset(fields, constraints, sortFields) {
   if (!params.solicitacoes) {
     throw 'Informe o código da solicitação';
   }
-
+  
   if (!params.tipo) {
     throw 'Informe o tipo do e-mail';
   }
 
+  
   log.info(`fluig_notifica_acao_marketing params.solicitacoes = ${params.solicitacoes}`);
   log.info(`fluig_notifica_acao_marketing params.tipo = ${params.tipo}`);
   log.info(`fluig_notifica_acao_marketing params.enviaBrother = ${params.enviaBrother}`);
   log.info(`fluig_notifica_acao_marketing params.enviaExecutivo = ${params.enviaExecutivo}`);
   log.info(`fluig_notifica_acao_marketing params.enviaCliente = ${params.enviaCliente}`);
   log.info(`fluig_notifica_acao_marketing params.email = ${params.email}`);
+  
+  if (sdk.getServerURL().indexOf('brotherinternational186202') > -1) {
+    params.enviaCliente = 'N'
+  }
+
 
   const filtros = [];
 
