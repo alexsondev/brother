@@ -1826,6 +1826,7 @@ angular
 
             vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
             vm.Formulario.gpMedioSugerido = tipoSellout === 'net' ? vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
+            vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / vm.Formulario.itensSellout.length;
             break;
           case "prpro":
             vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
@@ -1854,7 +1855,7 @@ angular
         }
 
         console.log("🚀 ~ calculaTotais ~ vm.Formulario.valorTotalVerba:", vm.Formulario.valorTotalVerba)
-        vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / vm.Formulario.itensSellout.length;
+        vm.Formulario.gpMedioSugerido = 0; // campo obsoleto
         vm.calculaPercCategoria();
       };
 
