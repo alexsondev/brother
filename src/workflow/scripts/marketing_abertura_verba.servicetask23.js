@@ -2,9 +2,9 @@
 function servicetask23(attempt, message) {
   try {
     log.info("servicetask23 - ini");
-    enviaEmail('iniAcao', 'S', 'S', 'S');
-  } catch(error) {
+    enviaEmail('iniAcao', 'N', 'S', 'N');
+  } catch (error) {
     throw error;
   }
-  
+
 }

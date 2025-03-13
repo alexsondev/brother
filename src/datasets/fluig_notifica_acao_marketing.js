@@ -15,6 +15,8 @@ function createDataset(fields, constraints, sortFields) {
   const campos = ['to', 'subject'];
   const sdk = new javax.naming.InitialContext().lookup('java:global/fluig/wcm-core/service/SDK');
 
+  
+  
   campos.forEach(campo => dataset.addColumn(campo));
 
   const params = getConstraints(constraints);
@@ -27,19 +29,30 @@ function createDataset(fields, constraints, sortFields) {
   if (!params.solicitacoes) {
     throw 'Informe o código da solicitação';
   }
-
+  
   if (!params.tipo) {
     throw 'Informe o tipo do e-mail';
   }
 
+  
   log.info(`fluig_notifica_acao_marketing params.solicitacoes = ${params.solicitacoes}`);
   log.info(`fluig_notifica_acao_marketing params.tipo = ${params.tipo}`);
   log.info(`fluig_notifica_acao_marketing params.enviaBrother = ${params.enviaBrother}`);
   log.info(`fluig_notifica_acao_marketing params.enviaExecutivo = ${params.enviaExecutivo}`);
   log.info(`fluig_notifica_acao_marketing params.enviaCliente = ${params.enviaCliente}`);
   log.info(`fluig_notifica_acao_marketing params.email = ${params.email}`);
+  
+  if (sdk.getServerURL().indexOf('brotherinternational186202') > -1) {
+    params.enviaCliente = 'N'
+  }
+
 
   const filtros = [];
+
+  if (sdk.getServerURL().indexOf('brotherinternational186202') > -1) {
+    params.enviaCliente = 'N'
+  }
+
 
   params.solicitacoes = String(params.solicitacoes).split('|');
 
@@ -71,12 +84,12 @@ function createDataset(fields, constraints, sortFields) {
 
   log.info(`fluig_notifica_acao_marketing ${logSeq += 1}`);
 
-  tables.forEach((table) => {
-    dsCampos[table.name] = getDataset('marketing_composicao_email', null, [
-      { field: 'tablename', value: table.tableCampos },
-      { field: `${table.campoName}_${params.tipo}`, value: 'true' }
-    ]);
-  });
+  // tables.forEach((table) => {
+  //   dsCampos[table.name] = getDataset('marketing_composicao_email', null, [
+  //     { field: 'tablename', value: table.tableCampos },
+  //     { field: `${table.campoName}_${params.tipo}`, value: 'true' }
+  //   ]);
+  // });
 
   log.info(`fluig_notifica_acao_marketing ${logSeq += 1}`);
 
@@ -121,43 +134,43 @@ function createDataset(fields, constraints, sortFields) {
     });
 
     tables.forEach((table) => {
-      if (solicitacao[table.name].length > 0 && dsCampos[table.name].length > 0) {
+      // if (solicitacao[table.name].length > 0 && dsCampos[table.name].length > 0) {
 
-        const tplTable = new java.util.HashMap();
-        tplTable.put('title', table.title);
+      //   const tplTable = new java.util.HashMap();
+      //   tplTable.put('title', table.title);
 
-        const tplArrLabelsItens = new java.util.ArrayList();
-        const tplArrItens = new java.util.ArrayList();
+      //   const tplArrLabelsItens = new java.util.ArrayList();
+      //   const tplArrItens = new java.util.ArrayList();
 
-        solicitacao[table.name].forEach((item) => {
-          const tplArrItem = new java.util.ArrayList();
-          const tplItem = new java.util.HashMap();
+      //   solicitacao[table.name].forEach((item) => {
+      //     const tplArrItem = new java.util.ArrayList();
+      //     const tplItem = new java.util.HashMap();
 
-          dsCampos[table.name].forEach(c => {
-            if (tplArrItens.size() == 0) {
-              var campo = new java.util.HashMap();
-              campo.put('label', c[`${table.campoName}_label`]);
-              tplArrLabelsItens.add(campo);
-            }
+      //     dsCampos[table.name].forEach(c => {
+      //       if (tplArrItens.size() == 0) {
+      //         var campo = new java.util.HashMap();
+      //         campo.put('label', c[`${table.campoName}_label`]);
+      //         tplArrLabelsItens.add(campo);
+      //       }
 
-            if (String(item[c[`${table.campoName}_name`]]) !== '' && String(item[c[`${table.campoName}_name`]]) !== 'null') {
-              var campo = new java.util.HashMap();
-              campo.put('valor', '<b>' + c[`${table.campoName}_label`] + ': </b> ' + String(item[c[`${table.campoName}_name`]]).replace(/(?:\r\n|\r|\n)/g, '<br>'));
-              tplArrItem.add(campo);
-            }
+      //       if (String(item[c[`${table.campoName}_name`]]) !== '' && String(item[c[`${table.campoName}_name`]]) !== 'null') {
+      //         var campo = new java.util.HashMap();
+      //         campo.put('valor', '<b>' + c[`${table.campoName}_label`] + ': </b> ' + String(item[c[`${table.campoName}_name`]]).replace(/(?:\r\n|\r|\n)/g, '<br>'));
+      //         tplArrItem.add(campo);
+      //       }
 
-          })
+      //     })
 
-          tplItem.put('content', tplArrItem)
-          tplArrItens.add(tplItem);
+      //     tplItem.put('content', tplArrItem)
+      //     tplArrItens.add(tplItem);
 
-        })
+      //   })
 
-        tplTable.put('labels', tplArrLabelsItens);
-        tplTable.put('itens', tplArrItens);
+      //   tplTable.put('labels', tplArrLabelsItens);
+      //   tplTable.put('itens', tplArrItens);
 
-        tplArrTables.add(tplTable);
-      }
+      //   tplArrTables.add(tplTable);
+      // }
     });
 
     const linkPortalCliente = `${sdk.getServerURL()}/portal/BROTHER/acao-marketing-cliente#!/${solicitacao.guid}`;

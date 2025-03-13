@@ -18,6 +18,7 @@ function inputFields(form) {
   const inicioAcao = value(form, `inicioAcao`);
   const terminoAcao = value(form, `terminoAcao`);
   const solicitanteCodigo = value(form, `solicitanteCodigo`);
+  const completeTask = getValue("WKCompletTask") == 'true';
 
   const arquivosEvidencias = getChildren(form, `arquivosEvidencias`,
     [`arquivoEv_nome`, `arquivoEv_type`, `arquivoEv_documentid`, `arquivoEv_version`,
@@ -204,7 +205,15 @@ function inputFields(form) {
     //   form.setValue( `itemSellout_itemDescricao___${i + 1}`, JSON.stringify(item[0].descricao))
     // })
   }
-
+  if (currentState == Params.atividades.revisarSolicitacao[0] && completeTask) {
+    // obsAprovGerMarketing, obsValidacaoMarketing, obsAprovPresidenciaVp, obsAprovPresidenciaVp, obsAprovVerbaMenor, obsAprovPagamento
+    form.setValue('obsAprovGerMarketing', '');
+    form.setValue('obsValidacaoMarketing', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovVerbaMenor', '');
+    form.setValue('obsAprovPagamento', '');
+  }
   if (currentState == Params.atividades.validarMarketing[0]) {
     if (nextState == Params.atividades.gtwAprovarGerMarketing[0]) {
       form.setValue('statusValidacaoMarketing', 'APROVADO');

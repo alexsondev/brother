@@ -261,6 +261,7 @@ angular
 
           { regra: 'showValidacaoMarketing', def: true, etapas: ['consulta', 'revisarSolicitacao', 'aprovarGerMarketing', 'analisarErros', 'validarMarketing', 'aprovarPresidencia'] },
           { regra: 'enableValidacaoMarketing', def: vm.Params.edit, etapas: ['validarMarketing'] },
+          { regra: 'enableNotificaCliente', def: vm.Params.edit, etapas: ['validarMarketing', 'autorizarNotificacaoInicio'] },
           { regra: "showReenvia", def: true, etapas: ["autorizarNotificacaoInicio", "autorizarNotificacaoFim", "aprovarPagamento", "validarEvidencias", "validarND", "conferirFinanceiro", "autorizarNotificacaoPagamento", "fim"] },
           { regra: "showFim", def: 0, etapas: ["fim"] },
           { regra: 'showRateioCategoria', def: true, etapas: vm.etapas },

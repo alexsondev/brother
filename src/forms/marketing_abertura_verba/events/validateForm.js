@@ -171,11 +171,11 @@ function validateForm(form) {
         // }
       }
       // 2. Devolver para Solicitante
-      if (nextStateTxt == `revisarSolicitacao`) {
-        if (!obsValidacaoMarketing && !comments) {
-          Errors.push(`Informe o motivo da reprovação`);
-        }
-      }
+      // if (nextStateTxt == `revisarSolicitacao`) {
+      //   if (!obsValidacaoMarketing && !comments) {
+      //     Errors.push(`Informe o motivo da reprovação`);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarGerMarketing') {
@@ -184,11 +184,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarMarketing`) {
-        if (!obsAprovGerMarketing) {
-          Errors.push(`Informe o motivo da reprovação `);
-        }
-      }
+      // if (nextStateTxt == `validarMarketing`) {
+      //   if (!obsAprovGerMarketing) {
+      //     Errors.push(`Informe o motivo da reprovação `);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarPresidencia') {
@@ -197,11 +197,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarMarketing`) {
-        if (!obsAprovPresidenciaVp) {
-          Errors.push(`Informe o motivo da reprovação `);
-        }
-      }
+      // if (nextStateTxt == `validarMarketing`) {
+      //   if (!obsAprovPresidenciaVp) {
+      //     Errors.push(`Informe o motivo da reprovação `);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarVerbaMaior') {
@@ -210,11 +210,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarEvidencias`) {
-        if (!obsAprovVerbaMaior) {
-          Errors.push(`Informe o motivo da reprovação`);
-        }
-      }
+      // if (nextStateTxt == `validarEvidencias`) {
+      //   if (!obsAprovVerbaMaior) {
+      //     Errors.push(`Informe o motivo da reprovação`);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarVerbaMenor') {
@@ -223,11 +223,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarEvidencias`) {
-        if (!obsAprovVerbaMenor) {
-          Errors.push(`Informe o motivo da reprovação 5`);
-        }
-      }
+      // if (nextStateTxt == `validarEvidencias`) {
+      //   if (!obsAprovVerbaMenor) {
+      //     Errors.push(`Informe o motivo da reprovação 5`);
+      //   }
+      // }
     }
 
     if (regras.enableNotificacaoCliente) {
