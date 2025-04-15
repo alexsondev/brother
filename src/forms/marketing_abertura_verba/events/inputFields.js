@@ -25,6 +25,11 @@ function inputFields(form) {
       `arquivoEv_url`, `arquivoEv_removed`, `arquivoEv_descricao`, `arquivoEv_aceito`,
       `arquivoEv_motivoRecusa`]);
 
+  const anexos = getChildren(form, `anexos`,
+    [`arquivo_nome`, `arquivo_tipo`, `arquivo_documentid`, `arquivo_version`,
+      `arquivo_url`, `arquivo_removed`, `arquivo_descricao`, `arquivo_aceito`,
+      `arquivo_motivoRecusa`]);
+
   const executivos = getChildren(form, `executivos`, [`executivo_codigo`]);
   const emailsCliente = getChildren(form, `emailsCliente`, [`email_email`]);
 
@@ -53,7 +58,23 @@ function inputFields(form) {
 
   atualizaPendenteTotvs(form);
 
-
+  anexos.forEach((arquivo, index) => {
+    if (!arquivo.arquivo_url && arquivo.arquivo_documentid) {
+      
+      // arquivo.removed = false;
+      const documento = getDataset('document', null, [
+        { field: "documentPK.documentId", value: arquivo.arquivo_documentid },
+      ], true)
+    
+      if (documento.length > 0) {
+        form.setValue(`arquivo_tipo___${index + 1}`, documento[0].mimeType);
+        form.setValue(`arquivo_descricao___${index + 1}`, documento[0].documentDescription);
+        form.setValue(`arquivo_nome___${index + 1}`, documento[0].documentDescription);
+        form.setValue(`arquivo_url___${index + 1}`, `/portal/p/BROTHER/ecmnavigation?app_ecm_navigation_doc=${arquivo.arquivo_documentid}`);
+      }
+    }
+  });
+  
   if (currentState == Params.atividades.inicio[0]) {
 
     // preenche data de abertura
