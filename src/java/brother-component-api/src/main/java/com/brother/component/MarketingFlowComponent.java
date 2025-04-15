@@ -129,7 +129,7 @@ public class MarketingFlowComponent {
       Boolean completeTask) throws Exception {
     try {
       String tables =
-          "emailsCliente;arquivosEvidencias;executivos;arquivosND;chat;rateioCategoria;duplicatas;itensSellinIt;itensSellinTgAc;itensSellinTg;itensSellout;itensPrpro;itensSpiffIt;itensSpiffTg;statusErp;itensVpcEvt;itensVpcOutros";
+          "emailsCliente;arquivosEvidencias;executivos;arquivosND;chat;rateioCategoria;duplicatas;itensSellinIt;itensSellinTgAc;itensSellinTg;itensSellout;itensSpiffIt;itensSpiffTg;statusErp;itensVpcEvt;itensVpcOutros";
       List<ECMFormDataVO> formData = ECMFormDataComponent.getFormData("marketing_abertura_verba",
           solicitacao.getDocumentid(), tables);
 
@@ -256,36 +256,36 @@ public class MarketingFlowComponent {
         }
       }
 
-      if (solicitacao.getItensPrpro() != null) {
-        i = 0;
+      // if (solicitacao.getItensPrpro() != null) {
+      //   i = 0;
 
-        for (MarketingItemPrproVO itemPrpro : solicitacao.getItensPrpro()) {
-          i++;
+      //   for (MarketingItemPrproVO itemPrpro : solicitacao.getItensPrpro()) {
+      //     i++;
 
-          fields = itemPrpro.getClass().getDeclaredFields();
-          for (Field field : fields) {
-            field.setAccessible(true);
+      //     fields = itemPrpro.getClass().getDeclaredFields();
+      //     for (Field field : fields) {
+      //       field.setAccessible(true);
 
-            String value = "";
-            try {
-              value = field.get(itemPrpro).toString();
-            } catch (Exception e) {
-            }
+      //       String value = "";
+      //       try {
+      //         value = field.get(itemPrpro).toString();
+      //       } catch (Exception e) {
+      //       }
 
-            ECMFormDataVO formDataVO = new ECMFormDataVO(
-                "itemPrpro_" + field.getName() + "___" + String.valueOf(i), value);
+      //       ECMFormDataVO formDataVO = new ECMFormDataVO(
+      //           "itemPrpro_" + field.getName() + "___" + String.valueOf(i), value);
 
-            item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
-                .findFirst().orElse(null);
+      //       item = formData.stream().filter(a -> a.getName().equals(formDataVO.getName()))
+      //           .findFirst().orElse(null);
 
-            if (item != null) {
-              item.setValue(formDataVO.getValue());
-            } else {
-              formData.add(formDataVO);
-            }
-          }
-        }
-      }
+      //       if (item != null) {
+      //         item.setValue(formDataVO.getValue());
+      //       } else {
+      //         formData.add(formDataVO);
+      //       }
+      //     }
+      //   }
+      // }
 
       if (solicitacao.getItensSellinIt() != null) {
         i = 0;

@@ -39,7 +39,7 @@ function afterStateEntry(sequenceId) {
   }
 
   if (Params.atividades.analisarErros.indexOf(sequenceId) >= 0) {
-    hAPI.setCardValue("status", "TI");
+    // hAPI.setCardValue("status", "TI");
     hAPI.setCardValue("currentStepPortal", "0");
   }
 

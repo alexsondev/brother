@@ -594,7 +594,7 @@ public class MarketingFlowVO implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro, tipoQuantidade, folderAttach, itensSellout, itensPrpro, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
+        return Objects.hash(documentid, solicitacao, status, valorLiberado, valorTotalVerba, valorResultado, descricaoDetalhada, inicioAcao, terminoAcao, envioEvidenciasConcluido, evRecusada, obsEnvioEvidencias, envioNDConcluido, ndRecusada, obsEnvioND, currentStepPortal, motivoCancelamento, motivoRecusaND, motivoRecusaEv, tipoSellout, tipoPrpro, tipoQuantidade, folderAttach, itensSellout, itensSellinIt, itensSellinTg, itensSellinTgAc, itensSpiffIt, itensSpiffTg, itensVpcEvt, itensVpcOutros, evidencias, nd, duplicatas);
     }
 
     @Override

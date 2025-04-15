@@ -6,6 +6,8 @@ function inputFields(form) {
 
   const currentState = getValue("WKNumState");
   const nextState = getValue("WKNextState");
+  const comments = getValue("WKUserComment");
+  console.log("🚀 ~ inputFields ~ comments:", comments)
 
   const clienteCodigo = value(form, `clienteCodigo`);
   const clienteNome = value(form, `clienteNome`);
@@ -16,6 +18,7 @@ function inputFields(form) {
   const inicioAcao = value(form, `inicioAcao`);
   const terminoAcao = value(form, `terminoAcao`);
   const solicitanteCodigo = value(form, `solicitanteCodigo`);
+  const completeTask = getValue("WKCompletTask") == 'true';
 
   const arquivosEvidencias = getChildren(form, `arquivosEvidencias`,
     [`arquivoEv_nome`, `arquivoEv_type`, `arquivoEv_documentid`, `arquivoEv_version`,
@@ -34,7 +37,8 @@ function inputFields(form) {
       `arquivoND_url`, `arquivoND_removed`, `arquivoND_descricao`, `arquivoND_aceito`,
       `arquivoND_motivoRecusa`, `arquivoND_numero`]);
 
-  const displaykey = `${suspenderAcao ? 'SUSPENSA - ' : ''}${solicitacao} - ${tipoAcaoCodigo} - ${nomeAcao} - ${clienteNome}`;
+  const displaykey = `${suspenderAcao ? '(SUSPENSA) - ' : ''}${clienteNome}`;
+  // const displaykey = clienteNome;
   // `${suspenderAcao == "true" ? "SUSPENSA - " : ""
   //               } ${solicitacao} - ${tipoAcaoDescricao} - ${nomeAcao} - ${clienteNome}`;
 
@@ -139,12 +143,14 @@ function inputFields(form) {
     }
 
     // preenche tabelas de itens
-    [
+    const tables = [
       { table: "itensSellout", child: "itemSellout" },
       { table: "itensSellinIt", child: "itemSellinIt" },
       { table: "itensPrpro", child: "itemPrpro" },
       { table: "itensSpiffIt", child: "itemSpiffIt" },
-    ].forEach(({ table, child }) => {
+    ];
+
+    tables.forEach(({ table, child }) => {
 
       log.info(`${child}_itemCodigo:${child}_itemCodigo`)
 
@@ -179,6 +185,17 @@ function inputFields(form) {
     })
 
 
+
+    const itensVpcEvt = getChildren(form, `itensVpcEvt`, [`itemVpcEvt_inicio`, `itemVpcEvt_termino`]);
+    itensVpcEvt.forEach((item, i) => {
+      if (String(item.itemVpcEvt_inicio)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_inicio___${i + 1}`, new Date(item.itemVpcEvt_inicio).getTime());
+      }
+      if (String(item.itemVpcEvt_termino)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_termino___${i + 1}`, new Date(item.itemVpcEvt_termino).getTime());
+      }
+    })
+
     // itensSellout.forEach((itemSellout,i) => {
     //   const item = getDataset('totvs_busca_item', null, [
     //     { field: "codigo", value: itemSellout.itemSellout_itemCodigo },
@@ -188,7 +205,15 @@ function inputFields(form) {
     //   form.setValue( `itemSellout_itemDescricao___${i + 1}`, JSON.stringify(item[0].descricao))
     // })
   }
-
+  if (currentState == Params.atividades.revisarSolicitacao[0] && completeTask) {
+    // obsAprovGerMarketing, obsValidacaoMarketing, obsAprovPresidenciaVp, obsAprovPresidenciaVp, obsAprovVerbaMenor, obsAprovPagamento
+    form.setValue('obsAprovGerMarketing', '');
+    form.setValue('obsValidacaoMarketing', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovVerbaMenor', '');
+    form.setValue('obsAprovPagamento', '');
+  }
   if (currentState == Params.atividades.validarMarketing[0]) {
     if (nextState == Params.atividades.gtwAprovarGerMarketing[0]) {
       form.setValue('statusValidacaoMarketing', 'APROVADO');

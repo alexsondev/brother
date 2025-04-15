@@ -60,12 +60,14 @@ function validateForm(form) {
   const aprovarDiferenca = value(form, `aprovarDiferenca`);
   const obsAprovPagamento = value(form, `obsAprovPagamento`);
   const suspenderAcao = value(form, `suspenderAcao`);
+  const obsSuspensao = value(form, `obsSuspensao`);
 
   const currentState = getValue(`WKNumState`);
   const nextState = getValue(`WKNextState`);
   const completeTask = getValue("WKCompletTask") == 'true';
   const managerMode = getValue("WKManagerMode") == 'true';
   const comments = getValue("WKUserComment");
+  console.log("🚀 ~ validateForm ~ comments:", comments)
 
   let nextStateTxt = ''
   let currentStateTxt = ''
@@ -85,6 +87,9 @@ function validateForm(form) {
     }
   }
 
+  if (suspenderAcao && !obsSuspensao) {
+    Errors.push(`Informe o motivo da suspensão`);
+  }
   if (currentState !== nextState && completeTask) {
 
     if (suspenderAcao && !managerMode) {
@@ -166,11 +171,11 @@ function validateForm(form) {
         // }
       }
       // 2. Devolver para Solicitante
-      if (nextStateTxt == `revisarSolicitacao`) {
-        if (!obsValidacaoMarketing && !comments) {
-          Errors.push(`Informe o motivo da reprovação`);
-        }
-      }
+      // if (nextStateTxt == `revisarSolicitacao`) {
+      //   if (!obsValidacaoMarketing && !comments) {
+      //     Errors.push(`Informe o motivo da reprovação`);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarGerMarketing') {
@@ -179,11 +184,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarMarketing`) {
-        if (!obsAprovGerMarketing) {
-          Errors.push(`Informe o motivo da reprovação `);
-        }
-      }
+      // if (nextStateTxt == `validarMarketing`) {
+      //   if (!obsAprovGerMarketing) {
+      //     Errors.push(`Informe o motivo da reprovação `);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarPresidencia') {
@@ -192,11 +197,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarMarketing`) {
-        if (!obsAprovPresidenciaVp) {
-          Errors.push(`Informe o motivo da reprovação `);
-        }
-      }
+      // if (nextStateTxt == `validarMarketing`) {
+      //   if (!obsAprovPresidenciaVp) {
+      //     Errors.push(`Informe o motivo da reprovação `);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarVerbaMaior') {
@@ -205,11 +210,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarEvidencias`) {
-        if (!obsAprovVerbaMaior) {
-          Errors.push(`Informe o motivo da reprovação`);
-        }
-      }
+      // if (nextStateTxt == `validarEvidencias`) {
+      //   if (!obsAprovVerbaMaior) {
+      //     Errors.push(`Informe o motivo da reprovação`);
+      //   }
+      // }
     }
 
     if (currentStateTxt == 'aprovarVerbaMenor') {
@@ -218,11 +223,11 @@ function validateForm(form) {
 
       }
       // 2. Reprovar
-      if (nextStateTxt == `validarEvidencias`) {
-        if (!obsAprovVerbaMenor) {
-          Errors.push(`Informe o motivo da reprovação 5`);
-        }
-      }
+      // if (nextStateTxt == `validarEvidencias`) {
+      //   if (!obsAprovVerbaMenor) {
+      //     Errors.push(`Informe o motivo da reprovação 5`);
+      //   }
+      // }
     }
 
     if (regras.enableNotificacaoCliente) {

@@ -1,9 +1,9 @@
 // Notificar Grupo Brother (Fim da Ação)
 function servicetask41(attempt, message) {
   try {
-    hAPI.setCardValue("notificaGrupoBrotherFimAcao", "S");
-    enviaEmail('fimAcao', 'S', 'S', 'S');
-  } catch(error) {
+    log.info("servicetask41 - fimAcao");
+    enviaEmail('fimAcao', 'N', 'S', 'N');
+  } catch (error) {
     throw error;
   }
 }
