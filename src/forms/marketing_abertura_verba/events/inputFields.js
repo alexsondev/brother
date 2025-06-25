@@ -40,6 +40,166 @@ function inputFields(form) {
 
   atualizaPendenteTotvs(form);
 
+
+  if (currentState == Params.atividades.inicio[0]) {
+
+    // preenche data de abertura
+    form.setValue('dataAbertura', new Date().getTime());
+
+    // preenche solicitante
+    const solicitante = getDataset('colleague', ['colleagueId', 'colleagueName', 'mail', 'login'], [
+      { field: 'login', value: solicitanteCodigo }
+    ], true)[0];
+    if (solicitante) {
+
+      form.setValue('solicitante', JSON.stringify(solicitante));
+    }
+
+    // preenche cliente
+    const cliente = getDataset('totvs_busca_cliente', null, [
+      { field: "codigo", value: clienteCodigo },
+    ], true)[0];
+
+    if (cliente) {
+      log.info(`JSON.stringify(cliente): ${JSON.stringify(cliente)}`)
+
+      form.setValue('clienteCodigo', cliente.codigo);
+      form.setValue('clienteNome', cliente.razaoSocial);
+      form.setValue('cliente', JSON.stringify(cliente));
+
+
+      // preenche executivos
+      if (executivos.length == 0) {
+        const executivosDataset = getDataset('totvs_busca_executivo', null, [
+          { field: "nome", value: cliente.executivo },
+        ], true);
+        executivosDataset.forEach((executivo, i) => {
+          form.setValue(`executivo_executivo___${i + 1}`, JSON.stringify(executivo));
+          form.setValue(`executivo_codigo___${i + 1}`, executivo.codigo);
+          form.setValue(`executivo_nome___${i + 1}`, executivo.nome);
+          form.setValue(`executivo_email___${i + 1}`, executivo.email);
+        })
+      }
+
+      // busca cliente/marketing
+      const marketingCliente = getDataset('marketing_cliente', null, [
+        { field: "clienteCodigo", value: clienteCodigo },
+      ], true)[0];
+      if (marketingCliente && emailsCliente.length == 0) {
+        const contatos = getDataset('marketing_cliente', null, [
+          { field: "documentid", value: marketingCliente.documentid },
+          { field: 'tablename', value: "contatos" },
+        ], true);
+        contatos.forEach((contato, i) => {
+          // email: contato.contato_email,
+          // iniAcao: contato.contato_iniAcao,
+          // evidencia: contato.contato_evidencia,
+          // envioND: contato.contato_envioND,
+          // pagamento: contato.contato_pagamento,
+          // cancelamento: contato.contato_cancelamento,
+          // vales: contato.contato_vales,
+          form.setValue(`email_email___${i + 1}`, contato.contato_email);
+          form.setValue(`email_iniAcao___${i + 1}`, contato.contato_iniAcao);
+          form.setValue(`email_evidencia___${i + 1}`, contato.contato_evidencia);
+          form.setValue(`email_envioND___${i + 1}`, contato.contato_envioND);
+          form.setValue(`email_pagamento___${i + 1}`, contato.contato_pagamento);
+          form.setValue(`email_cancelamento___${i + 1}`, contato.contato_cancelamento);
+          form.setValue(`email_vales___${i + 1}`, contato.contato_vales);
+        })
+      }
+    }
+    // preenche tipo de ação
+    const tipoAcao = getDataset('marketing_tipo_acao', ["tipoAcao", "tipoAcaoCodigo", "descricaoTipoAcao", "displaykey", "contaContabil"], [
+      { field: "tipoAcaoCodigo", value: tipoAcaoCodigo },
+    ])[0];
+    if (tipoAcao) {
+      tipoAcao.contaContabil = JSON.parse(tipoAcao.contaContabil)
+      log.info(`JSON.stringify(tipoAcao): ${JSON.stringify(tipoAcao)}`)
+
+      form.setValue('tipoAcaoDescricao', tipoAcao.displaykey);
+      form.setValue('tipoAcao', JSON.stringify(tipoAcao));
+    }
+
+    // se formato da data for 99/99/9999, converter para timestamp
+    if (String(inicioAcao)?.indexOf('/') > -1) {
+      form.setValue('inicioAcao', new Date(inicioAcao).getTime());
+    }
+    if (String(terminoAcao)?.indexOf('/') > -1) {
+      form.setValue('terminoAcao', new Date(terminoAcao).getTime());
+    }
+
+    // preenche tabelas de itens
+    const tables = [
+      { table: "itensSellout", child: "itemSellout" },
+      { table: "itensSellinIt", child: "itemSellinIt" },
+      { table: "itensPrpro", child: "itemPrpro" },
+      { table: "itensSpiffIt", child: "itemSpiffIt" },
+    ];
+
+    tables.forEach(({ table, child }) => {
+
+      log.info(`${child}_itemCodigo:${child}_itemCodigo`)
+
+      const itens = getChildren(form, table, [`${child}_itemCodigo`]);
+      itens.forEach((item, i) => {
+
+        log.info(`item[${child}_itemCodigo]:, item[${child}_itemCodigo]`)
+
+        const itemDataset = getDataset('totvs_busca_item', null, [
+          { field: "codigo", value: item[`${child}_itemCodigo`] },
+        ], true)[0];
+        if (itemDataset) {
+
+          log.info(`JSON.stringify(itemDataset): ${JSON.stringify(itemDataset)}`);
+
+          form.setValue(`${child}_item___${i + 1}`, JSON.stringify(itemDataset));
+        }
+      })
+    })
+
+
+    const rateio = getChildren(form, "rateioCategoria", [`rateio_categoriaCodigo`]);
+    const categorias = getDataset('totvs_busca_business_segment')
+    rateio.forEach((item, i) => {
+      const categoria = categorias.filter(cat => cat.codigo == item.rateio_categoriaCodigo)[0]
+      if (categoria) {
+
+        log.info(`JSON.stringify(categoria): ${JSON.stringify(categoria)}`);
+
+        form.setValue(`rateio_categoria___${i + 1}`, JSON.stringify(categoria));
+      }
+    })
+
+
+
+    const itensVpcEvt = getChildren(form, `itensVpcEvt`, [`itemVpcEvt_inicio`, `itemVpcEvt_termino`]);
+    itensVpcEvt.forEach((item, i) => {
+      if (String(item.itemVpcEvt_inicio)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_inicio___${i + 1}`, new Date(item.itemVpcEvt_inicio).getTime());
+      }
+      if (String(item.itemVpcEvt_termino)?.indexOf('/') > -1) {
+        form.setValue(`itemVpcEvt_termino___${i + 1}`, new Date(item.itemVpcEvt_termino).getTime());
+      }
+    })
+
+    // itensSellout.forEach((itemSellout,i) => {
+    //   const item = getDataset('totvs_busca_item', null, [
+    //     { field: "codigo", value: itemSellout.itemSellout_itemCodigo },
+    //   ], true);
+
+    //   form.setValue( `itemSellout_item___${i + 1}`, JSON.stringify(item[0]))
+    //   form.setValue( `itemSellout_itemDescricao___${i + 1}`, JSON.stringify(item[0].descricao))
+    // })
+  }
+  if (currentState == Params.atividades.revisarSolicitacao[0] && completeTask) {
+    // obsAprovGerMarketing, obsValidacaoMarketing, obsAprovPresidenciaVp, obsAprovPresidenciaVp, obsAprovVerbaMenor, obsAprovPagamento
+    form.setValue('obsAprovGerMarketing', '');
+    form.setValue('obsValidacaoMarketing', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovPresidenciaVp', '');
+    form.setValue('obsAprovVerbaMenor', '');
+    form.setValue('obsAprovPagamento', '');
+  }
   if (currentState == Params.atividades.validarMarketing[0]) {
     if (nextState == Params.atividades.gtwAprovarGerMarketing[0]) {
       form.setValue('statusValidacaoMarketing', 'APROVADO');
@@ -83,6 +243,7 @@ function inputFields(form) {
     }
     if (nextState == Params.atividades.enviarEvidencias[0]) {
       form.setValue('statusValidacaoEvid', 'REPROVADO');
+      form.setValue('evRecusada', 'true');
     }
   }
 

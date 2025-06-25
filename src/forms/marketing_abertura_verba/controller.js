@@ -590,8 +590,18 @@ angular.module('MarketingAberturaVerbaApp', ['angular.fluig', 'ngAnimate', 'brot
         })
       }
       vm.checkEtapaNotificacao = function checkEtapaNotificacao() {
-        if (vm.Params.etapa === 'validarEvidencias' || vm.Params.etapa == 'enviarEvidencias') {
-          vm.Formulario.evRecusada = vm.Formulario.arquivosEvidencias.filter(arquivo => !arquivo.removed && !arquivo.aceito).length > 0;
+        if (
+          vm.Params.etapa === "validarEvidencias" ||
+          vm.Params.etapa == "enviarEvidencias" ||
+          vm.Params.etapa == "evidenciasControle"
+        ) {
+          vm.Formulario.semEvidencias = vm.Formulario.arquivosEvidencias.filter(
+            (arquivo) => !arquivo.removed
+          )
+          vm.Formulario.evRecusada =
+            vm.Formulario.arquivosEvidencias.filter(
+              (arquivo) => !arquivo.removed && !arquivo.aceito
+            ).length > 0 && !vm.Formulario.suspenderAcao;
           vm.Formulario.revisao = vm.Formulario.evRecusada;
           if (vm.Formulario.evRecusada) {
             vm.Formulario.notificacaoEtapa = 'ENVIO DAS EVIDÊNCIAS';
@@ -1033,68 +1043,119 @@ angular.module('MarketingAberturaVerbaApp', ['angular.fluig', 'ngAnimate', 'brot
       vm.calculaTotais = function calculaTotais() {
         vm.Formulario.valorTotalVerba = 0;
         vm.Formulario.gpMedioSugerido = 0;
-        let qtdItem = 0;
+        const tipoAcaoCodigo = vm.Formulario.tipoAcao?.tipoAcaoCodigo;
+        const tipoSellout = vm.Formulario.tipoSellout;
+        const tipoPrpro = vm.Formulario.tipoPrpro;
+        console.log("🚀 ~ calculaTotais ~ tipoPrpro:", tipoPrpro)
+        const tipoSellin = vm.Formulario.tipoSellin;
+        const tipoVpc = vm.Formulario.tipoVpc;
+        const tipoSpiff = vm.Formulario.tipoSpiff;
+        vm.Formulario.valorTotalVerba = 0;
+        console.log("🚀 ~ calculaTotais ~ tipoAcaoCodigo:", tipoAcaoCodigo)
+        switch (tipoAcaoCodigo) {
+          case 'sellout':
 
-        if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
-          switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
-            case 'sellout':
-              vm.Formulario.itensSellout.forEach(it => {
-                vm.Formulario.valorTotalVerba += it.rebateTotal || 0;
-                // vm.Formulario.gpMedioSugerido += it.gpSugerido || 0;
-                qtdItem++;
-              })
-              // vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem;
-              vm.calculaPercCategoria();
-              break
-            case 'sellin':
-              if (vm.Formulario.tipoSellin == 'item' || vm.Formulario.tipoSellin == 'net') {
-                vm.Formulario.itensSellinIt.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.rebateTotal || 0;
-                  vm.Formulario.gpMedioSugerido += it.gpSugerido || 0;
-                  qtdItem++;
-                })
-                vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / qtdItem;
-                vm.calculaPercCategoria();
-              } else {
-                vm.Formulario.itensSellinTg.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-                vm.Formulario.itensSellinTgAc.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-              }
+            vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoSellout === 'net' ? vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
+            vm.Formulario.gpMedioSugerido = vm.Formulario.gpMedioSugerido / vm.Formulario.itensSellout.length;
+            break;
+          case "prpro":
+            vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoPrpro === 'net' ? vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) : 0;
+            break;
+          case 'sellin':
+            vm.Formulario.valorTotalVerba = tipoSellin === 'item' || tipoSellin === 'net'
+              ? vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba) +
+              vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.vlTotal || 0), 0);
+            vm.Formulario.gpMedioSugerido = tipoSellin === 'item' || tipoSellin === 'net' && vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            break;
 
-              break
+          case "vpc":
+            vm.Formulario.valorTotalVerba = tipoVpc === "eventos"
+              ? vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
+            break;
 
-            case 'vpc':
-              if (vm.Formulario.tipoVpc == 'eventos') {
-                vm.Formulario.itensVpcEvt.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-              } else {
-                vm.Formulario.itensVpcOutros.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-              }
-
-              break
-
-            case 'spiff':
-              if (vm.Formulario.tipoSpiff == 'item') {
-                vm.Formulario.itensSpiffIt.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-                vm.calculaPercCategoria();
-              } else {
-                vm.Formulario.itensSpiffTg.forEach(it => {
-                  vm.Formulario.valorTotalVerba += it.vlTotal || 0;
-                })
-              }
-
-              break
-          }
+          case "spiff":
+            vm.Formulario.valorTotalVerba = tipoSpiff === "item"
+              ? vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+              : vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba);
+            vm.Formulario.gpMedioSugerido = tipoSpiff === "item" && vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido);
+            break;
         }
-      }
+
+        console.log("🚀 ~ calculaTotais ~ vm.Formulario.valorTotalVerba:", vm.Formulario.valorTotalVerba)
+        vm.Formulario.gpMedioSugerido = 0; // campo obsoleto
+        if (vm.bloqRateio) {
+          
+          vm.calculaPercCategoria();
+        }
+      };
+
+      // vm.calculaTotais = function calculaTotais() {
+      //   vm.Formulario.valorTotalVerba = 0;
+      //   vm.Formulario.gpMedioSugerido = 0;
+      //   let qtdItem = 0;
+
+      //   if (vm.Formulario.tipoAcao && vm.Formulario.tipoAcao.tipoAcaoCodigo) {
+      //     switch (vm.Formulario.tipoAcao.tipoAcaoCodigo) {
+      //       case 'sellout':
+      //         vm.Formulario.tipoSellout === "net" ? (
+
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellout.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellout.length, 
+      //           vm.calculaPercCategoria()
+      //       ) : (
+      //         vm.Formulario.valorTotalVerba = vm.Formulario.itensSellout.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //       );
+      //         break;
+      //       case "prpro":
+      //         "net" == vm.Formulario.tipoPrpro ? (
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba), 
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensPrpro.length, 
+      //           vm.calculaPercCategoria()
+      //       ) : (
+
+      //         vm.Formulario.valorTotalVerba = vm.Formulario.itensPrpro.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //       );
+      //         break;
+      //       case 'sellin':
+      //         if (vm.Formulario.tipoSellin == 'item' || vm.Formulario.tipoSellin == 'net') {
+
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.Formulario.gpMedioSugerido = vm.Formulario.itensSellinIt.reduce((total, it) => total + (it.gpSugerido || 0), vm.Formulario.gpMedioSugerido) / vm.Formulario.itensSellinIt.length
+      //           vm.calculaPercCategoria()
+
+      //         } else {
+
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTg.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSellinTgAc.reduce((total, it) => total + (it.rebateTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
+
+      //         break;
+
+      //       case "vpc":
+      //         if (vm.Formulario.tipoVpc == "eventos") {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcEvt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         } else {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensVpcOutros.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
+
+      //         break;
+
+      //       case "spiff":
+      //         if (vm.Formulario.tipoSpiff == "item") {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffIt.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //           vm.calculaPercCategoria();
+      //         } else {
+      //           vm.Formulario.valorTotalVerba = vm.Formulario.itensSpiffTg.reduce((total, it) => total + (it.vlTotal || 0), vm.Formulario.valorTotalVerba)
+      //         }
+
+      //         break;
+      //     }
+      //   }
+      // };
 
       vm.incluirEmailNotificacao = function incluirEmailNotificacao() {
         vm.Formulario.emailsCliente.push(

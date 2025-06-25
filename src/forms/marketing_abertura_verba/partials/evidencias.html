@@ -131,7 +131,7 @@
   </div>
 
   <div ng-class="{'col-sm-9': vm.regras.enableEvidencias, 'col-sm-12': !vm.regras.enableEvidencias}">
-    <div ng-show="vm.Formulario.arquivosEvidencias.length == 0">
+    <div ng-show="vm.Formulario.semEvidencias">
       <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
     </div>
     <div class="table" ng-show="vm.Formulario.arquivosEvidencias.length > 0">
@@ -165,7 +165,7 @@
 </div>
 
 <input type="hidden" name="evRecusada" ng-value="vm.Formulario.evRecusada">
-<div ng-show="vm.Formulario.evRecusada" class="row">
+<div ng-show="vm.Formulario.evRecusada || vm.Formulario.semEvidencias" class="row">
   <div class="col-sm-12">
     <h3 for="motivoRecusaEv" class="control-label text-muted">Motivo da Recusa das Evidências</h3>
     <textarea elastic ng-readonly="!vm.regras.enableValidacaoEvidencias" class="form-control"
