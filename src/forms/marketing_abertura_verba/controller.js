@@ -1200,6 +1200,9 @@ angular
           vm.Params.etapa == "enviarEvidencias" ||
           vm.Params.etapa == "evidenciasControle"
         ) {
+          vm.Formulario.semEvidencias = vm.Formulario.arquivosEvidencias.filter(
+            (arquivo) => !arquivo.removed
+          )
           vm.Formulario.evRecusada =
             vm.Formulario.arquivosEvidencias.filter(
               (arquivo) => !arquivo.removed && !arquivo.aceito
@@ -1857,7 +1860,10 @@ angular
 
         console.log("🚀 ~ calculaTotais ~ vm.Formulario.valorTotalVerba:", vm.Formulario.valorTotalVerba)
         vm.Formulario.gpMedioSugerido = 0; // campo obsoleto
-        vm.calculaPercCategoria();
+        if (vm.bloqRateio) {
+          
+          vm.calculaPercCategoria();
+        }
       };
 
       // vm.calculaTotais = function calculaTotais() {
