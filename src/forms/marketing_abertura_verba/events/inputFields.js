@@ -133,7 +133,6 @@ function inputFields(form) {
       form.setValue('tipoAcao', JSON.stringify(tipoAcao));
     }
 
-
     // se formato da data for 99/99/9999, converter para timestamp
     if (String(inicioAcao)?.indexOf('/') > -1) {
       form.setValue('inicioAcao', new Date(inicioAcao).getTime());
@@ -258,6 +257,7 @@ function inputFields(form) {
     if (nextState == Params.atividades.enviarEvidencias[0] ||
       nextState == Params.atividades.evidenciasControle[0]) {
       form.setValue('statusValidacaoEvid', 'REPROVADO');
+      form.setValue('evRecusada', 'true');
     }
   }
 

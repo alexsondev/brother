@@ -10,11 +10,11 @@ function validateForm(form) {
     [`email_email`, `email_iniAcao`, `email_fimAcao`, `email_evidencia`,
       `email_envioND`, `email_pagamento`]);
 
-  const arquivosEvidencias = getChildren(form, `arquivosEvidencias`,
+  let arquivosEvidencias = getChildren(form, `arquivosEvidencias`,
     [`arquivoEv_nome`, `arquivoEv_type`, `arquivoEv_documentid`, `arquivoEv_version`,
       `arquivoEv_url`, `arquivoEv_removed`, `arquivoEv_descricao`, `arquivoEv_aceito`]);
 
-  const arquivosND = getChildren(form, `arquivosND`,
+  let arquivosND = getChildren(form, `arquivosND`,
     [`arquivoND_nome`, `arquivoND_type`, `arquivoND_documentid`, `arquivoND_version`,
       `arquivoND_url`, `arquivoND_removed`, `arquivoND_descricao`, `arquivoND_aceito`, `arquivoND_numero`]);
 
@@ -241,8 +241,10 @@ function validateForm(form) {
       })
     }
 
+    arquivosEvidencias = arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed);
+
     if (regras.enableEvidencias) {
-      if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_descricao).length > 0) {
+      if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_descricao).length > 0) {
         Errors.push(`Informe a descrição de todos os arquivos de evidências`);
       }
     }
@@ -255,7 +257,7 @@ function validateForm(form) {
           Errors.push(`Informe o valor liberado. Caso não tenha valor a liberar, informe 0,00`);
         }
 
-        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length > 0) {
+        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_aceito).length > 0) {
           Errors.push(`Para enviar para aprovação, dê o aceite em todos os arquivos de evidências`);
         }
       }
@@ -263,30 +265,40 @@ function validateForm(form) {
       if ((nextStateTxt == `enviarEvidencias` || nextStateTxt == `evidenciasControle`)
         && arquivosEvidencias.length > 0) {
 
-        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length == 0) {
+        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_aceito).length == 0) {
           Errors.push(`Recuse ao menos um arquivo para devolver ao cliente`);
         }
 
-        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length > 0) {
+        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_aceito).length > 0) {
           if (!motivoRecusaEv) {
             Errors.push(`Informe o motivo da recusa dos arquivos não aceitos`);
           }
         }
       }
+
+      if (nextStateTxt == `enviarEvidencias`) {
+
+        if (!motivoRecusaEv) {
+          Errors.push(`Informe o motivo da recusa das evidências`);
+        }
+      }
+
       // 3. Devolver para Financeiro
       if (nextStateTxt == `conferirFinanceiro`) {
-        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_removed && !arquivo.arquivoEv_aceito).length > 0) {
+        if (arquivosEvidencias.filter(arquivo => !arquivo.arquivoEv_aceito).length > 0) {
           Errors.push(`Para devolver para o financeiro, dê o aceite em todos os arquivos de evidências`);
         }
       }
     }
 
+    arquivosND = arquivosND.filter(arquivo => !arquivo.arquivoND_removed);
+
     if (currentStateTxt == 'validarND') {
-      if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_descricao).length > 0) {
+      if (arquivosND.filter(arquivo => !arquivo.arquivoND_descricao).length > 0) {
         Errors.push(`Informe a descrição de todos os arquivos de ND`);
       }
 
-      if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_numero).length > 0) {
+      if (arquivosND.filter(arquivo => !arquivo.arquivoND_numero).length > 0) {
         Errors.push(`Informe o número da ND em todos os arquivos de ND`);
       }
     }
@@ -294,17 +306,17 @@ function validateForm(form) {
     if (currentStateTxt == 'validarND') {
       // 1. Aprovar
       if (nextStateTxt == `conferirFinanceiro`) {
-        if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_aceito).length > 0) {
+        if (arquivosND.filter(arquivo => !arquivo.arquivoND_aceito).length > 0) {
           Errors.push(`Para Aprovar, dê o aceite em todos os arquivos de ND`);
         }
       }
       // 2. Reprovar
       if (nextStateTxt == `enviarND` && arquivosND.length > 0) {
-        if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_aceito).length == 0) {
+        if (arquivosND.filter(arquivo => !arquivo.arquivoND_aceito).length == 0) {
           Errors.push(`Recuse ao menos um arquivo para devolver ao cliente`);
         }
 
-        if (arquivosND.filter(arquivo => !arquivo.arquivoND_removed && !arquivo.arquivoND_aceito).length > 0) {
+        if (arquivosND.filter(arquivo => !arquivo.arquivoND_aceito).length > 0) {
           if (!motivoRecusaND) {
             Errors.push(`Informe o motivo da recusa dos arquivos não aceitos`);
           }
