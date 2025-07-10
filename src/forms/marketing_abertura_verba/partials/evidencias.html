@@ -139,7 +139,7 @@
     <div ng-show="vm.Formulario.semEvidencias">
       <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
     </div>
-    <div class="table" ng-show="vm.Formulario.arquivosEvidencias.length > 0">
+    <div class="table" ng-show="vm.Formulario.semEvidencias == false">
       <!-- <!- <caption>Arquivos de Evidência</caption> -> -->
 
       <div ng-repeat="arquivoEv in vm.Formulario.arquivosEvidencias" ng-show="!arquivoEv.removed" class="row">

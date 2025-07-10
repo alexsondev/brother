@@ -72,11 +72,11 @@
   </div>
 
   <div ng-class="{'col-sm-9': vm.regras.enableND, 'col-sm-12': !vm.regras.enableND}">
-    <div class="fs-txt-center" ng-show="vm.Formulario.arquivosND.length == 0">
+    <div class="fs-txt-center" ng-show="vm.Formulario.semND">
       <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
     </div>
     <table class="table" tablename="arquivosND" noaddbutton="true" nodeletebutton="true"
-      ng-show="vm.Formulario.arquivosND.length > 0">
+      ng-show="vm.Formulario.semND == false">
       <caption>Notas de Débito</caption>
       <thead>
         <tr>
