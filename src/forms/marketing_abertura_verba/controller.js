@@ -1208,7 +1208,8 @@ angular
         ) {
           vm.Formulario.semEvidencias = vm.Formulario.arquivosEvidencias.filter(
             (arquivo) => !arquivo.removed
-          )
+          ).length == 0;
+          console.log("🚀 ~ checkEtapaNotificacao ~ vm.Formulario.semEvidencias:", vm.Formulario.semEvidencias)
           vm.Formulario.evRecusada =
             vm.Formulario.arquivosEvidencias.filter(
               (arquivo) => !arquivo.removed && !arquivo.aceito
@@ -1231,6 +1232,10 @@ angular
           }
         } else {
           if (vm.Params.etapa == "validarND" || vm.Params.etapa == "enviarND") {
+            vm.Formulario.semND = vm.Formulario.arquivosND.filter(
+              (arquivo) => !arquivo.removed
+            ).length == 0;
+
             vm.Formulario.ndRecusada =
               vm.Formulario.arquivosND.filter(
                 (arquivo) => !arquivo.removed && !arquivo.aceito
