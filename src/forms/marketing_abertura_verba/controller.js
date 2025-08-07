@@ -585,6 +585,12 @@ angular
             // vm.checkEtapaNotificacao();
             // vm.checkUrlArquivos()
 
+            if (vm.Formulario.valorLiberado == 0) {
+              $('#valorLiberado_i').val('');
+              // $('#valorLiberado').val('');
+            }
+              
+            
             console.log('Tiago d.Formulario:', vm.Formulario);
             vm.Formulario.userValidacaoEvid = vm.Usuario, vm.Formulario.dataValidacaoEvid = vm.dataAtual, vm.Formulario.statusValidacaoEvid = "PENDENTE", vm.Formulario.obsValidacaoEvid = "", /*d.Formulario.necEnvioNd = d.Formulario.tipoAcaoCodigo != 'spiff' ? true : false,*/ vm.checkEtapaNotificacao(), vm.checkUrlArquivos();
 

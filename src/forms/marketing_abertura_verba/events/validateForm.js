@@ -253,7 +253,7 @@ function validateForm(form) {
       // 1. Enviar para Aprovação
       if (nextStateTxt == `gtwAprovarVerbaMaior`) {
 
-        if (form.getValue('valorLiberado') == '') {
+        if (form.getValue('valorLiberado_i') == '') {
           Errors.push(`Informe o valor liberado. Caso não tenha valor a liberar, informe 0,00`);
         }
 

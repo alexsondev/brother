@@ -68,13 +68,13 @@
       </h1>
 
       <div ng-show="vm.regras.enableValidacaoEvidencias">
-        <input type="text" class="form-control input-lg" name="valorLiberado_i" ng-model="vm.Formulario.valorLiberado"
+        <input type="text" class="form-control input-lg" name="valorLiberado_i" id="valorLiberado_i" ng-model="vm.Formulario.valorLiberado"
           fluig-money-mask fluig-negative-number ng-show="vm.regras.enableValidacaoEvidencias" ng-required="true"
           fluig-error="form.valorLiberado_i.$error">
       </div>
 
       <input type="hidden" name="valorLiberado_f" ng-value="vm.Formulario.valorLiberado | currency">
-      <input type="hidden" name="valorLiberado" ng-value="vm.Formulario.valorLiberado">
+      <input type="hidden" name="valorLiberado" id="valorLiberado" ng-value="vm.Formulario.valorLiberado">
     </div>
   </div>
 </div>
@@ -139,7 +139,7 @@
     <div ng-show="vm.Formulario.semEvidencias">
       <h1 class="fs-lg-space">Nenhum arquivo enviado!</h1>
     </div>
-    <div class="table" ng-show="vm.Formulario.arquivosEvidencias.length > 0">
+    <div class="table" ng-show="vm.Formulario.semEvidencias == false">
       <!-- <!- <caption>Arquivos de Evidência</caption> -> -->
 
       <div ng-repeat="arquivoEv in vm.Formulario.arquivosEvidencias" ng-show="!arquivoEv.removed" class="row">
