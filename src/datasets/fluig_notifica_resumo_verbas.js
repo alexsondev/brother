@@ -169,7 +169,7 @@ function createDataset(fields, constraints, sortFields) {
 
     tplArrSolicitacoes.add(tplParamsSolicitacao);
 
-    dsDestinatariosCliente = [];
+    let dsDestinatariosCliente = [];
 
     // arrDestinatarios.add('alexson_ferreira@hotmail.com');
 
@@ -228,7 +228,7 @@ function createDataset(fields, constraints, sortFields) {
   tplParams.put('textoPadrao', dsComposicao[`${params.tipo}Texto`]);
   tplParams.put('solicitacoes', tplArrSolicitacoes);
 
-  dsDestinatariosGrupoBrother = []
+  let dsDestinatariosGrupoBrother = []
 
   if (params.enviaBrother == 'S') {
     dsDestinatariosGrupoBrother = getDataset('marketing_composicao_email', null, [
